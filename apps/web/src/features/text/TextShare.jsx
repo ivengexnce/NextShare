@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import useStore from '../../store/useStore';
 import { textApi } from './text.api';
 import { offlineDB } from '../../store/offlineDB';
@@ -12,15 +12,15 @@ const LANGUAGES = [
 const EXPIRY_OPTS = ['10m','1h','24h','7d','30d','never'];
 
 const DEFAULT = { content: '', language: 'plaintext', title: '', expiresIn: 'never', burnAfterRead: false };
+const MAX = 500_000;
 
 export default function TextShare() {
   const { isOnline, addToast } = useStore();
-  const [form, setForm] = useState(DEFAULT);
-  const [result, setResult] = useState(null);
+  const [form, setForm]       = useState(DEFAULT);
+  const [result, setResult]   = useState(null);
   const [loading, setLoading] = useState(false);
   const [charCount, setCharCount] = useState(0);
 
-  const MAX = 500_000;
   const set = (k) => (e) => {
     const val = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
     setForm((f) => ({ ...f, [k]: val }));
@@ -39,7 +39,6 @@ export default function TextShare() {
         return;
       }
       const data = await textApi.create(form);
-      // Cache for offline read
       await offlineDB.cachePaste({ ...data, content: form.content, language: form.language });
       setResult(data);
       setForm(DEFAULT); setCharCount(0);
@@ -56,21 +55,34 @@ export default function TextShare() {
     addToast('Copied', 'success');
   }
 
+  const pct = charCount / MAX;
+
   return (
     <div className="tool-card">
-      <h2 className="tool-title">Text paste</h2>
-      <p className="tool-desc">Share code or text. Works offline. Supports burn-after-read.</p>
+      <div className="tool-header">
+        <div className="tool-tag">// TEXT PASTE</div>
+        <h2 className="tool-title">Share code or text</h2>
+        <p className="tool-desc">Syntax highlighting, burn-after-read, and offline support. Share anything in seconds.</p>
+      </div>
 
       <form onSubmit={handleSubmit} className="form-stack">
         <div className="field">
           <label className="label">Title</label>
-          <input className="input" placeholder="Optional title" value={form.title} onChange={set('title')} maxLength={255} />
+          <input
+            className="input"
+            placeholder="Optional title…"
+            value={form.title}
+            onChange={set('title')}
+            maxLength={255}
+          />
         </div>
 
         <div className="field">
           <div className="label-row">
-            <label className="label">Content <span className="required">*</span></label>
-            <span className={`char-count ${charCount > MAX * 0.9 ? 'char-count--warn' : ''}`}>
+            <label className="label">
+              Content <span className="required">*</span>
+            </label>
+            <span className={`char-count ${pct > 0.9 ? 'char-count--warn' : ''}`}>
               {charCount.toLocaleString()} / {(MAX / 1000).toFixed(0)}k
             </span>
           </div>
@@ -106,7 +118,7 @@ export default function TextShare() {
         </label>
 
         <button className="btn-primary" type="submit" disabled={loading}>
-          {loading ? 'Creating…' : isOnline ? 'Create paste' : 'Save offline'}
+          {loading ? 'Creating…' : isOnline ? 'Create paste →' : 'Save offline'}
         </button>
       </form>
 
@@ -117,7 +129,8 @@ export default function TextShare() {
             <button className="btn-ghost" onClick={() => copy(result.shareUrl)}>Copy</button>
           </div>
           <div className="result-meta">
-            {result.language} · {result.expiresAt ? `Expires ${new Date(result.expiresAt).toLocaleDateString()}` : 'No expiry'}
+            {result.language}
+            {result.expiresAt ? ` · Expires ${new Date(result.expiresAt).toLocaleDateString()}` : ' · No expiry'}
             {result.burnAfterRead && ' · 🔥 Burns on read'}
           </div>
         </div>
