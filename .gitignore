@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+apps/api/node_modules/
+apps/web/node_modules/
+
+# Build outputs
+dist/
+build/
+apps/web/dist/
+
+# Environment files — NEVER commit these
+.env
+.env.local
+*.env.local
+apps/api/.env
+
+# User data
+uploads/
+apps/api/uploads/
+
+# Logs
+logs/
+*.log
+apps/api/logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+
+# Vite cache
+.vite/
+apps/web/.vite/

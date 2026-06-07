@@ -1,0 +1,28 @@
+# ── Stage 1: deps ─────────────────────────────────────────────────────────────
+FROM node:20-alpine AS deps
+WORKDIR /app
+COPY apps/api/package*.json ./
+RUN npm ci --omit=dev
+
+# ── Stage 2: runtime ──────────────────────────────────────────────────────────
+FROM node:20-alpine AS runtime
+WORKDIR /app
+
+# Non-root user — security best practice
+RUN addgroup -S nexus && adduser -S nexus -G nexus
+
+COPY --from=deps /app/node_modules ./node_modules
+COPY apps/api/src ./src
+
+# Upload and log dirs
+RUN mkdir -p uploads logs && chown -R nexus:nexus .
+
+USER nexus
+
+ENV NODE_ENV=production
+EXPOSE 3001
+
+HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+  CMD wget -qO- http://localhost:3001/health | grep '"status":"ok"' || exit 1
+
+CMD ["node", "src/server.js"]
