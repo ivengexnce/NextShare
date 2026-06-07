@@ -7,7 +7,7 @@ const DEFAULT = { originalUrl: '', customCode: '', expiresIn: '' };
 
 export default function UrlShortener() {
   const { isOnline, addToast } = useStore();
-  const [form, setForm] = useState(DEFAULT);
+  const [form, setForm]     = useState(DEFAULT);
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
 
@@ -46,19 +46,25 @@ export default function UrlShortener() {
 
   return (
     <div className="tool-card">
-      <h2 className="tool-title">URL shortener</h2>
-      <p className="tool-desc">Shorten any link. Optionally set a custom code and expiry.</p>
+      <div className="tool-header">
+        <div className="tool-tag">// URL SHORTENER</div>
+        <h2 className="tool-title">Shorten any link</h2>
+        <p className="tool-desc">Turn long URLs into clean short links. Set a custom code and expiry — works offline too.</p>
+      </div>
 
       <form onSubmit={handleSubmit} className="form-stack">
         <div className="field">
-          <label className="label">URL <span className="required">*</span></label>
+          <label className="label">
+            URL <span className="required">*</span>
+          </label>
           <input
             className="input"
             type="url"
-            placeholder="https://example.com/very/long/path"
+            placeholder="https://example.com/very/long/path..."
             value={form.originalUrl}
             onChange={set('originalUrl')}
             required
+            autoFocus
           />
         </div>
 
@@ -78,8 +84,7 @@ export default function UrlShortener() {
             <input
               className="input"
               type="number"
-              min={1}
-              max={365}
+              min={1} max={365}
               placeholder="Never"
               value={form.expiresIn}
               onChange={set('expiresIn')}
@@ -88,7 +93,7 @@ export default function UrlShortener() {
         </div>
 
         <button className="btn-primary" type="submit" disabled={loading}>
-          {loading ? 'Shortening…' : isOnline ? 'Shorten' : 'Save offline'}
+          {loading ? 'Shortening…' : isOnline ? 'Shorten →' : 'Save offline'}
         </button>
       </form>
 
@@ -101,8 +106,13 @@ export default function UrlShortener() {
           <div className="result-meta">
             {result.expiresAt
               ? `Expires ${new Date(result.expiresAt).toLocaleDateString()}`
-              : 'No expiry'}{' '}
-            · <a href={`/api/urls/${result.shortCode}/stats`} target="_blank" rel="noreferrer">Stats</a>
+              : 'No expiry'
+            }
+            {' · '}
+            <a href={`/api/urls/${result.shortCode}/stats`} target="_blank" rel="noreferrer"
+              style={{ color: 'var(--text-secondary)' }}>
+              View stats ↗
+            </a>
           </div>
         </div>
       )}
