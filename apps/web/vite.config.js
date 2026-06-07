@@ -9,11 +9,11 @@ export default defineConfig({
       registerType: 'autoUpdate',
       includeAssets: ['favicon.ico'],
       manifest: {
-        name: 'NexusToolkit',
-        short_name: 'Nexus',
+        name: 'NextShare',
+        short_name: 'NextShare',
         description: 'URL shortener, file sharing & text paste — works offline',
-        theme_color: '#09090b',
-        background_color: '#09090b',
+        theme_color: '#060608',
+        background_color: '#060608',
         display: 'standalone',
         icons: [
           { src: '/icon-192.png', sizes: '192x192', type: 'image/png' },
@@ -24,7 +24,6 @@ export default defineConfig({
         globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
         runtimeCaching: [
           {
-            // Cache GET API responses for 5 minutes
             urlPattern: /^https?:\/\/.*\/api\/.*/i,
             handler: 'NetworkFirst',
             options: {
@@ -41,7 +40,6 @@ export default defineConfig({
     port: 5173,
     proxy: {
       '/api': { target: 'http://localhost:3001', changeOrigin: true },
-      // Proxy redirect routes too
       '^/[a-zA-Z0-9-]{3,20}$': { target: 'http://localhost:3001', changeOrigin: true },
     },
   },
