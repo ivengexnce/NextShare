@@ -26,7 +26,17 @@ app.use(helmet({
 
 // ─── CORS ──────────────────────────────────────────────────────────────────────
 app.use(cors({
-    origin: config.app.corsOrigin,
+    origin: (origin, callback) => {
+        const allowed = [
+            config.app.corsOrigin,
+            /\.netlify\.app$/,
+        ];
+        if (!origin) return callback(null, true); // allow server-to-server
+        const isAllowed = allowed.some(p =>
+            typeof p === 'string' ? p === origin : p.test(origin)
+        );
+        callback(isAllowed ? null : new Error('CORS blocked'), isAllowed);
+    },
     methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
