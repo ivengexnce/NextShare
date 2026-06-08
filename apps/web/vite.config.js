@@ -36,6 +36,7 @@ export default defineConfig({
     ],
     server: {
         port: 5173,
+        historyApiFallback: true, // ← add this
         proxy: {
             '/api': { target: 'http://localhost:3001', changeOrigin: true },
             '^/[a-zA-Z0-9-]{3,20}$': { target: 'http://localhost:3001', changeOrigin: true },
