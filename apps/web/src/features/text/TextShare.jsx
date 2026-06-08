@@ -9,16 +9,29 @@ const LANGUAGES = [
   'toml','markdown','sql','bash','dockerfile',
 ];
 const EXPIRY_OPTS = ['10m','1h','24h','7d','30d','never'];
-const DEFAULT = { content: '', language: 'javascript', title: '', expiresIn: 'never', burnAfterRead: false };
+const DEFAULT = {
+  content: '',
+  language: 'javascript',
+  title: '',
+  expiresIn: 'never',
+  burnMode: 'off',   // 'off' | 'on-close' | 'after-views'
+  maxViews: 1,
+};
 const MAX = 500_000;
+
+const BURN_OPTS = [
+  { value: 'off',         label: 'No burn' },
+  { value: 'on-close',    label: 'Burn when viewer closes tab' },
+  { value: 'after-views', label: 'Burn after N views' },
+];
 
 export default function TextShare() {
   const { isOnline, addToast } = useStore();
-  const [form, setForm]         = useState(DEFAULT);
-  const [result, setResult]     = useState(null);
-  const [loading, setLoading]   = useState(false);
+  const [form, setForm]           = useState(DEFAULT);
+  const [result, setResult]       = useState(null);
+  const [loading, setLoading]     = useState(false);
   const [charCount, setCharCount] = useState(0);
-  const [copied, setCopied]     = useState(false);
+  const [copied, setCopied]       = useState(false);
 
   const set = (k) => (e) => {
     const val = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -31,13 +44,24 @@ export default function TextShare() {
     if (!form.content.trim()) return;
     setLoading(true);
     try {
+      // Build payload — translate burnMode into API fields
+      const payload = {
+        content:        form.content,
+        language:       form.language,
+        title:          form.title,
+        expiresIn:      form.expiresIn,
+        burnOnClose:    form.burnMode === 'on-close',
+        maxViews:       form.burnMode === 'after-views' ? Number(form.maxViews) : null,
+        burnAfterRead:  false, // legacy field — kept for backend compat
+      };
+
       if (!isOnline) {
-        await offlineDB.queuePaste(form);
+        await offlineDB.queuePaste(payload);
         addToast('Paste saved offline — will upload when reconnected', 'warning');
         setForm(DEFAULT); setCharCount(0);
         return;
       }
-      const data = await textApi.create(form);
+      const data = await textApi.create(payload);
       await offlineDB.cachePaste({ ...data, content: form.content, language: form.language });
       setResult(data);
       setForm(DEFAULT); setCharCount(0);
@@ -119,10 +143,33 @@ export default function TextShare() {
             </div>
           </div>
 
-          <label className="checkbox-label">
-            <input type="checkbox" checked={form.burnAfterRead} onChange={set('burnAfterRead')} />
-            <span>Burn after read — destroy on first view</span>
-          </label>
+          {/* ── Burn options ── */}
+          <div className="field">
+            <label className="label">🔥 Burn mode</label>
+            <select className="input" value={form.burnMode} onChange={set('burnMode')}>
+              {BURN_OPTS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+            </select>
+          </div>
+
+          {form.burnMode === 'after-views' && (
+            <div className="field">
+              <label className="label">Max views before burn</label>
+              <input
+                className="input"
+                type="number"
+                min={1}
+                max={1000}
+                value={form.maxViews}
+                onChange={set('maxViews')}
+              />
+            </div>
+          )}
+
+          {form.burnMode === 'on-close' && (
+            <p style={{ fontSize: '.75rem', color: 'var(--t3)', fontFamily: 'var(--font-mono)', marginTop: '-4px' }}>
+              ⚠ Paste will be permanently deleted when the viewer closes the tab.
+            </p>
+          )}
 
           <button className="btn-primary" type="submit" disabled={loading}>
             {loading ? 'Creating…' : isOnline ? 'Create paste →' : 'Save offline'}
@@ -145,13 +192,19 @@ export default function TextShare() {
               <div className="result-stat">
                 <div className="result-stat-label">Expires</div>
                 <div className="result-stat-val">
-                  {result.expiresAt ? `${Math.ceil((new Date(result.expiresAt) - Date.now()) / 86400000)}d` : 'Never'}
+                  {result.expiresAt
+                    ? `${Math.ceil((new Date(result.expiresAt) - Date.now()) / 86400000)}d`
+                    : 'Never'}
                 </div>
               </div>
               <div className="result-stat">
-                <div className="result-stat-label">Status</div>
-                <div className={`result-stat-val ${result.burnAfterRead ? '' : 'result-stat-val--green'}`}>
-                  {result.burnAfterRead ? '🔥 Burn' : 'Active'}
+                <div className="result-stat-label">Burn</div>
+                <div className="result-stat-val">
+                  {result.burnOnClose
+                    ? '🔥 On close'
+                    : result.maxViews
+                    ? `🔥 After ${result.maxViews} view${result.maxViews > 1 ? 's' : ''}`
+                    : '—'}
                 </div>
               </div>
             </div>
