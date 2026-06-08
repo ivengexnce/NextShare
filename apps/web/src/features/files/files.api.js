@@ -1,4 +1,4 @@
-const BASE = `${import.meta.env.VITE_API_URL || ''}/api/urls`;
+const BASE = `${import.meta.env.VITE_API_URL || ''}/api/files`;
 
 export const filesApi = {
     /**
