@@ -3,7 +3,6 @@ const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
 const morgan = require('morgan');
-const path = require('path');
 
 const config = require('./config');
 const logger = require('./shared/utils/logger');
@@ -65,16 +64,6 @@ app.use('/api/pastes', textRoutes);
 // ─── URL Redirect (root-level shortlink) ───────────────────────────────────────
 // Must be AFTER /api routes to avoid shadowing them
 app.get('/:code([a-zA-Z0-9-]{3,20})', urlRedirectLimiter, UrlController.redirect);
-
-// ─── Frontend Static Files (production only) ───────────────────────────────────
-// In dev, Vite serves the frontend on port 5173 with historyApiFallback.
-// In prod, Express serves the built React app and handles all frontend routes.
-if (!config.isDev) {
-    app.use(express.static(path.join(__dirname, '../client/dist')));
-    app.get(/^\/(?!api).*/, (_req, res) =>
-        res.sendFile(path.join(__dirname, '../client/dist/index.html'))
-    );
-}
 
 // ─── 404 Handler ───────────────────────────────────────────────────────────────
 app.use((_req, res) =>
