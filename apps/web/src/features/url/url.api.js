@@ -1,4 +1,5 @@
 const BASE = `${import.meta.env.VITE_API_URL || ''}/api/urls`;
+const { client: redisClient } = require('../../config/redis');
 
 export const urlApi = {
     async shorten(payload) {

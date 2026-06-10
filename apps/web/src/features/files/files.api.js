@@ -1,4 +1,5 @@
 const BASE = `${import.meta.env.VITE_API_URL || ''}/api/files`;
+const { client: redisClient } = require('../../config/redis');
 
 export const filesApi = {
     /**

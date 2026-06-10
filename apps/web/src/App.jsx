@@ -3,6 +3,7 @@ import { useOffline } from './shared/hooks/useOffline';
 import UrlShortener from './features/url/UrlShortener';
 import FileShare from './features/files/FileShare';
 import TextShare from './features/text/TextShare';
+import AdminDashboard from './features/admin/AdminDashboard';
 
 const TABS = [
   { id: 'url',   label: 'URL Shortener' },
@@ -16,6 +17,10 @@ export default function App() {
   useOffline();
   const { activeTab, setActiveTab, isOnline, toasts, removeToast } = useStore();
   const ActiveComponent = COMPONENTS[activeTab];
+
+  if (window.location.pathname === '/admin') {
+    return <AdminDashboard />;
+  }
 
   return (
     <div className="app">
