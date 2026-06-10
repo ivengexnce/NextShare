@@ -9,7 +9,7 @@ const TextController = {
         return ResponseFactory.success(res, result, 'Paste created', 201);
     },
 
-    asyncget(req, res) {
+    get: async(req, res) => {
         const { code } = req.params;
         const result = await TextService.get(code);
         const ip = req.headers['x-forwarded-for'] ?
