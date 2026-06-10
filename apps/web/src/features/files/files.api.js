@@ -1,5 +1,5 @@
 const BASE = `${import.meta.env.VITE_API_URL || ''}/api/files`;
-import ('../../config/redis');
+
 
 
 export const filesApi = {

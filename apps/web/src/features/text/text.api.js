@@ -1,5 +1,5 @@
 const BASE = `${import.meta.env.VITE_API_URL || ''}/api/pastes`;
-import ('../../config/redis');
+
 
 export const textApi = {
     async create(payload) {

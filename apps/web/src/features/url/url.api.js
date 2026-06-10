@@ -1,5 +1,5 @@
 const BASE = `${import.meta.env.VITE_API_URL || ''}/api/urls`;
-import ('../../config/redis');
+
 
 export const urlApi = {
     async shorten(payload) {
