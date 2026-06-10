@@ -71,7 +71,7 @@ const TextService = {
 
         return {
             shortCode: paste.shortCode,
-            shareUrl: `${config.app.frontendUrl}/paste/${paste.shortCode}`,
+            shareUrl: `${config.app.frontendUrl}/p/${paste.shortCode}`,
             title: paste.title,
             language: paste.language,
             expiresAt: paste.expiresAt,
