@@ -45,15 +45,13 @@ export default function TextShare() {
     setLoading(true);
     try {
       // Build payload — translate burnMode into API fields
-      const payload = {
-        content:        form.content,
-        language:       form.language,
-        title:          form.title,
-        expiresIn:      form.expiresIn,
-        burnOnClose:    form.burnMode === 'on-close',
-        maxViews:       form.burnMode === 'after-views' ? Number(form.maxViews) : null,
-        burnAfterRead:  false, // legacy field — kept for backend compat
-      };
+    const payload = {
+    content:       form.content,
+    language:      form.language,
+    title:         form.title,
+    expiresIn:     form.expiresIn,
+    burnAfterRead: form.burnMode === 'on-close' || form.burnMode === 'after-views',
+};
 
       if (!isOnline) {
         await offlineDB.queuePaste(payload);
