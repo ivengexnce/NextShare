@@ -1,0 +1,7 @@
+{
+    "rewrites": [
+        { "source": "/app", "destination": "/index.html" },
+        { "source": "/admin", "destination": "/index.html" },
+        { "source": "/paste/:code", "destination": "/index.html" }
+    ]
+}

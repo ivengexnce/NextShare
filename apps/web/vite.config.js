@@ -1,11 +1,13 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
+
+const __dirname = dirname(fileURLToPath(
+    import.meta.url));
 
 export default defineConfig({
-    define: {
-        __API_URL__: JSON.stringify(process.env.VITE_API_URL || ''),
-    },
     plugins: [
         react(),
         VitePWA({
@@ -33,16 +35,23 @@ export default defineConfig({
                         expiration: { maxEntries: 50, maxAgeSeconds: 300 },
                         networkTimeoutSeconds: 4,
                     },
-                }, ],
+                }],
             },
         }),
     ],
+    build: {
+        rollupOptions: {
+            input: {
+                app: resolve(__dirname, 'index.html'),
+                landing: resolve(__dirname, 'landing.html'),
+            },
+        },
+    },
     server: {
         port: 5173,
-        historyApiFallback: true, // ← add this
+        historyApiFallback: true,
         proxy: {
             '/api': { target: 'http://localhost:3001', changeOrigin: true },
-            '^/[a-zA-Z0-9-]{3,20}$': { target: 'http://localhost:3001', changeOrigin: true },
         },
     },
 });
