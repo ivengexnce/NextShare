@@ -1,219 +1,392 @@
-# NexusToolkit — Architecture & Anti-Breaking System
+# NextShare (NexusToolkit) — Architecture & System Design
 
 ---
 
-## Architecture Diagram (text)
+## System Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│  CLIENT LAYER (Browser)                                         │
-│                                                                 │
-│  ┌─────────────────┐  ┌──────────────────┐  ┌───────────────┐  │
-│  │  Service Worker │  │   React App       │  │  IndexedDB    │  │
-│  │  - offline cache│  │  - Vite + Zustand │  │  - pending    │  │
-│  │  - bg sync      │  │  - 3 tool views   │  │    queues     │  │
-│  └─────────────────┘  └──────────────────┘  └───────────────┘  │
-└──────────────────────────────┬──────────────────────────────────┘
+┌──────────────────────────────────────────────────────────────────────┐
+│  CLIENT LAYER (Browser — nextsharebymeet.vercel.app)                 │
+│                                                                      │
+│  ┌──────────────┐  ┌───────────────────┐  ┌─────────────────────┐  │
+│  │  Landing     │  │   React SPA (/app) │  │  Service Worker     │  │
+│  │  Page (/)    │  │  Vite + Zustand    │  │  Workbox / PWA      │  │
+│  │  Pure HTML   │  │  3 tools + admin   │  │  offline cache      │  │
+│  └──────────────┘  └───────────────────┘  └─────────────────────┘  │
+│                              │                        │              │
+│                    ┌─────────┴──────────┐             │              │
+│                    │    IndexedDB        │◄────────────┘              │
+│                    │  (offlineDB.js)     │                            │
+│                    │  pending queues     │                            │
+│                    └─────────────────────┘                           │
+└──────────────────────────────┬───────────────────────────────────────┘
                                │  REST / fetch
                                ▼
-┌─────────────────────────────────────────────────────────────────┐
-│  API GATEWAY (Express)                                          │
-│  helmet · cors · morgan · express-rate-limit · error middleware │
-└──────────┬──────────────────┬──────────────────────┬───────────┘
-           │                  │                      │
-           ▼                  ▼                      ▼
-┌──────────────┐   ┌──────────────────┐   ┌──────────────────┐
-│ URL Module   │   │ Files Module     │   │ Text Module      │
-│              │   │                  │   │                  │
-│ routes       │   │ routes           │   │ routes           │
-│ controller   │   │ controller       │   │ controller       │
-│ service      │   │ service          │   │ service          │
-│ repository   │   │ repository       │   │ repository       │
-│ schema       │   │ schema           │   │ schema           │
-└──────┬───────┘   └───────┬──────────┘   └────────┬─────────┘
-       │                   │                        │
-       └───────────────────┼────────────────────────┘
-                           │
-          ┌────────────────┴──────────────────┐
-          ▼                                   ▼
-  ┌──────────────┐                   ┌───────────────┐
-  │   MongoDB    │                   │     Redis     │
-  │  (truth)     │                   │   (speed)     │
-  │              │                   │               │
-  │  urls        │                   │  url:redirect │
-  │  files       │◄──── read-through │  url:stats    │
-  │  pastes      │◄──── write-through│  paste:*      │
-  └──────────────┘                   └───────────────┘
-          │
-          ▼
-  ┌──────────────┐
-  │ File System  │
-  │  /uploads    │
-  └──────────────┘
+┌──────────────────────────────────────────────────────────────────────┐
+│  EXPRESS MIDDLEWARE STACK (Render)                                   │
+│                                                                      │
+│  helmet → cors → json → morgan → visitorMiddleware → generalLimiter  │
+│                                                                      │
+│  visitorMiddleware: sAdd('visitors:global', ip) — every request      │
+└──────────┬──────────────────┬───────────────────────┬───────────────┘
+           │                  │                       │
+           ▼                  ▼                       ▼
+┌──────────────┐   ┌───────────────────┐   ┌──────────────────┐
+│  URL Module  │   │  Files Module     │   │  Text Module     │
+│              │   │                   │   │                  │
+│  routes      │   │  routes           │   │  routes          │
+│  controller──┼──►│  controller───────┼──►│  controller      │
+│  + IP track  │   │  + IP track       │   │  + IP track      │
+│  service     │   │  service          │   │  service         │
+│  repository  │   │  repository       │   │  repository      │
+│  schema      │   │  schema           │   │  schema          │
+└──────┬───────┘   └────────┬──────────┘   └───────┬──────────┘
+       │                    │                       │
+       └────────────────────┼───────────────────────┘
+                            │
+         ┌──────────────────┴────────────────────┐
+         ▼                                       ▼
+ ┌──────────────┐                       ┌────────────────┐
+ │   MongoDB    │                       │     Redis      │
+ │  (truth)     │                       │   (speed)      │
+ │              │                       │                │
+ │  Url         │◄──── read-through     │ url:redirect:* │
+ │  Paste       │◄──── write-through    │ url:stats:*    │
+ │  File        │                       │ paste:*        │
+ └──────────────┘                       │ visitors:*     │
+         │                              └────────────────┘
+         ▼
+ ┌──────────────┐
+ │  Filesystem  │
+ │  /uploads    │
+ └──────────────┘
+
+ ┌──────────────────────────────────────────┐
+ │  Admin Module (/admin)                   │
+ │                                          │
+ │  admin.routes.js   — x-admin-secret auth │
+ │  admin.controller  — reads mongoose +    │
+ │                      Redis sCard directly│
+ │                      (no service layer)  │
+ └──────────────────────────────────────────┘
 ```
 
 ---
 
-## File Structure Reference
+## Request Lifecycle
+
+### URL Redirect (hot path)
+```
+GET /:code
+     │
+     ▼
+urlRedirectLimiter
+     │
+     ▼
+visitorMiddleware ──► sAdd('visitors:global', ip)
+     │
+     ▼
+UrlController.redirect
+     │
+     ▼
+UrlService.resolve(code)
+     │
+     ├── Redis HIT ──► return originalUrl
+     │                  sAdd('visitors:url:{code}', ip)  [fire-and-forget]
+     │                  incrementClicks [setImmediate]
+     │
+     └── Redis MISS ──► MongoDB lookup
+                         └── re-warm Redis
+                         └── return originalUrl
+                         └── sAdd('visitors:url:{code}', ip)  [fire-and-forget]
+                         └── incrementClicks [setImmediate]
+     │
+     ▼
+ResponseFactory.redirect(res, originalUrl)
+```
+
+### Paste Create
+```
+POST /api/pastes
+     │
+     ▼
+TextService.create(payload)
+     │
+     ├── Joi validation
+     ├── generateShortCode()
+     ├── TextRepository.create(...)
+     ├── Redis cache (skip if burnAfterRead)
+     └── return { shortCode, shareUrl (frontendUrl based), ... }
+     │
+     ▼
+Controller overrides nothing — frontend overrides shareUrl with window.location.origin
+```
+
+### Admin Stats
+```
+GET /admin/stats
+     │
+     ▼
+admin.routes middleware — checks x-admin-secret header
+     │
+     ▼
+AdminController.stats
+     │
+     ├── redis.sCard('visitors:global')
+     ├── mongoose.model('Url').find() + sCard per shortCode
+     ├── mongoose.model('Paste').find() + sCard per shortCode
+     └── mongoose.model('File').find() + sCard per shortCode
+     │
+     ▼
+res.json({ success: true, data: { globalVisitors, totals, urls, pastes, files } })
+```
+
+---
+
+## Data Models
+
+### Url
+```
+shortCode      String  unique, indexed       — primary lookup key
+originalUrl    String  max 2048
+title          String  max 255, optional
+clicks         Number  default 0             — total click counter
+clickLog       [Date]  select: false         — sparse log, last 1000
+expiresAt      Date    nullable              — TTL index
+isActive       Boolean indexed
+createdBy      String  IP or 'anonymous'
+createdAt      Date    auto
+updatedAt      Date    auto
+
+Indexes: shortCode (unique), expiresAt (TTL sparse), isActive+createdAt (compound)
+Virtual: isExpired
+```
+
+### Paste
+```
+shortCode      String  unique, indexed
+content        String  max 500,000 chars
+language       String  enum (23 languages), default 'plaintext'
+title          String  max 255, optional
+expiresAt      Date    nullable              — TTL index
+burnAfterRead  Boolean default false         — destroy on first view
+viewCount      Number  default 0
+isActive       Boolean indexed
+createdBy      String  IP or 'anonymous'
+createdAt      Date    auto
+updatedAt      Date    auto
+
+Indexes: shortCode (unique), expiresAt (TTL sparse), isActive (single)
+```
+
+### File
+```
+shortCode      String  unique, indexed
+storedName     String  disk filename (token + ext)
+originalName   String  user's original filename, max 255
+mimeType       String
+size           Number  bytes
+downloadCount  Number  default 0
+maxDownloads   Number  nullable (null = unlimited)
+password       String  bcrypt hash, select: false
+expiresAt      Date    nullable              — TTL index
+isActive       Boolean indexed
+uploadedBy     String  IP or 'anonymous'
+createdAt      Date    auto
+updatedAt      Date    auto
+
+Indexes: shortCode (unique), expiresAt (TTL sparse), isActive (single)
+```
+
+---
+
+## Redis Key Reference
+
+| Key                     | Type   | TTL      | Contents                        |
+|-------------------------|--------|----------|---------------------------------|
+| `visitors:global`       | Set    | Forever  | All unique visitor IPs          |
+| `visitors:url:{code}`   | Set    | Forever  | Unique IPs per short URL        |
+| `visitors:paste:{code}` | Set    | Forever  | Unique IPs per paste            |
+| `visitors:file:{code}`  | Set    | Forever  | Unique IPs per file download    |
+| `url:redirect:{code}`   | String | 1 hour   | `{ originalUrl, expiresAt }`    |
+| `url:stats:{code}`      | String | 5 min    | Full stats object               |
+| `paste:{code}`          | String | 10 min   | Paste content + metadata        |
+
+---
+
+## Environment Variables
+
+### Backend (Render)
+```
+MONGODB_URI        required   MongoDB Atlas connection string
+REDIS_URL          required   Redis connection string
+PORT               optional   Default 3001
+NODE_ENV           optional   development | production
+BASE_URL           required   API server URL (e.g. https://api.render.com)
+FRONTEND_URL       required   Frontend URL (e.g. https://nextsharebymeet.vercel.app)
+CORS_ORIGIN        optional   Primary allowed origin
+ADMIN_SECRET       required   Random secret for admin dashboard access
+JWT_SECRET         optional   For future auth features
+UPLOAD_DIR         optional   Default ./uploads
+MAX_FILE_SIZE      optional   Default 52428800 (50MB)
+RATE_LIMIT_WINDOW_MS optional  Default 900000 (15 min)
+RATE_LIMIT_MAX     optional   Default 100
+```
+
+### Frontend (Vercel)
+```
+VITE_API_URL       required   Backend API URL
+```
+
+---
+
+## File Structure
 
 ```
-nexus-toolkit/
-├── package.json                      ← monorepo root (npm workspaces)
-├── .env.example                      ← copy to .env, fill in values
+NextShare/
+├── package.json                       ← monorepo root (npm workspaces)
+├── .env.example
 ├── .gitignore
 │
 ├── apps/
-│   ├── api/                          ← Node.js + Express backend
+│   ├── api/                           ← Node.js + Express backend (Render)
 │   │   ├── package.json
 │   │   └── src/
-│   │       ├── server.js             ← entry: DB connect → listen
-│   │       ├── app.js                ← Express app: middleware + routes
+│   │       ├── server.js              ← entry: DB connect → listen + graceful shutdown
+│   │       ├── app.js                 ← Express: middleware stack + all routes
 │   │       │
 │   │       ├── config/
-│   │       │   ├── index.js          ← all config values + env validation
-│   │       │   ├── database.js       ← MongoDB connect/disconnect + retry
-│   │       │   └── redis.js          ← Redis client + get/set/del helpers
+│   │       │   ├── index.js           ← all config + env validation (fail-fast)
+│   │       │   ├── database.js        ← MongoDB connect/disconnect + retry
+│   │       │   └── redis.js           ← Redis client + get/set/del helpers
 │   │       │
 │   │       ├── modules/
-│   │       │   ├── url/
-│   │       │   │   ├── url.schema.js      ← Mongoose model + TTL index
-│   │       │   │   ├── url.repository.js  ← DB operations only
-│   │       │   │   ├── url.service.js     ← business logic + Joi validation
-│   │       │   │   ├── url.controller.js  ← HTTP handlers, ResponseFactory
-│   │       │   │   └── url.routes.js      ← Router + rate limiters
-│   │       │   ├── files/             ← same 5-file pattern
-│   │       │   └── text/              ← same 5-file pattern
+│   │       │   ├── url/               ← 5-file pattern
+│   │       │   │   ├── url.schema.js
+│   │       │   │   ├── url.repository.js
+│   │       │   │   ├── url.service.js
+│   │       │   │   ├── url.controller.js  ← IP tracking: visitors:url:{code}
+│   │       │   │   └── url.routes.js
+│   │       │   ├── files/             ← 5-file pattern
+│   │       │   │   ├── files.schema.js
+│   │       │   │   ├── files.repository.js
+│   │       │   │   ├── files.service.js
+│   │       │   │   ├── files.controller.js  ← IP tracking: visitors:file:{code}
+│   │       │   │   └── files.routes.js
+│   │       │   ├── text/              ← 5-file pattern
+│   │       │   │   ├── text.schema.js
+│   │       │   │   ├── text.repository.js
+│   │       │   │   ├── text.service.js
+│   │       │   │   ├── text.controller.js  ← IP tracking: visitors:paste:{code}
+│   │       │   │   └── text.routes.js
+│   │       │   └── admin/             ← 2-file exception (read-only, no service layer)
+│   │       │       ├── admin.controller.js ← reads mongoose + Redis directly
+│   │       │       └── admin.routes.js     ← x-admin-secret middleware
 │   │       │
 │   │       └── shared/
 │   │           ├── errors/
-│   │           │   ├── AppError.js    ← custom error class
-│   │           │   └── errorCodes.js  ← machine-readable constants
+│   │           │   ├── AppError.js
+│   │           │   └── errorCodes.js
 │   │           ├── middleware/
-│   │           │   ├── error.middleware.js    ← global error handler (last)
-│   │           │   ├── rateLimit.middleware.js← named limiters per route
-│   │           │   └── upload.middleware.js   ← multer + type/size filter
+│   │           │   ├── error.middleware.js
+│   │           │   ├── rateLimit.middleware.js
+│   │           │   ├── upload.middleware.js
+│   │           │   └── visitor.middleware.js  ← sAdd('visitors:global', ip)
 │   │           └── utils/
-│   │               ├── response.factory.js  ← success() / error() / redirect()
-│   │               ├── hash.js              ← nanoid short code generator
-│   │               └── logger.js            ← Winston structured logger
+│   │               ├── response.factory.js
+│   │               ├── hash.js
+│   │               └── logger.js
 │   │
-│   └── web/                          ← React + Vite frontend (PWA)
-│       ├── package.json
-│       ├── vite.config.js            ← Vite + PWA plugin config
-│       ├── index.html
+│   └── web/                           ← React + Vite frontend (Vercel)
+│       ├── package.json               ← type: module (ESM only)
+│       ├── vite.config.js             ← MPA: landing.html + index.html
+│       ├── vercel.json                ← rewrites: /app /paste/:code /admin → SPA
+│       ├── index.html                 ← React SPA entry
+│       ├── landing.html               ← Pure HTML landing page (served at /)
 │       ├── public/
+│       │   ├── favicon.svg
+│       │   ├── icon-192.png
+│       │   ├── icon-512.png
 │       │   └── manifest.json
 │       └── src/
-│           ├── main.jsx              ← React entry
-│           ├── App.jsx               ← shell: tabs, toasts, offline banner
+│           ├── main.jsx               ← routing: /paste/:code | everything else
+│           ├── App.jsx                ← routing: /admin | tab app
 │           ├── features/
+│           │   ├── admin/
+│           │   │   └── AdminDashboard.jsx  ← secret-gated analytics UI
 │           │   ├── url/
-│           │   │   ├── UrlShortener.jsx  ← form, result, offline queue
-│           │   │   └── url.api.js        ← fetch wrapper
+│           │   │   ├── UrlShortener.jsx
+│           │   │   └── url.api.js
 │           │   ├── files/
-│           │   │   ├── FileShare.jsx     ← drag-drop, progress, result
-│           │   │   └── files.api.js      ← XHR for progress events
+│           │   │   ├── FileShare.jsx
+│           │   │   └── files.api.js
 │           │   └── text/
-│           │       ├── TextShare.jsx     ← textarea, language, burn option
-│           │       └── text.api.js       ← fetch wrapper
-│           ├── shared/
-│           │   └── hooks/
-│           │       └── useOffline.js     ← online/offline + background sync
+│           │       ├── TextShare.jsx       ← overrides shareUrl with window.location.origin
+│           │       ├── PasteViewer.jsx
+│           │       └── text.api.js
+│           ├── shared/hooks/
+│           │   └── useOffline.js      ← online/offline + background sync
 │           ├── store/
-│           │   ├── useStore.js           ← Zustand: isOnline, toasts, activeTab
-│           │   └── offlineDB.js          ← IndexedDB: pending queues + cache
+│           │   ├── useStore.js        ← Zustand: isOnline, toasts, activeTab
+│           │   └── offlineDB.js       ← IndexedDB: pending queues + cache
 │           └── styles/
-│               └── index.css            ← dark industrial design system
+│               └── index.css
 │
 ├── docs/
-│   ├── ARCHITECTURE.md           ← this file
-│   ├── AI_SYSTEM_PROMPT.md       ← paste into any AI tool before coding
-│   └── SCALING_RULES.md          ← when to do what at each traffic level
+│   ├── AI_SYSTEM_PROMPT.md
+│   ├── ARCHITECTURE.md
+│   └── SCALING_RULES.md
 │
 └── docker/
-    ├── Dockerfile.api             ← multi-stage, non-root user
-    └── docker-compose.yml        ← MongoDB + Redis + API
+    ├── Dockerfile.api
+    └── docker-compose.yml
 ```
 
 ---
 
-## The System to Stop AI Projects From Breaking
+## Frontend Routing Map
 
-These 8 rules are how the project stays coherent even when AI writes most of the code.
-
-### Rule 1 — The AI System Prompt Is the Source of Truth
-
-`docs/AI_SYSTEM_PROMPT.md` encodes every architectural decision.
-Before starting any AI-assisted coding session, paste it into the context window.
-If a new decision is made that contradicts it, update the prompt first, then code.
-
-**Why it works:** AI models follow the instructions in their context.
-Explicit rules outperform "the AI should know this."
-
-### Rule 2 — One Pattern Per Problem
-
-Every module uses the **exact same 5-file pattern**:
-`schema → repository → service → controller → routes`
-
-AI tools generate consistent code when the pattern is consistent.
-If you let module structures drift (e.g. "this one has a helper.js"), the AI
-starts inventing new structures for every module.
-
-### Rule 3 — Shared/ Is the Contract
-
-If you want two modules or two AI sessions to agree on error handling,
-response format, or utilities — put the implementation in `shared/` first.
-
-AI sessions that start from `AppError` + `ResponseFactory` + `errorCodes.js`
-will produce consistent code. Sessions that don't reference them will invent
-their own inconsistent versions.
-
-### Rule 4 — Fail Fast on Config
-
-The config validator in `config/index.js` throws on startup if required env vars
-are missing. This prevents the most common class of production bug: deploying
-without a required environment variable and only finding out under real traffic.
-
-### Rule 5 — Graceful Shutdown Is Not Optional
-
-`server.js` handles `SIGTERM` and `SIGINT` with a drain-then-close pattern.
-This means deployments never drop in-flight requests.
-AI tools often omit graceful shutdown. The template includes it — keep it.
-
-### Rule 6 — Errors Classify Themselves
-
-`AppError` has `isOperational: true`. The error middleware uses this flag
-to decide whether to expose the message to the client.
-
-Unexpected errors (programming bugs) return a generic 500. Only `AppError`
-messages reach the client. This prevents internal details from leaking.
-
-### Rule 7 — Rate Limits Are Per Endpoint, Not Global
-
-A single global rate limiter is easy to bypass (one slow-drip request pattern)
-and too aggressive for legitimate traffic patterns.
-Named limiters per endpoint (`urlCreateLimiter`, `fileUploadLimiter`, etc.)
-allow tuning each endpoint independently as traffic data comes in.
-
-### Rule 8 — Logs Tell You Which Layer Failed
-
-Winston logs include the layer prefix: `[db]`, `[redis]`, `[server]`, `[error]`.
-When debugging, you read the prefix first to know which file to open.
-This is faster than grepping for a function name across the whole codebase.
+```
+nextsharebymeet.vercel.app/
+│
+├── /                    → landing.html (pure HTML, Vite MPA)
+├── /app                 → index.html (React SPA) → App.jsx → tab app
+├── /paste/:code         → index.html → main.jsx → PasteViewer
+└── /admin               → index.html → App.jsx → AdminDashboard
+                                                   (requires x-admin-secret in header)
+```
 
 ---
 
-## Workflow for Every Code Change
+## The 8 Rules That Keep This Project Coherent
 
-```
-1. Read AI_SYSTEM_PROMPT.md                  ← refresh the contract
-2. Identify the affected module + layer       ← which of the 5 files?
-3. Check shared/ for existing utilities       ← don't duplicate
-4. Write the change                           ← follow the layer rules
-5. Verify the response shape                  ← ResponseFactory envelope?
-6. Verify error paths                         ← AppError + errorCodes?
-7. If a new config value is needed            ← add to config/index.js first
-8. If a new endpoint is added                 ← add rate limiter
-9. If a hot path is added                     ← add Redis caching
-10. Test with curl before wiring the frontend ← isolate backend first
-```
+**Rule 1 — AI System Prompt is the source of truth.**
+Paste AI_SYSTEM_PROMPT.md into every AI coding session before writing code.
+Update it first when making architectural decisions.
+
+**Rule 2 — One pattern per problem.**
+Every feature module uses the exact same 5-file pattern. Admin is the only exception,
+and it's explicitly documented. Drift here causes AI tools to invent new structures.
+
+**Rule 3 — shared/ is the contract.**
+Error handling, response format, and utilities live in shared/ so all modules
+and AI sessions agree on them without re-inventing.
+
+**Rule 4 — Fail fast on config.**
+config/index.js throws on startup if MONGODB_URI or REDIS_URL are missing.
+This catches deploy misconfiguration before it hits users.
+
+**Rule 5 — Graceful shutdown is not optional.**
+server.js handles SIGTERM/SIGINT with drain-then-close. Never omit this on deploys.
+
+**Rule 6 — Errors classify themselves.**
+AppError.isOperational = true tells errorMiddleware it's safe to send the message
+to clients. Unexpected errors return generic 500. Internal details never leak.
+
+**Rule 7 — Visitor tracking is always fire-and-forget.**
+Redis Set operations for analytics must never block the user-facing response.
+Always .catch(() => {}) and never await in hot paths.
+
+**Rule 8 — Frontend is ESM only.**
+Never use require() in apps/web/src/. It compiles but fails at runtime in the
+browser with "require is not defined" — causing a complete black screen.
