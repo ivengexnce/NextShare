@@ -14,7 +14,7 @@ const DEFAULT = {
   language: 'javascript',
   title: '',
   expiresIn: 'never',
-  burnMode: 'off',   // 'off' | 'on-close' | 'after-views'
+  burnMode: 'off',
   maxViews: 1,
 };
 const MAX = 500_000;
@@ -44,14 +44,14 @@ export default function TextShare() {
     if (!form.content.trim()) return;
     setLoading(true);
     try {
-      // Build payload — translate burnMode into API fields
-    const payload = {
-    content:       form.content,
-    language:      form.language,
-    title:         form.title,
-    expiresIn:     form.expiresIn,
-    burnAfterRead: form.burnMode === 'on-close' || form.burnMode === 'after-views',
-};
+      const payload = {
+        content:       form.content,
+        language:      form.language,
+        title:         form.title,
+        expiresIn:     form.expiresIn,
+        burnAfterRead: form.burnMode !== 'off',
+      };
+      if (form.burnMode === 'after-views') payload.maxViews = Number(form.maxViews);
 
       if (!isOnline) {
         await offlineDB.queuePaste(payload);
@@ -60,6 +60,7 @@ export default function TextShare() {
         return;
       }
       const data = await textApi.create(payload);
+      data.shareUrl = `${window.location.origin}/paste/${data.shortCode}`;
       await offlineDB.cachePaste({ ...data, content: form.content, language: form.language });
       setResult(data);
       setForm(DEFAULT); setCharCount(0);
@@ -141,7 +142,6 @@ export default function TextShare() {
             </div>
           </div>
 
-          {/* ── Burn options ── */}
           <div className="field">
             <label className="label">🔥 Burn mode</label>
             <select className="input" value={form.burnMode} onChange={set('burnMode')}>
@@ -198,10 +198,10 @@ export default function TextShare() {
               <div className="result-stat">
                 <div className="result-stat-label">Burn</div>
                 <div className="result-stat-val">
-                  {result.burnOnClose
-                    ? '🔥 On close'
-                    : result.maxViews
-                    ? `🔥 After ${result.maxViews} view${result.maxViews > 1 ? 's' : ''}`
+                  {result.burnAfterRead
+                    ? result.maxViews
+                      ? `🔥 After ${result.maxViews} view${result.maxViews > 1 ? 's' : ''}`
+                      : '🔥 On close'
                     : '—'}
                 </div>
               </div>
