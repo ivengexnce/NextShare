@@ -60,7 +60,7 @@ const FilesService = {
 
         return {
             shortCode: record.shortCode,
-            shareUrl: `${config.app.baseUrl}/f/${record.shortCode}/download`,
+            shareUrl: `${config.app.frontendUrl}/f/${record.shortCode}/download`,
             originalName: record.originalName,
             size: record.size,
             mimeType: record.mimeType,
