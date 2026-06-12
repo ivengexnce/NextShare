@@ -1,2970 +1,1376 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NextShare — Developer sharing tools by Meet Maru</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        /* ─── TOKENS ─── */
-        
-         :root {
-            --bg: #0C0B0A;
-            --bg-1: #141312;
-            --bg-2: #1B1A19;
-            --bg-3: #222120;
-            --bg-4: #2a2927;
-            --bdr: rgba(255, 255, 255, .07);
-            --bdr-md: rgba(255, 255, 255, .12);
-            --bdr-str: rgba(255, 255, 255, .18);
-            --t1: #F0EDE8;
-            --t2: #9B9690;
-            --t3: #4E4B47;
-            --t4: #2e2c29;
-            --accent: #6366F1;
-            --accent-l: #818CF8;
-            --accent-bg: rgba(99, 102, 241, .10);
-            --accent-bdr: rgba(99, 102, 241, .28);
-            --green: #34D399;
-            --green-bg: rgba(52, 211, 153, .08);
-            --green-bdr: rgba(52, 211, 153, .18);
-            --rose: #F87171;
-            --amber: #FBBF24;
-            --r-sm: 6px;
-            --r-md: 10px;
-            --r-lg: 16px;
-            --r-xl: 20px;
-            --r-2xl: 28px;
-            --ease: cubic-bezier(.16, 1, .3, 1);
-            --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
-            --nav-h: 64px;
-        }
-        
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        
-        html {
-            scroll-behavior: smooth;
-        }
-        
-        body {
-            font-family: 'Manrope', sans-serif;
-            font-size: 16px;
-            line-height: 1.65;
-            background: var(--bg);
-            color: var(--t1);
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-        
-        body::before {
-            content: '';
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 999;
-            opacity: .4;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
-        }
-        
-        img,
-        svg {
-            display: block;
-        }
-        
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-        
-        button {
-            font-family: inherit;
-            cursor: pointer;
-            border: none;
-            background: none;
-        }
-        
-        .display {
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            letter-spacing: -.03em;
-            line-height: 1.05;
-        }
-        
-        h2 {
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            letter-spacing: -.025em;
-            line-height: 1.1;
-        }
-        
-        code,
-        .mono {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .88em;
-        }
-        /* ─── NAV ─── */
-        
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 200;
-            transition: background .3s, border-color .3s, backdrop-filter .3s;
-            border-bottom: 1px solid transparent;
-        }
-        
-        nav.stuck {
-            background: rgba(12, 11, 10, .88);
-            backdrop-filter: blur(20px) saturate(1.4);
-            border-color: var(--bdr);
-        }
-        
-        .nav-inner {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            height: var(--nav-h);
-            max-width: 1120px;
-            margin: 0 auto;
-        }
-        
-        .nav-logo {
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            font-size: 1.05rem;
-            letter-spacing: -.02em;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: var(--t1);
-            flex-shrink: 0;
-        }
-        
-        .nav-logo-mark {
-            width: 26px;
-            height: 26px;
-            border-radius: 7px;
-            background: var(--accent);
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-        }
-        
-        .brand-name {
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            font-size: 1.05rem;
-            letter-spacing: -.02em;
-            color: var(--t1);
-        }
-        
-        .brand-name span {
-            color: var(--accent-l);
-        }
-        
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 28px;
-        }
-        
-        .nav-links a {
-            font-size: .875rem;
-            font-weight: 500;
-            color: var(--t2);
-            transition: color .2s;
-            white-space: nowrap;
-        }
-        
-        .nav-links a:hover {
-            color: var(--t1);
-        }
-        
-        .nav-cta {
-            font-size: .875rem;
-            font-weight: 600;
-            color: var(--t1);
-            background: var(--bg-2);
-            border: 1px solid var(--bdr-md);
-            padding: 8px 18px;
-            border-radius: var(--r-md);
-            transition: all .22s var(--ease);
-            white-space: nowrap;
-            min-height: 36px;
-            display: inline-flex;
-            align-items: center;
-        }
-        
-        .nav-cta:hover {
-            border-color: var(--bdr-str);
-            background: var(--bg-3);
-        }
-        /* Hamburger */
-        
-        .nav-hamburger {
-            display: none;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 44px;
-            height: 44px;
-            gap: 5px;
-            border-radius: var(--r-md);
-            border: 1px solid var(--bdr);
-            background: var(--bg-2);
-            transition: all .2s var(--ease);
-            flex-shrink: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        .nav-hamburger:hover {
-            border-color: var(--bdr-md);
-            background: var(--bg-3);
-        }
-        
-        .nav-hamburger span {
-            display: block;
-            width: 18px;
-            height: 1.5px;
-            background: var(--t2);
-            border-radius: 2px;
-            transition: all .28s var(--ease);
-            transform-origin: center;
-        }
-        
-        .nav-hamburger.open span:nth-child(1) {
-            transform: translateY(6.5px) rotate(45deg);
-            background: var(--t1);
-        }
-        
-        .nav-hamburger.open span:nth-child(2) {
-            opacity: 0;
-            transform: scaleX(0);
-        }
-        
-        .nav-hamburger.open span:nth-child(3) {
-            transform: translateY(-6.5px) rotate(-45deg);
-            background: var(--t1);
-        }
-        /* Mobile drawer */
-        
-        .nav-drawer {
-            display: none;
-            position: fixed;
-            top: var(--nav-h);
-            left: 0;
-            right: 0;
-            z-index: 190;
-            background: rgba(12, 11, 10, .96);
-            backdrop-filter: blur(24px) saturate(1.4);
-            border-bottom: 1px solid var(--bdr);
-            transform: translateY(-8px);
-            opacity: 0;
-            transition: transform .28s var(--ease), opacity .28s var(--ease);
-            pointer-events: none;
-        }
-        
-        .nav-drawer.open {
-            transform: translateY(0);
-            opacity: 1;
-            pointer-events: all;
-        }
-        
-        .nav-drawer-inner {
-            max-width: 1120px;
-            margin: 0 auto;
-            padding: 16px 20px 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        
-        .nav-drawer a {
-            display: flex;
-            align-items: center;
-            padding: 13px 16px;
-            border-radius: var(--r-md);
-            font-size: .95rem;
-            font-weight: 500;
-            color: var(--t2);
-            border: 1px solid transparent;
-            transition: all .18s var(--ease);
-            min-height: 48px;
-        }
-        
-        .nav-drawer a:hover,
-        .nav-drawer a:active {
-            color: var(--t1);
-            background: var(--bg-2);
-            border-color: var(--bdr);
-        }
-        
-        .nav-drawer .drawer-cta {
-            margin-top: 8px;
-            background: var(--accent);
-            color: #fff;
-            justify-content: center;
-            font-weight: 600;
-            border-color: transparent !important;
-        }
-        
-        .nav-drawer .drawer-cta:hover {
-            background: #5558e8;
-        }
-        /* ─── HERO ─── */
-        
-        .hero {
-            min-height: 100svh;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            align-items: center;
-            gap: 48px;
-            padding: calc(var(--nav-h) + 56px) 32px 80px;
-            max-width: 1120px;
-            margin: 0 auto;
-        }
-        
-        .hero-glow {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-            background: radial-gradient(ellipse 700px 500px at 65% 40%, rgba(99, 102, 241, .07) 0%, transparent 70%), radial-gradient(ellipse 400px 300px at 20% 60%, rgba(99, 102, 241, .04) 0%, transparent 70%);
-            z-index: 0;
-        }
-        
-        .hero-left {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: .78rem;
-            font-weight: 600;
-            letter-spacing: .06em;
-            text-transform: uppercase;
-            color: var(--t3);
-            margin-bottom: 28px;
-        }
-        
-        .hero-eyebrow-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--green);
-            animation: blink 2s ease-in-out infinite;
-            flex-shrink: 0;
-        }
-        
-        @keyframes blink {
-            0%,
-            100% {
-                opacity: 1
-            }
-            50% {
-                opacity: .3
-            }
-        }
-        
-        .hero-title {
-            font-size: clamp(2.6rem, 5.5vw, 5rem);
-            margin-bottom: 24px;
-        }
-        
-        .hero-title em {
-            font-style: normal;
-            color: var(--accent-l);
-        }
-        
-        .hero-body {
-            font-size: 1.05rem;
-            font-weight: 400;
-            color: var(--t2);
-            line-height: 1.75;
-            max-width: 440px;
-            margin-bottom: 40px;
-        }
-        
-        .hero-actions {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-bottom: 48px;
-        }
-        
-        .btn-primary {
-            position: relative;
-            font-size: .9rem;
-            font-weight: 600;
-            color: #fff;
-            background: var(--accent);
-            padding: 13px 24px;
-            border-radius: var(--r-md);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all .25s var(--ease);
-            min-height: 46px;
-        }
-        
-        .btn-primary:hover {
-            background: #5558e8;
-            box-shadow: 0 4px 24px rgba(99, 102, 241, .35);
-            transform: translateY(-1px);
-        }
-        
-        .btn-primary:active {
-            transform: translateY(0);
-        }
-        
-        .btn-ghost {
-            font-size: .9rem;
-            font-weight: 500;
-            color: var(--t2);
-            padding: 13px 20px;
-            border-radius: var(--r-md);
-            border: 1px solid var(--bdr);
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: all .22s var(--ease);
-            min-height: 46px;
-        }
-        
-        .btn-ghost:hover {
-            color: var(--t1);
-            border-color: var(--bdr-md);
-            background: var(--bg-2);
-        }
-        
-        .hero-meta {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        
-        .hero-meta-item {
-            display: flex;
-            align-items: center;
-            gap: 7px;
-            font-size: .8rem;
-            color: var(--t3);
-            font-weight: 500;
-        }
-        
-        .hero-meta-item svg {
-            flex-shrink: 0;
-        }
-        /* Mockup */
-        
-        .hero-right {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .mockup-wrap {
-            position: relative;
-            perspective: 900px;
-        }
-        
-        .mockup {
-            background: var(--bg-1);
-            border: 1px solid var(--bdr-md);
-            border-radius: var(--r-xl);
-            overflow: hidden;
-            box-shadow: 0 0 0 1px rgba(255, 255, 255, .04), 0 32px 80px rgba(0, 0, 0, .6), 0 8px 24px rgba(0, 0, 0, .4);
-            animation: float 6s ease-in-out infinite;
-            transform: rotateY(-6deg) rotateX(3deg);
-            transform-style: preserve-3d;
-        }
-        
-        @keyframes float {
-            0%,
-            100% {
-                transform: rotateY(-6deg) rotateX(3deg) translateY(0)
-            }
-            50% {
-                transform: rotateY(-6deg) rotateX(3deg) translateY(-10px)
-            }
-        }
-        
-        .mockup-bar {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 14px 18px;
-            border-bottom: 1px solid var(--bdr);
-            background: rgba(0, 0, 0, .25);
-        }
-        
-        .mockup-dots {
-            display: flex;
-            gap: 6px;
-        }
-        
-        .mockup-dots span {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-        
-        .mockup-dots span:nth-child(1) {
-            background: #FF5F57
-        }
-        
-        .mockup-dots span:nth-child(2) {
-            background: #FEBC2E
-        }
-        
-        .mockup-dots span:nth-child(3) {
-            background: #28C840
-        }
-        
-        .mockup-urlbar {
-            flex: 1;
-            background: var(--bg-2);
-            border: 1px solid var(--bdr);
-            border-radius: 6px;
-            padding: 6px 12px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .72rem;
-            color: var(--t3);
-            min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        
-        .mockup-body {
-            padding: 20px;
-        }
-        
-        .mockup-label {
-            font-size: .68rem;
-            font-weight: 600;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            color: var(--t3);
-            margin-bottom: 14px;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        
-        .mockup-field {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 14px;
-        }
-        
-        .mockup-input-fake {
-            flex: 1;
-            background: var(--bg-2);
-            border: 1px solid var(--bdr);
-            border-radius: var(--r-sm);
-            padding: 10px 14px;
-            font-size: .8rem;
-            color: var(--t2);
-            min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        
-        .mockup-btn-fake {
-            background: var(--accent);
-            color: #fff;
-            border-radius: var(--r-sm);
-            padding: 10px 18px;
-            font-size: .8rem;
-            font-weight: 600;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        
-        .mockup-result {
-            background: rgba(52, 211, 153, .06);
-            border: 1px solid rgba(52, 211, 153, .18);
-            border-radius: var(--r-md);
-            padding: 14px 16px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 14px;
-            gap: 8px;
-        }
-        
-        .mockup-result-url {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .82rem;
-            color: var(--green);
-            min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        
-        .mockup-result-copy {
-            font-size: .75rem;
-            color: var(--t2);
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            flex-shrink: 0;
-        }
-        
-        .mockup-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-        }
-        
-        .mockup-stat {
-            background: var(--bg-2);
-            border: 1px solid var(--bdr);
-            border-radius: var(--r-sm);
-            padding: 10px 12px;
-        }
-        
-        .mockup-stat-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .6rem;
-            letter-spacing: .08em;
-            color: var(--t3);
-            margin-bottom: 4px;
-            text-transform: uppercase;
-        }
-        
-        .mockup-stat-val {
-            font-family: 'Sora', sans-serif;
-            font-size: .9rem;
-            font-weight: 600;
-            color: var(--t1);
-        }
-        
-        .mockup-stat-val.green {
-            color: var(--green);
-        }
-        
-        .mockup-shadow {
-            position: absolute;
-            bottom: -30px;
-            left: 10%;
-            right: 10%;
-            height: 60px;
-            background: radial-gradient(ellipse, rgba(99, 102, 241, .2) 0%, transparent 70%);
-            filter: blur(12px);
-            pointer-events: none;
-        }
-        /* ─── MARQUEE ─── */
-        
-        .marquee-wrap {
-            border-top: 1px solid var(--bdr);
-            border-bottom: 1px solid var(--bdr);
-            padding: 16px 0;
-            overflow: hidden;
-            position: relative;
-        }
-        
-        .marquee-wrap::before,
-        .marquee-wrap::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 80px;
-            z-index: 1;
-        }
-        
-        .marquee-wrap::before {
-            left: 0;
-            background: linear-gradient(to right, var(--bg), transparent);
-        }
-        
-        .marquee-wrap::after {
-            right: 0;
-            background: linear-gradient(to left, var(--bg), transparent);
-        }
-        
-        .marquee-track {
-            display: flex;
-            animation: marquee 30s linear infinite;
-            width: max-content;
-        }
-        
-        @keyframes marquee {
-            from {
-                transform: translateX(0)
-            }
-            to {
-                transform: translateX(-50%)
-            }
-        }
-        
-        .marquee-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0 28px;
-            font-size: .78rem;
-            font-weight: 600;
-            letter-spacing: .05em;
-            color: var(--t3);
-            white-space: nowrap;
-            border-right: 1px solid var(--bdr);
-        }
-        /* ─── SECTION BASE ─── */
-        
-        .section {
-            padding: 96px 32px;
-            max-width: 1120px;
-            margin: 0 auto;
-        }
-        
-        .section-tag {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: .78rem;
-            font-weight: 600;
-            letter-spacing: .08em;
-            text-transform: uppercase;
-            color: var(--t3);
-            margin-bottom: 16px;
-        }
-        
-        .section-title {
-            font-size: clamp(1.9rem, 3.5vw, 2.75rem);
-            margin-bottom: 16px;
-            max-width: 540px;
-        }
-        
-        .section-sub {
-            font-size: 1rem;
-            color: var(--t2);
-            max-width: 480px;
-            line-height: 1.75;
-            margin-bottom: 64px;
-        }
-        /* ─── FEATURES ─── */
-        
-        .features-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1px;
-            background: var(--bdr);
-            border: 1px solid var(--bdr);
-            border-radius: var(--r-2xl);
-            overflow: hidden;
-        }
-        
-        .feat-card {
-            background: var(--bg);
-            padding: 40px 36px 36px;
-            position: relative;
-            overflow: hidden;
-            transition: background .3s var(--ease);
-        }
-        
-        .feat-card:hover {
-            background: var(--bg-1);
-        }
-        
-        .feat-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            opacity: 0;
-            transition: opacity .35s;
-        }
-        
-        .feat-card:hover::after {
-            opacity: 1;
-        }
-        
-        .feat-num {
-            position: absolute;
-            top: 16px;
-            right: 24px;
-            font-family: 'Sora', sans-serif;
-            font-size: 6rem;
-            font-weight: 800;
-            color: var(--t4);
-            line-height: 1;
-            letter-spacing: -.06em;
-            pointer-events: none;
-            user-select: none;
-            transition: color .3s;
-        }
-        
-        .feat-card:hover .feat-num {
-            color: rgba(99, 102, 241, .08);
-        }
-        
-        .feat-icon-wrap {
-            width: 44px;
-            height: 44px;
-            border-radius: var(--r-md);
-            background: var(--bg-2);
-            border: 1px solid var(--bdr);
-            display: grid;
-            place-items: center;
-            margin-bottom: 20px;
-            transition: all .25s var(--ease);
-            position: relative;
-            z-index: 1;
-        }
-        
-        .feat-card:hover .feat-icon-wrap {
-            background: var(--accent-bg);
-            border-color: var(--accent-bdr);
-        }
-        
-        .feat-icon-wrap svg {
-            transition: transform .25s var(--ease);
-        }
-        
-        .feat-card:hover .feat-icon-wrap svg {
-            transform: scale(1.12);
-        }
-        
-        .feat-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: .68rem;
-            font-weight: 600;
-            letter-spacing: .07em;
-            text-transform: uppercase;
-            color: var(--accent-l);
-            background: var(--accent-bg);
-            border: 1px solid var(--accent-bdr);
-            padding: 3px 9px;
-            border-radius: 100px;
-            margin-bottom: 14px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .feat-badge-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--accent-l);
-        }
-        
-        .feat-badge-green {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            font-size: .68rem;
-            font-weight: 600;
-            letter-spacing: .07em;
-            text-transform: uppercase;
-            color: var(--green);
-            background: var(--green-bg);
-            border: 1px solid var(--green-bdr);
-            padding: 3px 9px;
-            border-radius: 100px;
-            margin-bottom: 14px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .feat-badge-green-dot {
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: var(--green);
-            animation: blink 2s ease-in-out infinite;
-        }
-        
-        .feat-name {
-            font-family: 'Sora', sans-serif;
-            font-size: 1.2rem;
-            font-weight: 700;
-            letter-spacing: -.02em;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .feat-desc {
-            font-size: .875rem;
-            color: var(--t2);
-            line-height: 1.75;
-            margin-bottom: 24px;
-            position: relative;
-            z-index: 1;
-            max-width: 380px;
-        }
-        
-        .feat-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .feat-tag {
-            font-size: .72rem;
-            font-weight: 500;
-            color: var(--t3);
-            background: var(--bg-2);
-            border: 1px solid var(--bdr);
-            padding: 4px 10px;
-            border-radius: 100px;
-            font-family: 'JetBrains Mono', monospace;
-            transition: all .2s;
-        }
-        
-        .feat-card:hover .feat-tag {
-            border-color: var(--bdr-md);
-            color: var(--t2);
-        }
-        /* Code preview */
-        
-        .feat-code-preview {
-            background: #0f0e0d;
-            border: 1px solid var(--bdr-md);
-            border-radius: var(--r-lg);
-            overflow: hidden;
-            margin-top: 28px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, .4);
-            position: relative;
-            z-index: 1;
-        }
-        
-        .feat-code-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 14px;
-            border-bottom: 1px solid var(--bdr);
-            background: rgba(0, 0, 0, .3);
-        }
-        
-        .feat-code-dots {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .feat-code-dots span {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-        
-        .feat-code-dots span:nth-child(1) {
-            background: #FF5F57
-        }
-        
-        .feat-code-dots span:nth-child(2) {
-            background: #FEBC2E
-        }
-        
-        .feat-code-dots span:nth-child(3) {
-            background: #28C840
-        }
-        
-        .feat-code-filename {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .68rem;
-            color: var(--t3);
-            margin-left: 4px;
-        }
-        
-        .feat-code-body {
-            padding: 18px 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .77rem;
-            line-height: 1.8;
-            overflow-x: auto;
-        }
-        
-        .feat-code-body .kw {
-            color: #818CF8;
-        }
-        
-        .feat-code-body .fn {
-            color: #34D399;
-        }
-        
-        .feat-code-body .str {
-            color: #FBBF24;
-        }
-        
-        .feat-code-body .cm {
-            color: #4E4B47;
-        }
-        
-        .feat-code-body .tp {
-            color: #F87171;
-        }
-        
-        .feat-code-body .pl {
-            color: #F0EDE8;
-        }
-        
-        .feat-code-body .op {
-            color: #6366F1;
-        }
-        /* PWA chips */
-        
-        .pwa-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 8px;
-            margin-top: 24px;
-            position: relative;
-            z-index: 1;
-        }
-        
-        .pwa-chip {
-            background: var(--bg-2);
-            border: 1px solid var(--bdr);
-            border-radius: var(--r-md);
-            padding: 12px 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: border-color .2s;
-        }
-        
-        .feat-card:hover .pwa-chip {
-            border-color: var(--bdr-md);
-        }
-        
-        .pwa-chip-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: var(--r-sm);
-            background: var(--bg-3);
-            border: 1px solid var(--bdr);
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-        }
-        
-        .pwa-chip-label {
-            font-size: .75rem;
-            font-weight: 600;
-            color: var(--t2);
-            line-height: 1.3;
-        }
-        
-        .pwa-chip-sub {
-            font-size: .68rem;
-            color: var(--t3);
-            font-family: 'JetBrains Mono', monospace;
-        }
-        /* ─── PROCESS ─── */
-        
-        .process-section {
-            background: var(--bg-1);
-            border-top: 1px solid var(--bdr);
-            border-bottom: 1px solid var(--bdr);
-        }
-        
-        .process-inner {
-            padding: 80px 32px;
-            max-width: 1120px;
-            margin: 0 auto;
-        }
-        
-        .process-steps {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 0;
-            margin-top: 56px;
-            position: relative;
-        }
-        
-        .process-steps::before {
-            content: '';
-            position: absolute;
-            top: 22px;
-            left: calc(12.5% + 22px);
-            right: calc(12.5% + 22px);
-            height: 1px;
-            background: linear-gradient(90deg, var(--accent-bdr), var(--bdr), var(--accent-bdr));
-        }
-        
-        .process-step {
-            padding: 0 24px;
-            text-align: center;
-        }
-        
-        .process-step-num {
-            width: 44px;
-            height: 44px;
-            border-radius: 50%;
-            background: var(--bg-2);
-            border: 1px solid var(--bdr-md);
-            display: grid;
-            place-items: center;
-            font-family: 'Sora', sans-serif;
-            font-size: .9rem;
-            font-weight: 700;
-            color: var(--accent-l);
-            margin: 0 auto 20px;
-            position: relative;
-            z-index: 1;
-            transition: all .25s var(--ease);
-        }
-        
-        .process-step:hover .process-step-num {
-            background: var(--accent-bg);
-            border-color: var(--accent-bdr);
-        }
-        
-        .process-step-name {
-            font-family: 'Sora', sans-serif;
-            font-size: .9rem;
-            font-weight: 700;
-            letter-spacing: -.01em;
-            margin-bottom: 8px;
-        }
-        
-        .process-step-desc {
-            font-size: .8rem;
-            color: var(--t2);
-            line-height: 1.65;
-        }
-        /* ─── DEMO ─── */
-        
-        .demo-section {
-            background: var(--bg);
-            border-top: 1px solid var(--bdr);
-        }
-        
-        .demo-inner {
-            padding: 96px 32px;
-            max-width: 1120px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 320px 1fr;
-            gap: 64px;
-            align-items: start;
-        }
-        
-        .demo-left {
-            position: sticky;
-            top: calc(var(--nav-h) + 24px);
-        }
-        
-        .demo-tabs {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            margin-top: 40px;
-        }
-        
-        .demo-tab {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 13px 16px;
-            border-radius: var(--r-md);
-            font-size: .9rem;
-            font-weight: 500;
-            color: var(--t2);
-            border: 1px solid transparent;
-            transition: all .2s var(--ease);
-            text-align: left;
-            cursor: pointer;
-            min-height: 48px;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        .demo-tab:hover {
-            color: var(--t1);
-            background: var(--bg-2);
-        }
-        
-        .demo-tab.active {
-            color: var(--t1);
-            background: var(--bg-2);
-            border-color: var(--bdr);
-        }
-        
-        .demo-tab-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--bdr-str);
-            flex-shrink: 0;
-            transition: background .2s;
-        }
-        
-        .demo-tab.active .demo-tab-dot {
-            background: var(--accent);
-        }
-        
-        .demo-panel {
-            display: none;
-        }
-        
-        .demo-panel.active {
-            display: block;
-            animation: panel-in .3s var(--ease) both;
-        }
-        
-        @keyframes panel-in {
-            from {
-                opacity: 0;
-                transform: translateY(10px)
-            }
-            to {
-                opacity: 1;
-                transform: none
-            }
-        }
-        
-        .demo-card {
-            background: var(--bg-1);
-            border: 1px solid var(--bdr-md);
-            border-radius: var(--r-xl);
-            overflow: hidden;
-        }
-        
-        .demo-card-bar {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 16px;
-            background: rgba(0, 0, 0, .2);
-            border-bottom: 1px solid var(--bdr);
-        }
-        
-        .demo-card-dots {
-            display: flex;
-            gap: 5px;
-        }
-        
-        .demo-card-dots span {
-            width: 9px;
-            height: 9px;
-            border-radius: 50%;
-        }
-        
-        .demo-card-dots span:nth-child(1) {
-            background: #FF5F57
-        }
-        
-        .demo-card-dots span:nth-child(2) {
-            background: #FEBC2E
-        }
-        
-        .demo-card-dots span:nth-child(3) {
-            background: #28C840
-        }
-        
-        .demo-card-title {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .72rem;
-            color: var(--t3);
-        }
-        
-        .demo-card-body {
-            padding: 20px;
-        }
-        
-        .demo-input-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-        }
-        
-        .demo-input {
-            flex: 1;
-            background: var(--bg-2);
-            border: 1px solid var(--bdr);
-            border-radius: var(--r-md);
-            padding: 12px 16px;
-            font-size: .9rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--t1);
-            outline: none;
-            transition: border-color .2s;
-            min-height: 48px;
-            min-width: 0;
-        }
-        
-        .demo-input:focus {
-            border-color: var(--accent-bdr);
-        }
-        
-        .demo-input::placeholder {
-            color: var(--t3);
-        }
-        
-        .demo-action-btn {
-            background: var(--accent);
-            color: #fff;
-            border-radius: var(--r-md);
-            padding: 12px 22px;
-            font-size: .9rem;
-            font-weight: 600;
-            white-space: nowrap;
-            transition: all .22s var(--ease);
-            min-height: 48px;
-            flex-shrink: 0;
-            -webkit-tap-highlight-color: transparent;
-        }
-        
-        .demo-action-btn:hover {
-            background: #5558e8;
-            transform: translateY(-1px);
-        }
-        
-        .demo-result {
-            background: rgba(52, 211, 153, .05);
-            border: 1px solid rgba(52, 211, 153, .16);
-            border-radius: var(--r-md);
-            padding: 12px 16px;
-            display: none;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-        
-        .demo-result.show {
-            display: flex;
-        }
-        
-        .demo-result-url {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .82rem;
-            color: var(--green);
-            min-width: 0;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        
-        .demo-copy {
-            font-size: .78rem;
-            font-weight: 600;
-            color: var(--green);
-            background: rgba(52, 211, 153, .1);
-            border: 1px solid rgba(52, 211, 153, .2);
-            padding: 6px 12px;
-            border-radius: var(--r-sm);
-            cursor: pointer;
-            transition: all .2s;
-            white-space: nowrap;
-            font-family: inherit;
-            flex-shrink: 0;
-            min-height: 36px;
-            display: inline-flex;
-            align-items: center;
-        }
-        
-        .demo-copy:hover {
-            background: rgba(52, 211, 153, .18);
-        }
-        
-        .demo-copy.done {
-            color: #fff;
-            background: rgba(52, 211, 153, .3);
-        }
-        
-        .demo-error {
-            font-size: .8rem;
-            color: var(--rose);
-            display: none;
-            padding: 8px 0;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        
-        .drop-zone {
-            border: 1.5px dashed var(--bdr-md);
-            border-radius: var(--r-lg);
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all .25s var(--ease);
-        }
-        
-        .drop-zone:hover,
-        .drop-zone.dragging {
-            border-color: var(--accent-bdr);
-            background: var(--accent-bg);
-        }
-        
-        .drop-icon {
-            font-size: 2rem;
-            margin-bottom: 12px;
-        }
-        
-        .drop-label {
-            font-size: .9rem;
-            color: var(--t2);
-        }
-        
-        .drop-label span {
-            color: var(--accent-l);
-            font-weight: 600;
-            cursor: pointer;
-        }
-        
-        .drop-hint {
-            font-size: .75rem;
-            color: var(--t3);
-            margin-top: 6px;
-            line-height: 1.5;
-        }
-        
-        .code-textarea {
-            width: 100%;
-            background: var(--bg-2);
-            border: 1px solid var(--bdr);
-            border-radius: var(--r-md);
-            padding: 14px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .82rem;
-            color: var(--t1);
-            line-height: 1.65;
-            resize: vertical;
-            outline: none;
-            transition: border-color .2s;
-            min-height: 130px;
-        }
-        
-        .code-textarea:focus {
-            border-color: var(--accent-bdr);
-        }
-        
-        .code-textarea::placeholder {
-            color: var(--t3);
-        }
-        
-        .code-controls {
-            display: flex;
-            gap: 8px;
-            margin-top: 10px;
-            align-items: center;
-            flex-wrap: wrap;
-        }
-        
-        .code-select {
-            background: var(--bg-2);
-            border: 1px solid var(--bdr);
-            border-radius: var(--r-sm);
-            padding: 8px 12px;
-            font-size: .82rem;
-            color: var(--t2);
-            font-family: 'JetBrains Mono', monospace;
-            outline: none;
-            cursor: pointer;
-            min-height: 40px;
-        }
-        
-        .burn-toggle {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: .78rem;
-            color: var(--t3);
-        }
-        
-        .burn-toggle input {
-            accent-color: var(--rose);
-        }
-        
-        .burn-toggle label {
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .burn-toggle .rose-text {
-            color: var(--rose);
-            font-weight: 600;
-            font-family: 'JetBrains Mono', monospace;
-        }
-        /* ─── ABOUT ─── */
-        
-        .about-wrap {
-            padding: 96px 32px;
-            max-width: 1120px;
-            margin: 0 auto;
-        }
-        
-        .about-card {
-            background: var(--bg-1);
-            border: 1px solid var(--bdr);
-            border-radius: var(--r-2xl);
-            padding: 56px;
-            position: relative;
-            overflow: hidden;
-            display: grid;
-            grid-template-columns: 1fr 340px;
-            gap: 56px;
-            align-items: start;
-        }
-        
-        .about-card::before {
-            content: '';
-            position: absolute;
-            top: -80px;
-            right: -80px;
-            width: 320px;
-            height: 320px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(99, 102, 241, .05) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        
-        .about-card::after {
-            content: '';
-            position: absolute;
-            bottom: -60px;
-            left: -60px;
-            width: 220px;
-            height: 220px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(52, 211, 153, .04) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        
-        .about-left {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .about-commit {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .72rem;
-            color: var(--t3);
-            background: var(--bg-2);
-            border: 1px solid var(--bdr);
-            padding: 5px 12px;
-            border-radius: var(--r-sm);
-            margin-bottom: 24px;
-        }
-        
-        .about-commit-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--green);
-            animation: blink 2s ease-in-out infinite;
-        }
-        
-        .about-title {
-            font-size: clamp(1.6rem, 3vw, 2.5rem);
-            margin-bottom: 16px;
-        }
-        
-        .about-body {
-            font-size: .95rem;
-            color: var(--t2);
-            line-height: 1.8;
-            max-width: 520px;
-            margin-bottom: 36px;
-        }
-        
-        .about-author {
-            display: inline-flex;
-            align-items: center;
-            gap: 14px;
-            background: var(--bg-2);
-            border: 1px solid var(--bdr-md);
-            border-radius: 100px;
-            padding: 8px 18px 8px 8px;
-            transition: border-color .2s;
-            max-width: 100%;
-        }
-        
-        .about-author:hover {
-            border-color: var(--bdr-str);
-        }
-        
-        .about-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            flex-shrink: 0;
-            background: linear-gradient(135deg, #6366F1 0%, #a78bfa 50%, #34D399 100%);
-            display: grid;
-            place-items: center;
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            font-size: .85rem;
-            color: #fff;
-            border: 2px solid rgba(99, 102, 241, .35);
-            letter-spacing: -.01em;
-            user-select: none;
-        }
-        
-        .about-author-name {
-            font-size: .9rem;
-            font-weight: 600;
-            color: var(--t1);
-            line-height: 1.2;
-            margin-bottom: 2px;
-        }
-        
-        .about-author-role {
-            font-size: .75rem;
-            color: var(--t2);
-            line-height: 1.3;
-        }
-        
-        .about-right {
-            position: relative;
-            z-index: 1;
-        }
-        
-        .quick-links-card {
-            background: var(--bg-2);
-            border: 1px solid var(--bdr-md);
-            border-radius: var(--r-xl);
-            overflow: hidden;
-        }
-        
-        .quick-links-header {
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--bdr);
-        }
-        
-        .quick-links-label {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: .68rem;
-            font-weight: 500;
-            letter-spacing: .1em;
-            text-transform: uppercase;
-            color: var(--t3);
-        }
-        
-        .quick-links-list {
-            padding: 8px;
-        }
-        
-        .quick-link-item {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 13px 16px;
-            border-radius: var(--r-md);
-            border: 1px solid transparent;
-            transition: all .22s var(--ease);
-            cursor: pointer;
-            text-decoration: none;
-            color: inherit;
-            min-height: 56px;
-        }
-        
-        .quick-link-item:hover {
-            background: var(--bg-3);
-            border-color: var(--bdr);
-        }
-        
-        .quick-link-icon {
-            width: 34px;
-            height: 34px;
-            border-radius: var(--r-sm);
-            background: var(--bg-3);
-            border: 1px solid var(--bdr);
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-            transition: all .22s var(--ease);
-        }
-        
-        .quick-link-item:hover .quick-link-icon {
-            background: var(--bg-4);
-            border-color: var(--bdr-md);
-        }
-        
-        .quick-link-icon svg {
-            color: var(--t2);
-        }
-        
-        .quick-link-text {
-            flex: 1;
-            min-width: 0;
-        }
-        
-        .quick-link-name {
-            font-size: .88rem;
-            font-weight: 600;
-            color: var(--t1);
-            line-height: 1.2;
-        }
-        
-        .quick-link-sub {
-            font-size: .72rem;
-            color: var(--t3);
-            margin-top: 1px;
-        }
-        
-        .quick-link-arrow {
-            color: var(--t3);
-            transition: transform .22s var(--ease), color .22s;
-            flex-shrink: 0;
-        }
-        
-        .quick-link-item:hover .quick-link-arrow {
-            color: var(--t1);
-            transform: translateX(2px) translateY(-2px);
-        }
-        
-        .quick-links-meta {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            border-top: 1px solid var(--bdr);
-        }
-        
-        .quick-links-meta-item {
-            padding: 18px 20px;
-            border-right: 1px solid var(--bdr);
-        }
-        
-        .quick-links-meta-item:last-child {
-            border-right: none;
-        }
-        
-        .quick-meta-val {
-            font-family: 'Sora', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: var(--accent-l);
-            line-height: 1;
-            margin-bottom: 4px;
-        }
-        
-        .quick-meta-label {
-            font-size: .72rem;
-            color: var(--t3);
-            font-family: 'JetBrains Mono', monospace;
-            letter-spacing: .05em;
-        }
-        /* ─── FOOTER ─── */
-        
-        footer {
-            border-top: 1px solid var(--bdr);
-            padding: 28px 32px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1120px;
-            margin: 0 auto;
-        }
-        
-        .footer-brand {
-            font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: -.01em;
-            color: var(--t1);
-        }
-        
-        .footer-brand span {
-            color: var(--accent-l);
-        }
-        
-        .footer-credit {
-            font-size: .78rem;
-            color: var(--t3);
-            margin-top: 4px;
-        }
-        
-        .footer-credit a {
-            color: var(--t2);
-            transition: color .2s;
-        }
-        
-        .footer-credit a:hover {
-            color: var(--t1);
-        }
-        
-        .footer-links {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-        }
-        
-        .footer-links a {
-            font-size: .8rem;
-            color: var(--t2);
-            transition: color .2s;
-        }
-        
-        .footer-links a:hover {
-            color: var(--t1);
-        }
-        /* ─── REVEAL ─── */
-        
-        .reveal {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity .6s var(--ease), transform .6s var(--ease);
-        }
-        
-        .reveal.in {
-            opacity: 1;
-            transform: none;
-        }
-        
-        .reveal.d1 {
-            transition-delay: .08s
-        }
-        
-        .reveal.d2 {
-            transition-delay: .16s
-        }
-        
-        .reveal.d3 {
-            transition-delay: .24s
-        }
-        
-        .reveal.d4 {
-            transition-delay: .32s
-        }
-        /* ═══════════════════════════════════════
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NextShare — Developer sharing tools by Meet Maru</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ─── TOKENS ─── */
+    :root {
+      --bg:#0C0B0A; --bg-1:#141312; --bg-2:#1B1A19; --bg-3:#222120; --bg-4:#2a2927;
+      --bdr:rgba(255,255,255,.07); --bdr-md:rgba(255,255,255,.12); --bdr-str:rgba(255,255,255,.18);
+      --t1:#F0EDE8; --t2:#9B9690; --t3:#4E4B47; --t4:#2e2c29;
+      --accent:#6366F1; --accent-l:#818CF8; --accent-bg:rgba(99,102,241,.10); --accent-bdr:rgba(99,102,241,.28);
+      --green:#34D399; --green-bg:rgba(52,211,153,.08); --green-bdr:rgba(52,211,153,.18);
+      --rose:#F87171; --amber:#FBBF24;
+      --r-sm:6px; --r-md:10px; --r-lg:16px; --r-xl:20px; --r-2xl:28px;
+      --ease:cubic-bezier(.16,1,.3,1); --ease-spring:cubic-bezier(.34,1.56,.64,1);
+      --nav-h:64px;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{
+      font-family:'Manrope',sans-serif; font-size:16px; line-height:1.65;
+      background:var(--bg); color:var(--t1); overflow-x:hidden;
+      -webkit-font-smoothing:antialiased;
+      width:100%;
+    }
+    body::before{
+      content:''; position:fixed; inset:0; pointer-events:none; z-index:999; opacity:.4;
+      background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
+    }
+    img,svg{display:block;}
+    a{color:inherit;text-decoration:none;}
+    button{font-family:inherit;cursor:pointer;border:none;background:none;}
+    .display{font-family:'Sora',sans-serif;font-weight:700;letter-spacing:-.03em;line-height:1.05;}
+    h2{font-family:'Sora',sans-serif;font-weight:700;letter-spacing:-.025em;line-height:1.1;}
+    code,.mono{font-family:'JetBrains Mono',monospace;font-size:.88em;}
+
+    /* ─── NAV ─── */
+    nav{
+      position:fixed;top:0;left:0;right:0;z-index:200;
+      transition:background .3s,border-color .3s,backdrop-filter .3s;
+      border-bottom:1px solid transparent;
+    }
+    nav.stuck{
+      background:rgba(12,11,10,.88);
+      backdrop-filter:blur(20px) saturate(1.4);
+      border-color:var(--bdr);
+    }
+    .nav-inner{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 32px;height:var(--nav-h);max-width:1120px;margin:0 auto;
+    }
+    .nav-logo{
+      font-family:'Sora',sans-serif;font-weight:700;font-size:1.05rem;
+      letter-spacing:-.02em;display:flex;align-items:center;gap:8px;color:var(--t1);
+      flex-shrink:0;
+    }
+    .nav-logo-mark{
+      width:26px;height:26px;border-radius:7px;
+      background:var(--accent);display:grid;place-items:center;flex-shrink:0;
+    }
+    .brand-name{font-family:'Sora',sans-serif;font-weight:700;font-size:1.05rem;letter-spacing:-.02em;color:var(--t1);}
+    .brand-name span{color:var(--accent-l);}
+    .nav-links{display:flex;align-items:center;gap:28px;}
+    .nav-links a{font-size:.875rem;font-weight:500;color:var(--t2);transition:color .2s;white-space:nowrap;}
+    .nav-links a:hover{color:var(--t1);}
+    .nav-cta{
+      font-size:.875rem;font-weight:600;color:var(--t1);
+      background:var(--bg-2);border:1px solid var(--bdr-md);
+      padding:8px 18px;border-radius:var(--r-md);
+      transition:all .22s var(--ease);white-space:nowrap;
+      min-height:36px;display:inline-flex;align-items:center;
+    }
+    .nav-cta:hover{border-color:var(--bdr-str);background:var(--bg-3);}
+
+    /* Hamburger */
+    .nav-hamburger{
+      display:none;
+      flex-direction:column;justify-content:center;align-items:center;
+      width:44px;height:44px;gap:5px;border-radius:var(--r-md);
+      border:1px solid var(--bdr);background:var(--bg-2);
+      transition:all .2s var(--ease);flex-shrink:0;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .nav-hamburger:hover{border-color:var(--bdr-md);background:var(--bg-3);}
+    .nav-hamburger span{
+      display:block;width:18px;height:1.5px;background:var(--t2);
+      border-radius:2px;transition:all .28s var(--ease);transform-origin:center;
+    }
+    .nav-hamburger.open span:nth-child(1){transform:translateY(6.5px) rotate(45deg);background:var(--t1);}
+    .nav-hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0);}
+    .nav-hamburger.open span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);background:var(--t1);}
+
+    /* Mobile drawer */
+    .nav-drawer{
+      display:none;
+      position:fixed;top:var(--nav-h);left:0;right:0;z-index:190;
+      background:rgba(12,11,10,.96);
+      backdrop-filter:blur(24px) saturate(1.4);
+      border-bottom:1px solid var(--bdr);
+      transform:translateY(-8px);opacity:0;
+      transition:transform .28s var(--ease),opacity .28s var(--ease);
+      pointer-events:none;
+    }
+    .nav-drawer.open{transform:translateY(0);opacity:1;pointer-events:all;}
+    .nav-drawer-inner{
+      max-width:1120px;margin:0 auto;
+      padding:16px 20px 24px;
+      display:flex;flex-direction:column;gap:4px;
+    }
+    .nav-drawer a{
+      display:flex;align-items:center;
+      padding:13px 16px;border-radius:var(--r-md);
+      font-size:.95rem;font-weight:500;color:var(--t2);
+      border:1px solid transparent;
+      transition:all .18s var(--ease);min-height:48px;
+    }
+    .nav-drawer a:hover,.nav-drawer a:active{
+      color:var(--t1);background:var(--bg-2);border-color:var(--bdr);
+    }
+    .nav-drawer .drawer-cta{
+      margin-top:8px;
+      background:var(--accent);color:#fff;
+      justify-content:center;font-weight:600;
+      border-color:transparent !important;
+    }
+    .nav-drawer .drawer-cta:hover{background:#5558e8;}
+
+    /* ─── HERO ─── */
+    .hero-wrap{position:relative;overflow:hidden;width:100%;}
+    .hero{
+      min-height:100svh;
+      display:grid;grid-template-columns:1fr 1fr;
+      align-items:center;gap:48px;
+      padding:calc(var(--nav-h) + 56px) 32px 80px;
+      max-width:1120px;margin:0 auto;
+      width:100%;
+    }
+    .hero-glow{
+      position:absolute;top:0;left:0;right:0;bottom:0;pointer-events:none;
+      background:
+        radial-gradient(ellipse 700px 500px at 65% 40%,rgba(99,102,241,.07) 0%,transparent 70%),
+        radial-gradient(ellipse 400px 300px at 20% 60%,rgba(99,102,241,.04) 0%,transparent 70%);
+      z-index:0;
+    }
+    .hero-left{position:relative;z-index:1;min-width:0;}
+    .hero-eyebrow{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+      color:var(--t3);margin-bottom:28px;
+    }
+    .hero-eyebrow-dot{
+      width:6px;height:6px;border-radius:50%;
+      background:var(--green);animation:blink 2s ease-in-out infinite;flex-shrink:0;
+    }
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+    .hero-title{font-size:clamp(2.6rem,5.5vw,5rem);margin-bottom:24px;word-break:break-word;}
+    .hero-title em{font-style:normal;color:var(--accent-l);}
+    .hero-body{
+      font-size:1.05rem;font-weight:400;color:var(--t2);
+      line-height:1.75;max-width:440px;margin-bottom:40px;
+    }
+    .hero-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:48px;}
+    .btn-primary{
+      position:relative;font-size:.9rem;font-weight:600;color:#fff;
+      background:var(--accent);padding:13px 24px;border-radius:var(--r-md);
+      display:inline-flex;align-items:center;gap:8px;justify-content:center;
+      transition:all .25s var(--ease);min-height:46px;
+    }
+    .btn-primary:hover{background:#5558e8;box-shadow:0 4px 24px rgba(99,102,241,.35);transform:translateY(-1px);}
+    .btn-primary:active{transform:translateY(0);}
+    .btn-ghost{
+      font-size:.9rem;font-weight:500;color:var(--t2);
+      padding:13px 20px;border-radius:var(--r-md);border:1px solid var(--bdr);
+      display:inline-flex;align-items:center;gap:8px;justify-content:center;
+      transition:all .22s var(--ease);min-height:46px;
+    }
+    .btn-ghost:hover{color:var(--t1);border-color:var(--bdr-md);background:var(--bg-2);}
+    .hero-meta{display:flex;align-items:center;gap:20px;flex-wrap:wrap;}
+    .hero-meta-item{display:flex;align-items:center;gap:7px;font-size:.8rem;color:var(--t3);font-weight:500;}
+    .hero-meta-item svg{flex-shrink:0;}
+
+    /* Mockup */
+    .hero-right{position:relative;z-index:1;min-width:0;}
+    .mockup-wrap{position:relative;perspective:900px;width:100%;}
+    .mockup{
+      background:var(--bg-1);border:1px solid var(--bdr-md);border-radius:var(--r-xl);overflow:hidden;
+      box-shadow:0 0 0 1px rgba(255,255,255,.04),0 32px 80px rgba(0,0,0,.6),0 8px 24px rgba(0,0,0,.4);
+      animation:float 6s ease-in-out infinite;
+      transform:rotateY(-6deg) rotateX(3deg);transform-style:preserve-3d;
+      width:100%;
+    }
+    @keyframes float{
+      0%,100%{transform:rotateY(-6deg) rotateX(3deg) translateY(0)}
+      50%{transform:rotateY(-6deg) rotateX(3deg) translateY(-10px)}
+    }
+    .mockup-bar{
+      display:flex;align-items:center;gap:10px;
+      padding:14px 18px;border-bottom:1px solid var(--bdr);background:rgba(0,0,0,.25);
+    }
+    .mockup-dots{display:flex;gap:6px;flex-shrink:0;}
+    .mockup-dots span{width:10px;height:10px;border-radius:50%;}
+    .mockup-dots span:nth-child(1){background:#FF5F57}
+    .mockup-dots span:nth-child(2){background:#FEBC2E}
+    .mockup-dots span:nth-child(3){background:#28C840}
+    .mockup-urlbar{
+      flex:1;background:var(--bg-2);border:1px solid var(--bdr);
+      border-radius:6px;padding:6px 12px;
+      font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--t3);
+      min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    }
+    .mockup-body{padding:20px;}
+    .mockup-label{
+      font-size:.68rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;
+      color:var(--t3);margin-bottom:14px;font-family:'JetBrains Mono',monospace;
+    }
+    .mockup-field{display:flex;gap:8px;margin-bottom:14px;}
+    .mockup-input-fake{
+      flex:1;background:var(--bg-2);border:1px solid var(--bdr);
+      border-radius:var(--r-sm);padding:10px 14px;font-size:.8rem;color:var(--t2);
+      min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    }
+    .mockup-btn-fake{
+      background:var(--accent);color:#fff;border-radius:var(--r-sm);
+      padding:10px 18px;font-size:.8rem;font-weight:600;white-space:nowrap;flex-shrink:0;
+    }
+    .mockup-result{
+      background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.18);
+      border-radius:var(--r-md);padding:14px 16px;
+      display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;gap:8px;
+    }
+    .mockup-result-url{
+      font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--green);
+      min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    }
+    .mockup-result-copy{font-size:.75rem;color:var(--t2);font-weight:500;display:flex;align-items:center;gap:5px;flex-shrink:0;}
+    .mockup-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+    .mockup-stat{background:var(--bg-2);border:1px solid var(--bdr);border-radius:var(--r-sm);padding:10px 12px;min-width:0;}
+    .mockup-stat-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.08em;color:var(--t3);margin-bottom:4px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .mockup-stat-val{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:600;color:var(--t1);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .mockup-stat-val.green{color:var(--green);}
+    .mockup-shadow{
+      position:absolute;bottom:-30px;left:10%;right:10%;height:60px;
+      background:radial-gradient(ellipse,rgba(99,102,241,.2) 0%,transparent 70%);
+      filter:blur(12px);pointer-events:none;
+    }
+
+    /* ─── MARQUEE ─── */
+    .marquee-wrap{
+      border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);
+      padding:16px 0;overflow:hidden;position:relative;width:100%;
+    }
+    .marquee-wrap::before,.marquee-wrap::after{
+      content:'';position:absolute;top:0;bottom:0;width:80px;z-index:1;
+    }
+    .marquee-wrap::before{left:0;background:linear-gradient(to right,var(--bg),transparent);}
+    .marquee-wrap::after{right:0;background:linear-gradient(to left,var(--bg),transparent);}
+    .marquee-track{display:flex;animation:marquee 30s linear infinite;width:max-content;}
+    @keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+    .marquee-item{
+      display:flex;align-items:center;gap:10px;padding:0 28px;
+      font-size:.78rem;font-weight:600;letter-spacing:.05em;
+      color:var(--t3);white-space:nowrap;border-right:1px solid var(--bdr);
+    }
+
+    /* ─── SECTION BASE ─── */
+    .section{padding:96px 32px;max-width:1120px;margin:0 auto;width:100%;}
+    .section-tag{
+      display:inline-flex;align-items:center;gap:8px;
+      font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--t3);margin-bottom:16px;
+    }
+    .section-title{font-size:clamp(1.9rem,3.5vw,2.75rem);margin-bottom:16px;max-width:540px;word-break:break-word;}
+    .section-sub{font-size:1rem;color:var(--t2);max-width:480px;line-height:1.75;margin-bottom:64px;}
+
+    /* ─── FEATURES ─── */
+    .features-grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:1px;
+      background:var(--bdr);border:1px solid var(--bdr);
+      border-radius:var(--r-2xl);overflow:hidden;
+    }
+    .feat-card{
+      background:var(--bg);padding:40px 36px 36px;
+      position:relative;overflow:hidden;transition:background .3s var(--ease);
+      min-width:0;
+    }
+    .feat-card:hover{background:var(--bg-1);}
+    .feat-card::after{
+      content:'';position:absolute;top:0;left:0;right:0;height:1px;
+      background:linear-gradient(90deg,transparent,var(--accent),transparent);
+      opacity:0;transition:opacity .35s;
+    }
+    .feat-card:hover::after{opacity:1;}
+    .feat-num{
+      position:absolute;top:16px;right:24px;
+      font-family:'Sora',sans-serif;font-size:6rem;font-weight:800;
+      color:var(--t4);line-height:1;letter-spacing:-.06em;
+      pointer-events:none;user-select:none;transition:color .3s;
+    }
+    .feat-card:hover .feat-num{color:rgba(99,102,241,.08);}
+    .feat-icon-wrap{
+      width:44px;height:44px;border-radius:var(--r-md);
+      background:var(--bg-2);border:1px solid var(--bdr);
+      display:grid;place-items:center;margin-bottom:20px;
+      transition:all .25s var(--ease);position:relative;z-index:1;
+    }
+    .feat-card:hover .feat-icon-wrap{background:var(--accent-bg);border-color:var(--accent-bdr);}
+    .feat-icon-wrap svg{transition:transform .25s var(--ease);}
+    .feat-card:hover .feat-icon-wrap svg{transform:scale(1.12);}
+    .feat-badge{
+      display:inline-flex;align-items:center;gap:5px;
+      font-size:.68rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+      color:var(--accent-l);background:var(--accent-bg);border:1px solid var(--accent-bdr);
+      padding:3px 9px;border-radius:100px;margin-bottom:14px;position:relative;z-index:1;
+    }
+    .feat-badge-dot{width:5px;height:5px;border-radius:50%;background:var(--accent-l);flex-shrink:0;}
+    .feat-badge-green{
+      display:inline-flex;align-items:center;gap:5px;
+      font-size:.68rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;
+      color:var(--green);background:var(--green-bg);border:1px solid var(--green-bdr);
+      padding:3px 9px;border-radius:100px;margin-bottom:14px;position:relative;z-index:1;
+    }
+    .feat-badge-green-dot{width:5px;height:5px;border-radius:50%;background:var(--green);animation:blink 2s ease-in-out infinite;flex-shrink:0;}
+    .feat-name{
+      font-family:'Sora',sans-serif;font-size:1.2rem;font-weight:700;
+      letter-spacing:-.02em;margin-bottom:10px;position:relative;z-index:1;
+    }
+    .feat-desc{font-size:.875rem;color:var(--t2);line-height:1.75;margin-bottom:24px;position:relative;z-index:1;max-width:380px;}
+    .feat-tags{display:flex;flex-wrap:wrap;gap:6px;position:relative;z-index:1;}
+    .feat-tag{
+      font-size:.72rem;font-weight:500;color:var(--t3);
+      background:var(--bg-2);border:1px solid var(--bdr);
+      padding:4px 10px;border-radius:100px;
+      font-family:'JetBrains Mono',monospace;transition:all .2s;
+    }
+    .feat-card:hover .feat-tag{border-color:var(--bdr-md);color:var(--t2);}
+
+    /* Code preview */
+    .feat-code-preview{
+      background:#0f0e0d;border:1px solid var(--bdr-md);
+      border-radius:var(--r-lg);overflow:hidden;margin-top:28px;
+      box-shadow:0 8px 32px rgba(0,0,0,.4);position:relative;z-index:1;
+      max-width:100%;
+    }
+    .feat-code-bar{
+      display:flex;align-items:center;gap:8px;
+      padding:10px 14px;border-bottom:1px solid var(--bdr);background:rgba(0,0,0,.3);
+    }
+    .feat-code-dots{display:flex;gap:5px;flex-shrink:0;}
+    .feat-code-dots span{width:8px;height:8px;border-radius:50%;}
+    .feat-code-dots span:nth-child(1){background:#FF5F57}
+    .feat-code-dots span:nth-child(2){background:#FEBC2E}
+    .feat-code-dots span:nth-child(3){background:#28C840}
+    .feat-code-filename{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--t3);margin-left:4px;}
+    .feat-code-body{padding:18px 20px;font-family:'JetBrains Mono',monospace;font-size:.77rem;line-height:1.8;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    .feat-code-body .kw{color:#818CF8;} .feat-code-body .fn{color:#34D399;}
+    .feat-code-body .str{color:#FBBF24;} .feat-code-body .cm{color:#4E4B47;}
+    .feat-code-body .tp{color:#F87171;} .feat-code-body .pl{color:#F0EDE8;}
+    .feat-code-body .op{color:#6366F1;}
+
+    /* PWA chips */
+    .pwa-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:24px;position:relative;z-index:1;}
+    .pwa-chip{
+      background:var(--bg-2);border:1px solid var(--bdr);
+      border-radius:var(--r-md);padding:12px 14px;
+      display:flex;align-items:center;gap:10px;transition:border-color .2s;
+      min-width:0;
+    }
+    .feat-card:hover .pwa-chip{border-color:var(--bdr-md);}
+    .pwa-chip-icon{
+      width:28px;height:28px;border-radius:var(--r-sm);
+      background:var(--bg-3);border:1px solid var(--bdr);
+      display:grid;place-items:center;flex-shrink:0;
+    }
+    .pwa-chip-label{font-size:.75rem;font-weight:600;color:var(--t2);line-height:1.3;}
+    .pwa-chip-sub{font-size:.68rem;color:var(--t3);font-family:'JetBrains Mono',monospace;}
+
+    /* ─── PROCESS ─── */
+    .process-section{background:var(--bg-1);border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);width:100%;}
+    .process-inner{padding:80px 32px;max-width:1120px;margin:0 auto;}
+    .process-steps{
+      display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+      margin-top:56px;position:relative;
+    }
+    .process-steps::before{
+      content:'';position:absolute;top:22px;
+      left:calc(12.5% + 22px);right:calc(12.5% + 22px);height:1px;
+      background:linear-gradient(90deg,var(--accent-bdr),var(--bdr),var(--accent-bdr));
+    }
+    .process-step{padding:0 24px;text-align:center;min-width:0;}
+    .process-step-num{
+      width:44px;height:44px;border-radius:50%;
+      background:var(--bg-2);border:1px solid var(--bdr-md);
+      display:grid;place-items:center;
+      font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;color:var(--accent-l);
+      margin:0 auto 20px;position:relative;z-index:1;transition:all .25s var(--ease);
+    }
+    .process-step:hover .process-step-num{background:var(--accent-bg);border-color:var(--accent-bdr);}
+    .process-step-name{font-family:'Sora',sans-serif;font-size:.9rem;font-weight:700;letter-spacing:-.01em;margin-bottom:8px;}
+    .process-step-desc{font-size:.8rem;color:var(--t2);line-height:1.65;}
+
+    /* ─── DEMO ─── */
+    .demo-section{background:var(--bg);border-top:1px solid var(--bdr);width:100%;}
+    .demo-inner{
+      padding:96px 32px;max-width:1120px;margin:0 auto;
+      display:grid;grid-template-columns:320px 1fr;gap:64px;align-items:start;
+    }
+    .demo-left{position:sticky;top:calc(var(--nav-h) + 24px);min-width:0;}
+    .demo-tabs{display:flex;flex-direction:column;gap:4px;margin-top:40px;}
+    .demo-tab{
+      display:flex;align-items:center;gap:12px;
+      padding:13px 16px;border-radius:var(--r-md);
+      font-size:.9rem;font-weight:500;color:var(--t2);
+      border:1px solid transparent;transition:all .2s var(--ease);
+      text-align:left;cursor:pointer;min-height:48px;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .demo-tab:hover{color:var(--t1);background:var(--bg-2);}
+    .demo-tab.active{color:var(--t1);background:var(--bg-2);border-color:var(--bdr);}
+    .demo-tab-dot{width:8px;height:8px;border-radius:50%;background:var(--bdr-str);flex-shrink:0;transition:background .2s;}
+    .demo-tab.active .demo-tab-dot{background:var(--accent);}
+    .demo-panel{display:none;min-width:0;}
+    .demo-panel.active{display:block;animation:panel-in .3s var(--ease) both;}
+    @keyframes panel-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .demo-card{background:var(--bg-1);border:1px solid var(--bdr-md);border-radius:var(--r-xl);overflow:hidden;}
+    .demo-card-bar{
+      display:flex;align-items:center;gap:8px;
+      padding:12px 16px;background:rgba(0,0,0,.2);border-bottom:1px solid var(--bdr);
+    }
+    .demo-card-dots{display:flex;gap:5px;flex-shrink:0;}
+    .demo-card-dots span{width:9px;height:9px;border-radius:50%;}
+    .demo-card-dots span:nth-child(1){background:#FF5F57}
+    .demo-card-dots span:nth-child(2){background:#FEBC2E}
+    .demo-card-dots span:nth-child(3){background:#28C840}
+    .demo-card-title{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--t3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .demo-card-body{padding:20px;}
+    .demo-input-row{display:flex;gap:8px;margin-bottom:16px;}
+    .demo-input{
+      flex:1;background:var(--bg-2);border:1px solid var(--bdr);
+      border-radius:var(--r-md);padding:12px 16px;
+      font-size:.9rem;font-family:'JetBrains Mono',monospace;color:var(--t1);
+      outline:none;transition:border-color .2s;min-height:48px;min-width:0;width:100%;
+    }
+    .demo-input:focus{border-color:var(--accent-bdr);}
+    .demo-input::placeholder{color:var(--t3);}
+    .demo-action-btn{
+      background:var(--accent);color:#fff;border-radius:var(--r-md);
+      padding:12px 22px;font-size:.9rem;font-weight:600;white-space:nowrap;
+      transition:all .22s var(--ease);min-height:48px;flex-shrink:0;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .demo-action-btn:hover{background:#5558e8;transform:translateY(-1px);}
+    .demo-result{
+      background:rgba(52,211,153,.05);border:1px solid rgba(52,211,153,.16);
+      border-radius:var(--r-md);padding:12px 16px;
+      display:none;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px;
+    }
+    .demo-result.show{display:flex;}
+    .demo-result-url{
+      font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--green);
+      min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    }
+    .demo-copy{
+      font-size:.78rem;font-weight:600;color:var(--green);
+      background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.2);
+      padding:6px 12px;border-radius:var(--r-sm);cursor:pointer;
+      transition:all .2s;white-space:nowrap;font-family:inherit;
+      flex-shrink:0;min-height:36px;display:inline-flex;align-items:center;
+    }
+    .demo-copy:hover{background:rgba(52,211,153,.18);}
+    .demo-copy.done{color:#fff;background:rgba(52,211,153,.3);}
+    .demo-error{font-size:.8rem;color:var(--rose);display:none;padding:8px 0;font-family:'JetBrains Mono',monospace;word-break:break-word;}
+    .drop-zone{
+      border:1.5px dashed var(--bdr-md);border-radius:var(--r-lg);
+      padding:40px 20px;text-align:center;cursor:pointer;transition:all .25s var(--ease);
+    }
+    .drop-zone:hover,.drop-zone.dragging{border-color:var(--accent-bdr);background:var(--accent-bg);}
+    .drop-icon{font-size:2rem;margin-bottom:12px;}
+    .drop-label{font-size:.9rem;color:var(--t2);}
+    .drop-label span{color:var(--accent-l);font-weight:600;cursor:pointer;}
+    .drop-hint{font-size:.75rem;color:var(--t3);margin-top:6px;line-height:1.5;}
+    .code-textarea{
+      width:100%;background:var(--bg-2);border:1px solid var(--bdr);
+      border-radius:var(--r-md);padding:14px;
+      font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--t1);
+      line-height:1.65;resize:vertical;outline:none;transition:border-color .2s;min-height:130px;
+    }
+    .code-textarea:focus{border-color:var(--accent-bdr);}
+    .code-textarea::placeholder{color:var(--t3);}
+    .code-controls{display:flex;gap:8px;margin-top:10px;align-items:center;flex-wrap:wrap;}
+    .code-select{
+      background:var(--bg-2);border:1px solid var(--bdr);border-radius:var(--r-sm);
+      padding:8px 12px;font-size:.82rem;color:var(--t2);
+      font-family:'JetBrains Mono',monospace;outline:none;cursor:pointer;min-height:40px;
+    }
+    .burn-toggle{display:flex;align-items:center;gap:8px;font-size:.78rem;color:var(--t3);}
+    .burn-toggle input{accent-color:var(--rose);}
+    .burn-toggle label{cursor:pointer;display:flex;align-items:center;gap:6px;}
+    .burn-toggle .rose-text{color:var(--rose);font-weight:600;font-family:'JetBrains Mono',monospace;}
+
+    /* ─── ABOUT ─── */
+    .about-wrap{padding:96px 32px;max-width:1120px;margin:0 auto;width:100%;}
+    .about-card{
+      background:var(--bg-1);border:1px solid var(--bdr);
+      border-radius:var(--r-2xl);padding:56px;position:relative;overflow:hidden;
+      display:grid;grid-template-columns:1fr 340px;gap:56px;align-items:start;
+    }
+    .about-card::before{
+      content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;
+      background:radial-gradient(circle,rgba(99,102,241,.05) 0%,transparent 70%);pointer-events:none;
+    }
+    .about-card::after{
+      content:'';position:absolute;bottom:-60px;left:-60px;width:220px;height:220px;border-radius:50%;
+      background:radial-gradient(circle,rgba(52,211,153,.04) 0%,transparent 70%);pointer-events:none;
+    }
+    .about-left{position:relative;z-index:1;min-width:0;}
+    .about-commit{
+      display:inline-flex;align-items:center;gap:8px;
+      font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--t3);
+      background:var(--bg-2);border:1px solid var(--bdr);
+      padding:5px 12px;border-radius:var(--r-sm);margin-bottom:24px;
+      max-width:100%;flex-wrap:wrap;
+    }
+    .about-commit-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s ease-in-out infinite;flex-shrink:0;}
+    .about-title{font-size:clamp(1.6rem,3vw,2.5rem);margin-bottom:16px;word-break:break-word;}
+    .about-body{font-size:.95rem;color:var(--t2);line-height:1.8;max-width:520px;margin-bottom:36px;}
+    .about-author{
+      display:inline-flex;align-items:center;gap:14px;
+      background:var(--bg-2);border:1px solid var(--bdr-md);
+      border-radius:100px;padding:8px 18px 8px 8px;transition:border-color .2s;max-width:100%;
+    }
+    .about-author:hover{border-color:var(--bdr-str);}
+    .about-avatar{
+      width:40px;height:40px;border-radius:50%;flex-shrink:0;
+      background:linear-gradient(135deg,#6366F1 0%,#a78bfa 50%,#34D399 100%);
+      display:grid;place-items:center;
+      font-family:'Sora',sans-serif;font-weight:700;font-size:.85rem;color:#fff;
+      border:2px solid rgba(99,102,241,.35);letter-spacing:-.01em;user-select:none;
+    }
+    .about-author-info{min-width:0;}
+    .about-author-name{font-size:.9rem;font-weight:600;color:var(--t1);line-height:1.2;margin-bottom:2px;}
+    .about-author-role{font-size:.75rem;color:var(--t2);line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .about-right{position:relative;z-index:1;min-width:0;}
+    .quick-links-card{background:var(--bg-2);border:1px solid var(--bdr-md);border-radius:var(--r-xl);overflow:hidden;}
+    .quick-links-header{padding:16px 20px;border-bottom:1px solid var(--bdr);}
+    .quick-links-label{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);}
+    .quick-links-list{padding:8px;}
+    .quick-link-item{
+      display:flex;align-items:center;gap:14px;
+      padding:13px 16px;border-radius:var(--r-md);border:1px solid transparent;
+      transition:all .22s var(--ease);cursor:pointer;text-decoration:none;color:inherit;
+      min-height:56px;
+    }
+    .quick-link-item:hover{background:var(--bg-3);border-color:var(--bdr);}
+    .quick-link-icon{
+      width:34px;height:34px;border-radius:var(--r-sm);
+      background:var(--bg-3);border:1px solid var(--bdr);
+      display:grid;place-items:center;flex-shrink:0;transition:all .22s var(--ease);
+    }
+    .quick-link-item:hover .quick-link-icon{background:var(--bg-4);border-color:var(--bdr-md);}
+    .quick-link-icon svg{color:var(--t2);}
+    .quick-link-text{flex:1;min-width:0;}
+    .quick-link-name{font-size:.88rem;font-weight:600;color:var(--t1);line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .quick-link-sub{font-size:.72rem;color:var(--t3);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .quick-link-arrow{color:var(--t3);transition:transform .22s var(--ease),color .22s;flex-shrink:0;}
+    .quick-link-item:hover .quick-link-arrow{color:var(--t1);transform:translateX(2px) translateY(-2px);}
+    .quick-links-meta{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--bdr);}
+    .quick-links-meta-item{padding:18px 20px;border-right:1px solid var(--bdr);min-width:0;}
+    .quick-links-meta-item:last-child{border-right:none;}
+    .quick-meta-val{font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:700;color:var(--accent-l);line-height:1;margin-bottom:4px;}
+    .quick-meta-label{font-size:.72rem;color:var(--t3);font-family:'JetBrains Mono',monospace;letter-spacing:.05em;}
+
+    /* ─── FOOTER ─── */
+    footer{
+      border-top:1px solid var(--bdr);padding:28px 32px;
+      display:flex;align-items:center;justify-content:space-between;
+      max-width:1120px;margin:0 auto;width:100%;flex-wrap:wrap;gap:16px;
+    }
+    .footer-brand{font-family:'Sora',sans-serif;font-weight:700;font-size:1rem;letter-spacing:-.01em;color:var(--t1);}
+    .footer-brand span{color:var(--accent-l);}
+    .footer-credit{font-size:.78rem;color:var(--t3);margin-top:4px;}
+    .footer-credit a{color:var(--t2);transition:color .2s;}
+    .footer-credit a:hover{color:var(--t1);}
+    .footer-links{display:flex;gap:24px;flex-wrap:wrap;justify-content:flex-end;}
+    .footer-links a{font-size:.8rem;color:var(--t2);transition:color .2s;}
+    .footer-links a:hover{color:var(--t1);}
+
+    /* ─── REVEAL ─── */
+    .reveal{opacity:0;transform:translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
+    .reveal.in{opacity:1;transform:none;}
+    .reveal.d1{transition-delay:.08s}
+    .reveal.d2{transition-delay:.16s}
+    .reveal.d3{transition-delay:.24s}
+    .reveal.d4{transition-delay:.32s}
+
+    /* ═══════════════════════════════════════
        RESPONSIVE — 6 breakpoints
     ═══════════════════════════════════════ */
-        /* 1024 — tighten desktop layout */
-        
-        @media (max-width:1024px) {
-            .hero {
-                gap: 36px;
-                padding-left: 24px;
-                padding-right: 24px;
-            }
-            .section {
-                padding: 80px 24px;
-            }
-            .process-inner {
-                padding: 72px 24px;
-            }
-            .demo-inner {
-                padding: 80px 24px;
-                gap: 48px;
-            }
-            .about-wrap {
-                padding: 80px 24px;
-            }
-            .about-card {
-                padding: 44px;
-                gap: 44px;
-            }
-            footer {
-                padding: 24px;
-            }
-            .nav-inner {
-                padding: 0 24px;
-            }
-            .demo-inner {
-                grid-template-columns: 280px 1fr;
-            }
-        }
-        /* 900 — single column, hamburger appears */
-        
-        @media (max-width:900px) {
-            /* Nav */
-            .nav-links {
-                display: none;
-            }
-            .nav-hamburger {
-                display: flex;
-            }
-            .nav-drawer {
-                display: block;
-            }
-            .nav-inner {
-                padding: 0 16px;
-            }
-            /* Hero */
-            .hero {
-                grid-template-columns: 1fr;
-                padding: calc(var(--nav-h) + 40px) 20px 60px;
-                gap: 40px;
-                min-height: auto;
-            }
-            .hero-right {
-                order: -1;
-            }
-            .hero-body {
-                max-width: 100%;
-            }
-            .mockup {
-                animation: float-m 6s ease-in-out infinite;
-                transform: none;
-                max-width: 420px;
-                margin: 0 auto;
-            }
-            .mockup-shadow {
-                display: none;
-            }
-            @keyframes float-m {
-                0%,
-                100% {
-                    transform: translateY(0)
-                }
-                50% {
-                    transform: translateY(-8px)
-                }
-            }
-            /* Features */
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            .feat-card {
-                padding: 32px 28px 28px;
-            }
-            .feat-num {
-                font-size: 4.5rem;
-            }
-            /* Process */
-            .process-inner {
-                padding: 64px 20px;
-            }
-            .process-steps {
-                grid-template-columns: 1fr 1fr;
-                gap: 40px 16px;
-                margin-top: 48px;
-            }
-            .process-steps::before {
-                display: none;
-            }
-            .process-step {
-                padding: 0 12px;
-            }
-            /* Demo */
-            .demo-inner {
-                grid-template-columns: 1fr;
-                padding: 64px 20px;
-                gap: 36px;
-            }
-            .demo-left {
-                position: static;
-            }
-            .demo-tabs {
-                flex-direction: row;
-                flex-wrap: wrap;
-                margin-top: 28px;
-            }
-            .demo-tab {
-                flex: 1;
-                min-width: 120px;
-                justify-content: center;
-                padding: 11px 12px;
-                font-size: .85rem;
-            }
-            /* About */
-            .about-wrap {
-                padding: 64px 20px;
-            }
-            .about-card {
-                grid-template-columns: 1fr;
-                padding: 36px 28px;
-                gap: 36px;
-                border-radius: var(--r-xl);
-            }
-            /* Footer */
-            footer {
-                flex-direction: column;
-                gap: 20px;
-                text-align: center;
-                padding: 24px 20px;
-            }
-            .footer-links {
-                justify-content: center;
-            }
-            /* Section */
-            .section {
-                padding: 64px 20px;
-            }
-            .section-sub {
-                margin-bottom: 48px;
-            }
-        }
-        /* 768 — tablet portrait */
-        
-        @media (max-width:768px) {
-            .hero {
-                padding-top: calc(var(--nav-h) + 32px);
-            }
-            .hero-title {
-                font-size: clamp(2.4rem, 8vw, 3.6rem);
-            }
-            .hero-eyebrow {
-                margin-bottom: 20px;
-            }
-            .hero-body {
-                font-size: 1rem;
-                margin-bottom: 32px;
-            }
-            .hero-actions {
-                margin-bottom: 36px;
-            }
-            .hero-meta {
-                gap: 14px;
-            }
-            /* Features */
-            .feat-card {
-                padding: 28px 24px 24px;
-            }
-            .feat-code-body {
-                font-size: .72rem;
-            }
-            /* Process — already 2-col from 900, keep */
-            .process-step-desc {
-                font-size: .78rem;
-            }
-            /* Demo */
-            .demo-card-body {
-                padding: 16px;
-            }
-            .drop-zone {
-                padding: 32px 16px;
-            }
-            /* About */
-            .about-card {
-                padding: 28px 24px;
-            }
-            .about-body {
-                font-size: .9rem;
-            }
-        }
-        /* 600 — large mobile */
-        
-        @media (max-width:600px) {
-             :root {
-                --nav-h: 58px;
-            }
-            .hero-title {
-                font-size: clamp(2.2rem, 9vw, 3rem);
-            }
-            .hero-body {
-                font-size: .95rem;
-            }
-            /* Actions stack naturally via flex-wrap; ensure good widths */
-            .btn-primary,
-            .btn-ghost {
-                width: 100%;
-                justify-content: center;
-            }
-            /* Feature numbers smaller to not overflow */
-            .feat-num {
-                font-size: 3.8rem;
-            }
-            .feat-desc {
-                font-size: .85rem;
-            }
-            .section-sub {
-                font-size: .95rem;
-            }
-            /* Process — 1 col */
-            .process-steps {
-                grid-template-columns: 1fr;
-                gap: 32px;
-                text-align: left;
-                margin-top: 40px;
-            }
-            .process-step {
-                display: flex;
-                align-items: flex-start;
-                gap: 16px;
-                padding: 0;
-                text-align: left;
-            }
-            .process-step-num {
-                margin: 0;
-                flex-shrink: 0;
-            }
-            /* Demo input row stacks */
-            .demo-input-row {
-                flex-direction: column;
-            }
-            .demo-action-btn {
-                width: 100%;
-            }
-            .demo-tabs {
-                gap: 6px;
-            }
-            .demo-tab {
-                min-width: 0;
-                flex: 1 1 calc(33% - 6px);
-            }
-            /* Code controls stack */
-            .code-controls {
-                flex-direction: column;
-                align-items: stretch;
-            }
-            .code-select {
-                width: 100%;
-            }
-            .burn-toggle {
-                justify-content: flex-start;
-            }
-            .demo-action-btn.paste-btn {
-                width: 100%;
-            }
-            /* About */
-            .about-card {
-                border-radius: var(--r-lg);
-                padding: 24px 20px;
-            }
-            .about-title {
-                font-size: clamp(1.5rem, 6vw, 2rem);
-            }
-            .about-author-role {
-                font-size: .7rem;
-            }
-            /* Footer */
-            footer {
-                padding: 20px 16px;
-            }
-            /* Marquee tighter */
-            .marquee-item {
-                padding: 0 20px;
-            }
-        }
-        /* 480 — small mobile */
-        
-        @media (max-width:480px) {
-            .hero-eyebrow {
-                font-size: .72rem;
-            }
-            .hero-title {
-                font-size: clamp(2rem, 10vw, 2.6rem);
-                margin-bottom: 18px;
-            }
-            .hero-meta-item {
-                font-size: .75rem;
-            }
-            /* Feature cards */
-            .feat-num {
-                font-size: 3.2rem;
-                top: 12px;
-                right: 16px;
-            }
-            .feat-card {
-                padding: 24px 18px 20px;
-            }
-            .pwa-grid {
-                grid-template-columns: 1fr;
-            }
-            /* Quick links */
-            .quick-link-sub {
-                display: none;
-            }
-            .about-author {
-                max-width: 100%;
-            }
-            /* Demo */
-            .demo-tab {
-                font-size: .8rem;
-                padding: 10px 8px;
-            }
-            .code-textarea {
-                min-height: 110px;
-                font-size: .78rem;
-            }
-            /* Process */
-            .process-step-name {
-                font-size: .85rem;
-            }
-            /* Section spacing */
-            .section {
-                padding: 52px 16px;
-            }
-            .process-inner {
-                padding: 52px 16px;
-            }
-            .demo-inner {
-                padding: 52px 16px;
-            }
-            .about-wrap {
-                padding: 52px 16px;
-            }
-        }
-        /* 375 — smallest phones (iPhone SE etc.) */
-        
-        @media (max-width:375px) {
-            .hero-title {
-                font-size: clamp(1.9rem, 11vw, 2.4rem);
-            }
-            .btn-primary,
-            .btn-ghost {
-                font-size: .85rem;
-                padding: 12px 18px;
-            }
-            .feat-card {
-                padding: 20px 16px 18px;
-            }
-            .feat-name {
-                font-size: 1.1rem;
-            }
-            .mockup-body {
-                padding: 14px;
-            }
-            .mockup-stats {
-                gap: 6px;
-            }
-            .mockup-stat {
-                padding: 8px 10px;
-            }
-            .about-card {
-                padding: 20px 16px;
-            }
-            .nav-drawer-inner {
-                padding: 12px 16px 20px;
-            }
-        }
-        /* ─── Reduced motion ─── */
-        
-        @media (prefers-reduced-motion:reduce) {
-            .mockup,
-            .hero-eyebrow-dot,
-            .about-commit-dot,
-            .feat-badge-green-dot {
-                animation: none;
-            }
-            .reveal {
-                opacity: 1;
-                transform: none;
-                transition: none;
-            }
-            * {
-                transition-duration: .01ms !important;
-            }
-        }
-        /* ─── Focus visible (keyboard nav) ─── */
-        
-         :focus-visible {
-            outline: 2px solid var(--accent-l);
-            outline-offset: 3px;
-            border-radius: var(--r-sm);
-        }
-    </style>
-</head>
 
+    /* 1024 — tighten desktop layout */
+    @media (max-width:1024px){
+      .hero{gap:36px;padding-left:24px;padding-right:24px;}
+      .section{padding:80px 24px;}
+      .process-inner{padding:72px 24px;}
+      .demo-inner{padding:80px 24px;gap:48px;grid-template-columns:280px 1fr;}
+      .about-wrap{padding:80px 24px;}
+      .about-card{padding:44px;gap:44px;}
+      footer{padding:24px;}
+      .nav-inner{padding:0 24px;}
+    }
+
+    /* 900 — single column, hamburger appears */
+    @media (max-width:900px){
+      .nav-links{display:none;}
+      .nav-hamburger{display:flex;}
+      .nav-drawer{display:block;}
+      .nav-inner{padding:0 16px;}
+
+      .hero{
+        grid-template-columns:1fr;
+        padding:calc(var(--nav-h) + 40px) 20px 60px;
+        gap:40px;min-height:auto;
+      }
+      .hero-right{order:-1;}
+      .hero-body{max-width:100%;}
+      .mockup{
+        animation:float-m 6s ease-in-out infinite;
+        transform:none;max-width:420px;margin:0 auto;
+      }
+      .mockup-shadow{display:none;}
+      @keyframes float-m{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+
+      .features-grid{grid-template-columns:1fr;}
+      .feat-card{padding:32px 28px 28px;}
+      .feat-num{font-size:4.5rem;}
+
+      .process-inner{padding:64px 20px;}
+      .process-steps{grid-template-columns:1fr 1fr;gap:40px 16px;margin-top:48px;}
+      .process-steps::before{display:none;}
+      .process-step{padding:0 12px;}
+
+      .demo-inner{grid-template-columns:1fr;padding:64px 20px;gap:36px;}
+      .demo-left{position:static;}
+      .demo-tabs{flex-direction:row;flex-wrap:wrap;margin-top:28px;}
+      .demo-tab{flex:1;min-width:120px;justify-content:center;padding:11px 12px;font-size:.85rem;}
+
+      .about-wrap{padding:64px 20px;}
+      .about-card{
+        grid-template-columns:1fr;padding:36px 28px;gap:36px;
+        border-radius:var(--r-xl);
+      }
+
+      footer{flex-direction:column;gap:20px;text-align:center;padding:24px 20px;}
+      .footer-links{justify-content:center;}
+
+      .section{padding:64px 20px;}
+      .section-sub{margin-bottom:48px;}
+    }
+
+    /* 768 — tablet portrait */
+    @media (max-width:768px){
+      .hero{padding-top:calc(var(--nav-h) + 32px);}
+      .hero-title{font-size:clamp(2.4rem,8vw,3.6rem);}
+      .hero-eyebrow{margin-bottom:20px;}
+      .hero-body{font-size:1rem;margin-bottom:32px;}
+      .hero-actions{margin-bottom:36px;}
+      .hero-meta{gap:14px;}
+
+      .feat-card{padding:28px 24px 24px;}
+      .feat-code-body{font-size:.72rem;}
+
+      .process-step-desc{font-size:.78rem;}
+
+      .demo-card-body{padding:16px;}
+      .drop-zone{padding:32px 16px;}
+
+      .about-card{padding:28px 24px;}
+      .about-body{font-size:.9rem;}
+    }
+
+    /* 600 — large mobile */
+    @media (max-width:600px){
+      :root{--nav-h:58px;}
+
+      .hero-title{font-size:clamp(2.2rem,9vw,3rem);}
+      .hero-body{font-size:.95rem;}
+
+      .hero-actions{flex-direction:column;align-items:stretch;}
+      .btn-primary,.btn-ghost{width:100%;}
+
+      .feat-num{font-size:3.8rem;}
+      .feat-desc{font-size:.85rem;}
+      .section-sub{font-size:.95rem;}
+
+      .process-steps{grid-template-columns:1fr;gap:32px;text-align:left;margin-top:40px;}
+      .process-step{
+        display:flex;align-items:flex-start;gap:16px;
+        padding:0;text-align:left;
+      }
+      .process-step-num{margin:0;flex-shrink:0;}
+
+      .demo-input-row{flex-direction:column;align-items:stretch;}
+      .demo-action-btn{width:100%;}
+      .demo-tabs{gap:6px;}
+      .demo-tab{min-width:0;flex:1 1 calc(33% - 6px);}
+
+      .code-controls{flex-direction:column;align-items:stretch;}
+      .code-select{width:100%;}
+      .burn-toggle{justify-content:flex-start;}
+
+      .about-card{border-radius:var(--r-lg);padding:24px 20px;}
+      .about-title{font-size:clamp(1.5rem,6vw,2rem);}
+      .about-author-role{font-size:.7rem;}
+      .about-author-info{min-width:0;flex:1;}
+
+      footer{padding:20px 16px;}
+
+      .marquee-item{padding:0 20px;}
+    }
+
+    /* 480 — small mobile */
+    @media (max-width:480px){
+      .hero-eyebrow{font-size:.72rem;}
+      .hero-title{font-size:clamp(2rem,10vw,2.6rem);margin-bottom:18px;}
+      .hero-meta-item{font-size:.75rem;}
+
+      .feat-num{font-size:3.2rem;top:12px;right:16px;}
+      .feat-card{padding:24px 18px 20px;}
+      .pwa-grid{grid-template-columns:1fr;}
+
+      .quick-link-sub{display:none;}
+      .about-author{max-width:100%;}
+
+      .demo-tab{font-size:.8rem;padding:10px 8px;}
+      .code-textarea{min-height:110px;font-size:.78rem;}
+
+      .process-step-name{font-size:.85rem;}
+
+      .section{padding:52px 16px;}
+      .process-inner{padding:52px 16px;}
+      .demo-inner{padding:52px 16px;}
+      .about-wrap{padding:52px 16px;}
+    }
+
+    /* 375 — smallest phones */
+    @media (max-width:375px){
+      .hero-title{font-size:clamp(1.9rem,11vw,2.4rem);}
+      .btn-primary,.btn-ghost{font-size:.85rem;padding:12px 18px;}
+      .feat-card{padding:20px 16px 18px;}
+      .feat-name{font-size:1.1rem;}
+      .mockup-body{padding:14px;}
+      .mockup-stats{gap:6px;}
+      .mockup-stat{padding:8px 10px;}
+      .mockup-result{flex-wrap:wrap;}
+      .about-card{padding:20px 16px;}
+      .nav-drawer-inner{padding:12px 16px 20px;}
+      .demo-card-title{max-width:140px;}
+    }
+
+    /* ─── Reduced motion ─── */
+    @media (prefers-reduced-motion:reduce){
+      .mockup,.hero-eyebrow-dot,.about-commit-dot,.feat-badge-green-dot{animation:none;}
+      .reveal{opacity:1;transform:none;transition:none;}
+      *{transition-duration:.01ms !important;}
+    }
+
+    /* ─── Focus visible ─── */
+    :focus-visible{
+      outline:2px solid var(--accent-l);
+      outline-offset:3px;
+      border-radius:var(--r-sm);
+    }
+  </style>
+</head>
 <body>
 
-    <!-- ─── NAV ─── -->
-    <nav id="nav">
-        <div class="nav-inner">
-            <a href="#" class="nav-logo">
-                <div class="nav-logo-mark">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+<!-- ─── NAV ─── -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-mark">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
           <path d="M2 7h10M7 2l5 5-5 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-                </div>
-                <div class="brand-name">Next<span>Share</span></div>
-            </a>
-            <!-- Desktop links -->
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#how-it-works">How it works</a>
-                <a href="#demo">Demo</a>
-                <a href="https://github.com/ivengexnce" target="_blank">GitHub</a>
-                <a href="/app" class="nav-cta">Open App ↗</a>
-            </div>
-            <!-- Hamburger (mobile only) -->
-            <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
+      </div>
+      <div class="brand-name">Next<span>Share</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#demo">Demo</a>
+      <a href="https://github.com/ivengence" target="_blank">GitHub</a>
+      <a href="/app" class="nav-cta">Open App ↗</a>
+    </div>
+    <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
-        </div>
-    </nav>
+  </div>
+</nav>
 
-    <!-- Mobile drawer -->
-    <div class="nav-drawer" id="navDrawer" aria-hidden="true">
-        <div class="nav-drawer-inner">
-            <a href="#features" class="drawer-link" onclick="closeDrawer()">Features</a>
-            <a href="#how-it-works" class="drawer-link" onclick="closeDrawer()">How it works</a>
-            <a href="#demo" class="drawer-link" onclick="closeDrawer()">Demo</a>
-            <a href="https://github.com/ivengexnce" target="_blank" class="drawer-link">GitHub ↗</a>
-            <a href="/app" class="drawer-cta" onclick="closeDrawer()">Open App ↗</a>
-        </div>
-    </div>
+<div class="nav-drawer" id="navDrawer" aria-hidden="true">
+  <div class="nav-drawer-inner">
+    <a href="#features">Features</a>
+    <a href="#how-it-works">How it works</a>
+    <a href="#demo">Demo</a>
+    <a href="https://github.com/ivengence" target="_blank">GitHub ↗</a>
+    <a href="/app" class="drawer-cta">Open App ↗</a>
+  </div>
+</div>
 
-    <!-- ─── HERO ─── -->
-    <div style="position:relative;overflow:hidden;">
-        <div class="hero-glow"></div>
-        <div class="hero">
-            <div class="hero-left">
-                <div class="hero-eyebrow reveal">
-                    <span class="hero-eyebrow-dot"></span> Open source · Free · Self-hostable
-                </div>
-                <h1 class="display hero-title reveal d1">
-                    Share links,<br>files &amp; code.<br><em>Instantly.</em>
-                </h1>
-                <p class="hero-body reveal d2">
-                    NextShare is a URL shortener, file share, and code paste — three dev tools in one app. No accounts. No tracking. Backed by Redis for sub-100ms redirects and MongoDB for durability. Works offline too.
-                </p>
-                <div class="hero-actions reveal d3">
-                    <a href="/app" class="btn-primary">
-                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+<!-- ─── HERO ─── -->
+<div class="hero-wrap">
+  <div class="hero-glow"></div>
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-eyebrow reveal">
+        <span class="hero-eyebrow-dot"></span> Open source · Free · Self-hostable
+      </div>
+      <h1 class="display hero-title reveal d1">
+        Share links,<br>files &amp; code.<br><em>Instantly.</em>
+      </h1>
+      <p class="hero-body reveal d2">
+        NextShare is a URL shortener, file share, and code paste — three dev tools in one app. No accounts. No tracking. Backed by Redis for sub-100ms redirects and MongoDB for durability. Works offline too.
+      </p>
+      <div class="hero-actions reveal d3">
+        <a href="/app" class="btn-primary">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
             <path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg> Open the app
-                    </a>
-                    <a href="https://github.com/ivengexnce" class="btn-ghost" target="_blank">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        </a>
+        <a href="https://github.com/ivengence" class="btn-ghost" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
           </svg> Star on GitHub
-                    </a>
-                </div>
-                <div class="hero-meta reveal d4">
-                    <div class="hero-meta-item">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        </a>
+      </div>
+      <div class="hero-meta reveal d4">
+        <div class="hero-meta-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <rect x="1" y="1" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
             <path d="M4 7h6M4 5h6M4 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".5"/>
           </svg> MIT License
-                    </div>
-                    <div class="hero-meta-item">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        </div>
+        <div class="hero-meta-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
             <path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".5"/>
           </svg> Redirects in &lt;100ms
-                    </div>
-                    <div class="hero-meta-item">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        </div>
+        <div class="hero-meta-item">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
             <path d="M7 1l.5 4H11L8 7.5 9 12 7 10.5 5 12l1-4.5L3 5h3.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" opacity=".5"/>
           </svg> Built by Meet Maru
-                    </div>
-                </div>
-            </div>
+        </div>
+      </div>
+    </div>
 
-            <div class="hero-right reveal d2">
-                <div class="mockup-wrap">
-                    <div class="mockup">
-                        <div class="mockup-bar">
-                            <div class="mockup-dots"><span></span><span></span><span></span></div>
-                            <div class="mockup-urlbar">nextshare</div>
-                        </div>
-                        <div class="mockup-body">
-                            <div class="mockup-label">URL Shortener</div>
-                            <div class="mockup-field">
-                                <div class="mockup-input-fake">https://github.com/ivengexnce/nexus-toolkit/tree/…</div>
-                                <div class="mockup-btn-fake">Shorten</div>
-                            </div>
-                            <div class="mockup-result">
-                                <div class="mockup-result-url">nextsharebymeet.vercel.app/s/k9mPx</div>
-                                <div class="mockup-result-copy">
-                                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    <div class="hero-right reveal d2">
+      <div class="mockup-wrap">
+        <div class="mockup">
+          <div class="mockup-bar">
+            <div class="mockup-dots"><span></span><span></span><span></span></div>
+            <div class="mockup-urlbar">app.nextshare.dev</div>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-label">URL Shortener</div>
+            <div class="mockup-field">
+              <div class="mockup-input-fake">https://github.com/ivengence/nexus-toolkit/tree/…</div>
+              <div class="mockup-btn-fake">Shorten</div>
+            </div>
+            <div class="mockup-result">
+              <div class="mockup-result-url">app.nextshare.dev/s/k9mPx</div>
+              <div class="mockup-result-copy">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                   <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
                   <path d="M2 9V2h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
                 </svg> Copy
-                                </div>
-                            </div>
-                            <div class="mockup-stats">
-                                <div class="mockup-stat">
-                                    <div class="mockup-stat-label">Clicks</div>
-                                    <div class="mockup-stat-val">142</div>
-                                </div>
-                                <div class="mockup-stat">
-                                    <div class="mockup-stat-label">Expires</div>
-                                    <div class="mockup-stat-val">7d</div>
-                                </div>
-                                <div class="mockup-stat">
-                                    <div class="mockup-stat-label">Status</div>
-                                    <div class="mockup-stat-val green">Active</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mockup-shadow"></div>
-                </div>
+              </div>
             </div>
+            <div class="mockup-stats">
+              <div class="mockup-stat"><div class="mockup-stat-label">Clicks</div><div class="mockup-stat-val">142</div></div>
+              <div class="mockup-stat"><div class="mockup-stat-label">Expires</div><div class="mockup-stat-val">7d</div></div>
+              <div class="mockup-stat"><div class="mockup-stat-label">Status</div><div class="mockup-stat-val green">Active</div></div>
+            </div>
+          </div>
         </div>
+        <div class="mockup-shadow"></div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- ─── MARQUEE ─── -->
-    <div class="marquee-wrap">
-        <div class="marquee-track">
-            <div class="marquee-item">React 18 + Vite</div>
-            <div class="marquee-item">Node.js 20 + Express</div>
-            <div class="marquee-item">MongoDB Atlas</div>
-            <div class="marquee-item">Redis cache</div>
-            <div class="marquee-item">PWA + Offline</div>
-            <div class="marquee-item">IndexedDB queue</div>
-            <div class="marquee-item">MIT License</div>
-            <div class="marquee-item">Zero tracking</div>
-            <div class="marquee-item">Self-hostable</div>
-            <div class="marquee-item">No accounts</div>
-            <div class="marquee-item">23 languages</div>
-            <div class="marquee-item">Burn-after-read</div>
-            <div class="marquee-item">React 18 + Vite</div>
-            <div class="marquee-item">Node.js 20 + Express</div>
-            <div class="marquee-item">MongoDB Atlas</div>
-            <div class="marquee-item">Redis cache</div>
-            <div class="marquee-item">PWA + Offline</div>
-            <div class="marquee-item">IndexedDB queue</div>
-            <div class="marquee-item">MIT License</div>
-            <div class="marquee-item">Zero tracking</div>
-            <div class="marquee-item">Self-hostable</div>
-            <div class="marquee-item">No accounts</div>
-            <div class="marquee-item">23 languages</div>
-            <div class="marquee-item">Burn-after-read</div>
-        </div>
-    </div>
+<!-- ─── MARQUEE ─── -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">React 18 + Vite</div>
+    <div class="marquee-item">Node.js 20 + Express</div>
+    <div class="marquee-item">MongoDB Atlas</div>
+    <div class="marquee-item">Redis cache</div>
+    <div class="marquee-item">PWA + Offline</div>
+    <div class="marquee-item">IndexedDB queue</div>
+    <div class="marquee-item">MIT License</div>
+    <div class="marquee-item">Zero tracking</div>
+    <div class="marquee-item">Self-hostable</div>
+    <div class="marquee-item">No accounts</div>
+    <div class="marquee-item">23 languages</div>
+    <div class="marquee-item">Burn-after-read</div>
+    <div class="marquee-item">React 18 + Vite</div>
+    <div class="marquee-item">Node.js 20 + Express</div>
+    <div class="marquee-item">MongoDB Atlas</div>
+    <div class="marquee-item">Redis cache</div>
+    <div class="marquee-item">PWA + Offline</div>
+    <div class="marquee-item">IndexedDB queue</div>
+    <div class="marquee-item">MIT License</div>
+    <div class="marquee-item">Zero tracking</div>
+    <div class="marquee-item">Self-hostable</div>
+    <div class="marquee-item">No accounts</div>
+    <div class="marquee-item">23 languages</div>
+    <div class="marquee-item">Burn-after-read</div>
+  </div>
+</div>
 
-    <!-- ─── FEATURES ─── -->
-    <div id="features">
-        <div class="section">
-            <div class="section-tag reveal">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+<!-- ─── FEATURES ─── -->
+<div id="features">
+  <div class="section">
+    <div class="section-tag reveal">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
         <path d="M6 1l1.2 3.6H11l-3 2.1 1.2 3.6L6 8.4 2.8 10.3 4 6.7 1 4.6h3.8z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
       </svg> What's inside
-            </div>
-            <h2 class="section-title reveal d1">Four tools.<br>One clean URL.</h2>
-            <p class="section-sub reveal d2">URL shortening, file sharing, code paste, and offline sync — built with a proper backend and no paywalls.</p>
+    </div>
+    <h2 class="section-title reveal d1">Four tools.<br>One clean URL.</h2>
+    <p class="section-sub reveal d2">URL shortening, file sharing, code paste, and offline sync — built with a proper backend and no paywalls.</p>
 
-            <div class="features-grid reveal d3">
+    <div class="features-grid reveal d3">
 
-                <!-- 01 -->
-                <div class="feat-card">
-                    <span class="feat-num">01</span>
-                    <div class="feat-icon-wrap">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <div class="feat-card">
+        <span class="feat-num">01</span>
+        <div class="feat-icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M7 10a3 3 0 014.243-4.243l1.414-1.414A5 5 0 006 10a5 5 0 007.657 4.243l-1.414-1.414A3 3 0 017 10z" fill="currentColor" opacity=".4"/>
             <path d="M13 10a3 3 0 01-4.243 4.243l-1.414 1.414A5 5 0 0014 10a5 5 0 00-7.657-4.243l1.414 1.414A3 3 0 0113 10z" fill="currentColor"/>
             <path d="M8 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
-                    </div>
-                    <div class="feat-badge"><span class="feat-badge-dot"></span> Most used</div>
-                    <div class="feat-name">URL Shortener</div>
-                    <p class="feat-desc">Paste any URL and get a short link with a custom alias. Redis caches every redirect, so links resolve in under 100ms. Click analytics, unique visitor counts, and optional expiry baked in.</p>
-                    <div class="feat-tags">
-                        <span class="feat-tag">custom-alias</span>
-                        <span class="feat-tag">click-analytics</span>
-                        <span class="feat-tag">unique-visitors</span>
-                        <span class="feat-tag">expiry</span>
-                        <span class="feat-tag">redis-cache</span>
-                    </div>
-                </div>
+        </div>
+        <div class="feat-badge"><span class="feat-badge-dot"></span> Most used</div>
+        <div class="feat-name">URL Shortener</div>
+        <p class="feat-desc">Paste any URL and get a short link with a custom alias. Redis caches every redirect, so links resolve in under 100ms. Click analytics, unique visitor counts, and optional expiry baked in.</p>
+        <div class="feat-tags">
+          <span class="feat-tag">custom-alias</span>
+          <span class="feat-tag">click-analytics</span>
+          <span class="feat-tag">unique-visitors</span>
+          <span class="feat-tag">expiry</span>
+          <span class="feat-tag">redis-cache</span>
+        </div>
+      </div>
 
-                <!-- 02 -->
-                <div class="feat-card">
-                    <span class="feat-num">02</span>
-                    <div class="feat-icon-wrap">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <div class="feat-card">
+        <span class="feat-num">02</span>
+        <div class="feat-icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <rect x="3" y="2" width="10" height="13" rx="2" stroke="currentColor" stroke-width="1.5" opacity=".4"/>
             <path d="M7 2v5l2-1.5L11 7V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M13 10h2a2 2 0 012 2v4a2 2 0 01-2 2H9a2 2 0 01-2-2v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
-                    </div>
-                    <div class="feat-name">File Sharing</div>
-                    <p class="feat-desc">Drop a file, get a direct download link. Set a password, cap the max download count, or let it auto-expire. Supports image and text previews. Files stream directly from the server — no S3 fees.</p>
-                    <div class="feat-tags">
-                        <span class="feat-tag">drag-drop</span>
-                        <span class="feat-tag">password-protect</span>
-                        <span class="feat-tag">max-downloads</span>
-                        <span class="feat-tag">auto-expiry</span>
-                        <span class="feat-tag">preview</span>
-                    </div>
-                </div>
+        </div>
+        <div class="feat-name">File Sharing</div>
+        <p class="feat-desc">Drop a file, get a direct download link. Set a password, cap the max download count, or let it auto-expire. Supports image and text previews. Files stream directly from the server — no S3 fees.</p>
+        <div class="feat-tags">
+          <span class="feat-tag">drag-drop</span>
+          <span class="feat-tag">password-protect</span>
+          <span class="feat-tag">max-downloads</span>
+          <span class="feat-tag">auto-expiry</span>
+          <span class="feat-tag">preview</span>
+        </div>
+      </div>
 
-                <!-- 03 -->
-                <div class="feat-card">
-                    <span class="feat-num">03</span>
-                    <div class="feat-icon-wrap">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <div class="feat-card">
+        <span class="feat-num">03</span>
+        <div class="feat-icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <rect x="2" y="3" width="16" height="14" rx="2.5" stroke="currentColor" stroke-width="1.5" opacity=".4"/>
             <path d="M7 8l-3 2 3 2M13 8l3 2-3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M11 7l-2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
-                    </div>
-                    <div class="feat-name">Code Paste</div>
-                    <p class="feat-desc">Share syntax-highlighted snippets across 23 languages. Burn-after-read mode destroys the paste on first view. Redis caches normal pastes; burn pastes always hit the DB directly — no second read possible.</p>
-                    <div class="feat-code-preview">
-                        <div class="feat-code-bar">
-                            <div class="feat-code-dots"><span></span><span></span><span></span></div>
-                            <span class="feat-code-filename">paste.ts</span>
-                        </div>
-                        <div class="feat-code-body">
-                            <span class="cm">// TextService.create — simplified</span><br>
-                            <span class="kw">const</span> <span class="fn">create</span> <span class="op">=</span> <span class="kw">async</span> (<span class="pl">payload</span><span class="op">:</span> <span class="tp">PasteInput</span>) <span class="op">=></span>                            {<br> &nbsp;&nbsp;
-                            <span class="kw">const</span> <span class="pl">code</span> <span class="op">=</span> <span class="fn">generateShortCode</span>();<br> &nbsp;&nbsp;
-                            <span class="kw">const</span> <span class="pl">paste</span> <span class="op">=</span> <span class="kw">await</span> <span class="pl">TextRepository</span>.<span class="fn">create</span>({...<span class="pl">payload</span>,
-                            <span class="pl">code</span>});<br> &nbsp;&nbsp;
-                            <span class="kw">if</span> (!<span class="pl">payload</span>.<span class="pl">burnAfterRead</span>) {<br> &nbsp;&nbsp;&nbsp;&nbsp;
-                            <span class="kw">await</span> <span class="pl">redis</span>.<span class="fn">set</span>(<span class="str">`paste:${code}`</span>, <span class="pl">paste</span>, <span class="pl">TTL</span>);<br> &nbsp;&nbsp;}
-                            <br> &nbsp;&nbsp;
-                            <span class="kw">return</span> <span class="pl">paste</span>;<br> };
-                        </div>
-                    </div>
-                    <div class="feat-tags" style="margin-top:20px">
-                        <span class="feat-tag">syntax-hl</span>
-                        <span class="feat-tag">burn-after-read</span>
-                        <span class="feat-tag">23 languages</span>
-                        <span class="feat-tag">redis-cached</span>
-                    </div>
-                </div>
+        </div>
+        <div class="feat-name">Code Paste</div>
+        <p class="feat-desc">Share syntax-highlighted snippets across 23 languages. Burn-after-read mode destroys the paste on first view. Redis caches normal pastes; burn pastes always hit the DB directly — no second read possible.</p>
+        <div class="feat-code-preview">
+          <div class="feat-code-bar">
+            <div class="feat-code-dots"><span></span><span></span><span></span></div>
+            <span class="feat-code-filename">paste.ts</span>
+          </div>
+          <div class="feat-code-body">
+<span class="cm">// TextService.create — simplified</span><br>
+<span class="kw">const</span> <span class="fn">create</span> <span class="op">=</span> <span class="kw">async</span> (<span class="pl">payload</span><span class="op">:</span> <span class="tp">PasteInput</span>) <span class="op">=></span> {<br>
+&nbsp;&nbsp;<span class="kw">const</span> <span class="pl">code</span> <span class="op">=</span> <span class="fn">generateShortCode</span>();<br>
+&nbsp;&nbsp;<span class="kw">const</span> <span class="pl">paste</span> <span class="op">=</span> <span class="kw">await</span> <span class="pl">TextRepository</span>.<span class="fn">create</span>({...<span class="pl">payload</span>, <span class="pl">code</span>});<br>
+&nbsp;&nbsp;<span class="kw">if</span> (!<span class="pl">payload</span>.<span class="pl">burnAfterRead</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">await</span> <span class="pl">redis</span>.<span class="fn">set</span>(<span class="str">`paste:${code}`</span>, <span class="pl">paste</span>, <span class="pl">TTL</span>);<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="kw">return</span> <span class="pl">paste</span>;<br>
+};
+          </div>
+        </div>
+        <div class="feat-tags" style="margin-top:20px">
+          <span class="feat-tag">syntax-hl</span>
+          <span class="feat-tag">burn-after-read</span>
+          <span class="feat-tag">23 languages</span>
+          <span class="feat-tag">redis-cached</span>
+        </div>
+      </div>
 
-                <!-- 04 -->
-                <div class="feat-card">
-                    <span class="feat-num">04</span>
-                    <div class="feat-icon-wrap">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+      <div class="feat-card">
+        <span class="feat-num">04</span>
+        <div class="feat-icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
             <path d="M10 2a8 8 0 100 16A8 8 0 0010 2z" stroke="currentColor" stroke-width="1.5" opacity=".4"/>
             <path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M4 10H2M18 10h-2M10 4V2M10 18v-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".4"/>
           </svg>
-                    </div>
-                    <div class="feat-badge-green"><span class="feat-badge-green-dot"></span> PWA</div>
-                    <div class="feat-name">Works Offline</div>
-                    <p class="feat-desc">The whole app installs as a PWA. Go offline and actions queue in IndexedDB. The moment you reconnect, background sync flushes the queue automatically — nothing is lost mid-session.</p>
-                    <div class="pwa-grid">
-                        <div class="pwa-chip">
-                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1 4h4l-3 2 1 4-3-2-3 2 1-4-3-2h4z" fill="currentColor" opacity=".6"/></svg></div>
-                            <div>
-                                <div class="pwa-chip-label">Service Worker</div>
-                                <div class="pwa-chip-sub">offline cache</div>
-                            </div>
-                        </div>
-                        <div class="pwa-chip">
-                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="8" rx="2" stroke="currentColor" stroke-width="1.2" opacity=".6"/><path d="M4 7h6M7 5v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".6"/></svg></div>
-                            <div>
-                                <div class="pwa-chip-label">IndexedDB queue</div>
-                                <div class="pwa-chip-sub">actions persist</div>
-                            </div>
-                        </div>
-                        <div class="pwa-chip">
-                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".6"/><path d="M9 9.5l2 2.5 1.5-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".6"/></svg></div>
-                            <div>
-                                <div class="pwa-chip-label">Background sync</div>
-                                <div class="pwa-chip-sub">auto-flush</div>
-                            </div>
-                        </div>
-                        <div class="pwa-chip">
-                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2" opacity=".6"/><path d="M5 7l2 2 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".6"/></svg></div>
-                            <div>
-                                <div class="pwa-chip-label">Installable</div>
-                                <div class="pwa-chip-sub">add to home screen</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
-    </div>
+        <div class="feat-badge-green"><span class="feat-badge-green-dot"></span> PWA</div>
+        <div class="feat-name">Works Offline</div>
+        <p class="feat-desc">The whole app installs as a PWA. Go offline and actions queue in IndexedDB. The moment you reconnect, background sync flushes the queue automatically — nothing is lost mid-session.</p>
+        <div class="pwa-grid">
+          <div class="pwa-chip">
+            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1 4h4l-3 2 1 4-3-2-3 2 1-4-3-2h4z" fill="currentColor" opacity=".6"/></svg></div>
+            <div><div class="pwa-chip-label">Service Worker</div><div class="pwa-chip-sub">offline cache</div></div>
+          </div>
+          <div class="pwa-chip">
+            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="8" rx="2" stroke="currentColor" stroke-width="1.2" opacity=".6"/><path d="M4 7h6M7 5v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".6"/></svg></div>
+            <div><div class="pwa-chip-label">IndexedDB queue</div><div class="pwa-chip-sub">actions persist</div></div>
+          </div>
+          <div class="pwa-chip">
+            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".6"/><path d="M9 9.5l2 2.5 1.5-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".6"/></svg></div>
+            <div><div class="pwa-chip-label">Background sync</div><div class="pwa-chip-sub">auto-flush</div></div>
+          </div>
+          <div class="pwa-chip">
+            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2" opacity=".6"/><path d="M5 7l2 2 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".6"/></svg></div>
+            <div><div class="pwa-chip-label">Installable</div><div class="pwa-chip-sub">add to home screen</div></div>
+          </div>
+        </div>
+      </div>
 
-    <!-- ─── HOW IT WORKS ─── -->
-    <div class="process-section" id="how-it-works">
-        <div class="process-inner">
-            <div class="section-tag reveal">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+    </div>
+  </div>
+</div>
+
+<!-- ─── HOW IT WORKS ─── -->
+<div class="process-section" id="how-it-works">
+  <div class="process-inner">
+    <div class="section-tag reveal">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
         <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
         <path d="M6 3v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
       </svg> How it works
-            </div>
-            <h2 class="reveal d1" style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:12px;">From paste to link<br>in four steps.</h2>
-            <p class="reveal d2" style="font-size:.95rem;color:var(--t2);line-height:1.75;max-width:480px;margin-top:8px;">Under the hood, every share is a full round-trip through Vite on the frontend, Express on the API, Redis for speed, and MongoDB for permanence.</p>
-            <div class="process-steps reveal d3">
-                <div class="process-step">
-                    <div class="process-step-num">1</div>
-                    <div>
-                        <div class="process-step-name">Paste or drop</div>
-                        <p class="process-step-desc">Enter a URL, drop a file, or paste code into the React app. Zustand manages local state while you type.</p>
-                    </div>
-                </div>
-                <div class="process-step">
-                    <div class="process-step-num">2</div>
-                    <div>
-                        <div class="process-step-name">API creates it</div>
-                        <p class="process-step-desc">Vite proxies the request to Express. The service validates it, generates a short code, and writes to MongoDB first.</p>
-                    </div>
-                </div>
-                <div class="process-step">
-                    <div class="process-step-num">3</div>
-                    <div>
-                        <div class="process-step-name">Redis caches it</div>
-                        <p class="process-step-desc">The result is written to Redis with a TTL. Every subsequent redirect or fetch hits the cache, not Mongo.</p>
-                    </div>
-                </div>
-                <div class="process-step">
-                    <div class="process-step-num">4</div>
-                    <div>
-                        <div class="process-step-name">Share the link</div>
-                        <p class="process-step-desc">You get a short URL back. Analytics, visitor deduplication via Redis Sets, and expiry all run automatically.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+    <h2 class="reveal d1" style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:12px;">From paste to link<br>in four steps.</h2>
+    <p class="reveal d2" style="font-size:.95rem;color:var(--t2);line-height:1.75;max-width:480px;margin-top:8px;">Under the hood, every share is a full round-trip through Vite on the frontend, Express on the API, Redis for speed, and MongoDB for permanence.</p>
+    <div class="process-steps reveal d3">
+      <div class="process-step">
+        <div class="process-step-num">1</div>
+        <div><div class="process-step-name">Paste or drop</div><p class="process-step-desc">Enter a URL, drop a file, or paste code into the React app. Zustand manages local state while you type.</p></div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">2</div>
+        <div><div class="process-step-name">API creates it</div><p class="process-step-desc">Vite proxies the request to Express. The service validates it, generates a short code, and writes to MongoDB first.</p></div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">3</div>
+        <div><div class="process-step-name">Redis caches it</div><p class="process-step-desc">The result is written to Redis with a TTL. Every subsequent redirect or fetch hits the cache, not Mongo.</p></div>
+      </div>
+      <div class="process-step">
+        <div class="process-step-num">4</div>
+        <div><div class="process-step-name">Share the link</div><p class="process-step-desc">You get a short URL back. Analytics, visitor deduplication via Redis Sets, and expiry all run automatically.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
 
-    <!-- ─── DEMO ─── -->
-    <div class="demo-section" id="demo">
-        <div class="demo-inner">
-            <div class="demo-left">
-                <div class="section-tag reveal">Live demo</div>
-                <h2 class="reveal d1" style="font-size:clamp(1.5rem,3vw,1.75rem);margin-bottom:12px;">Try it here.</h2>
-                <p class="reveal d2" style="font-size:.9rem;color:var(--t2);line-height:1.75;margin-bottom:0;">
-                    No account needed. Pick a tool below — this is the actual UI. Real links generate at the live app.
-                </p>
-                <div class="demo-tabs reveal d3">
-                    <button class="demo-tab active" onclick="switchTab('url',this)">
+<!-- ─── DEMO ─── -->
+<div class="demo-section" id="demo">
+  <div class="demo-inner">
+    <div class="demo-left">
+      <div class="section-tag reveal">Live demo</div>
+      <h2 class="reveal d1" style="font-size:clamp(1.5rem,3vw,1.75rem);margin-bottom:12px;">Try it here.</h2>
+      <p class="reveal d2" style="font-size:.9rem;color:var(--t2);line-height:1.75;margin-bottom:0;">
+        No account needed. Pick a tool below — this is the actual UI. Real links generate at the live app.
+      </p>
+      <div class="demo-tabs reveal d3">
+        <button class="demo-tab active" onclick="switchTab('url',this)">
           <span class="demo-tab-dot"></span> URL Shortener
         </button>
-                    <button class="demo-tab" onclick="switchTab('file',this)">
+        <button class="demo-tab" onclick="switchTab('file',this)">
           <span class="demo-tab-dot"></span> File Share
         </button>
-                    <button class="demo-tab" onclick="switchTab('code',this)">
+        <button class="demo-tab" onclick="switchTab('code',this)">
           <span class="demo-tab-dot"></span> Code Paste
         </button>
-                </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="demo-panel active" id="panel-url">
+        <div class="demo-card">
+          <div class="demo-card-bar">
+            <div class="demo-card-dots"><span></span><span></span><span></span></div>
+            <div class="demo-card-title">nextshare — url shortener</div>
+          </div>
+          <div class="demo-card-body">
+            <div class="demo-input-row">
+              <input class="demo-input" id="urlInput" type="url" placeholder="https://paste-your-long-url-here.com/…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+              <button class="demo-action-btn" onclick="runShorten()">Shorten</button>
             </div>
+            <div class="demo-result" id="urlResult">
+              <span class="demo-result-url" id="resultUrl"></span>
+              <button class="demo-copy" id="copyBtn" onclick="copyUrl()">Copy</button>
+            </div>
+            <div class="demo-error" id="urlError">// Error: enter a valid URL starting with https://</div>
+            <p style="font-size:.75rem;color:var(--t3);margin-top:14px;font-family:'JetBrains Mono',monospace;line-height:1.5;">
+              // UI preview only — real links generate at app.nextshare.dev
+            </p>
+          </div>
+        </div>
+      </div>
 
-            <div>
-                <!-- URL panel -->
-                <div class="demo-panel active" id="panel-url">
-                    <div class="demo-card">
-                        <div class="demo-card-bar">
-                            <div class="demo-card-dots"><span></span><span></span><span></span></div>
-                            <div class="demo-card-title">nextshare — url shortener</div>
-                        </div>
-                        <div class="demo-card-body">
-                            <div class="demo-input-row">
-                                <input class="demo-input" id="urlInput" type="url" placeholder="https://paste-your-long-url-here.com/…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
-                                <button class="demo-action-btn" onclick="runShorten()">Shorten</button>
-                            </div>
-                            <div class="demo-result" id="urlResult">
-                                <span class="demo-result-url" id="resultUrl"></span>
-                                <button class="demo-copy" id="copyBtn" onclick="copyUrl()">Copy</button>
-                            </div>
-                            <div class="demo-error" id="urlError">// Error: enter a valid URL starting with https://</div>
-                            <p style="font-size:.75rem;color:var(--t3);margin-top:14px;font-family:'JetBrains Mono',monospace;line-height:1.5;">
-                                // UI preview only — real links generate at nextsharebymeet.vercel.app
-                            </p>
-                        </div>
-                    </div>
-                </div>
+      <div class="demo-panel" id="panel-file">
+        <div class="demo-card">
+          <div class="demo-card-bar">
+            <div class="demo-card-dots"><span></span><span></span><span></span></div>
+            <div class="demo-card-title">nextshare — file share</div>
+          </div>
+          <div class="demo-card-body">
+            <div class="drop-zone" id="dropZone"
+              ondragover="event.preventDefault();this.classList.add('dragging')"
+              ondragleave="this.classList.remove('dragging')"
+              ondrop="handleDrop(event)"
+              onclick="document.getElementById('fileIn').click()">
+              <div class="drop-icon">📎</div>
+              <div class="drop-label">Drop a file or <span>browse</span></div>
+              <div class="drop-hint">Password protection · max-download cap · auto-expiry · no account</div>
+              <input type="file" id="fileIn" style="display:none" onchange="handleFile(this)">
+            </div>
+            <div class="demo-result" id="fileResult" style="margin-top:14px;">
+              <span class="demo-result-url" id="fileUrl"></span>
+              <button class="demo-copy" onclick="copyFile()">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
-                <!-- File panel -->
-                <div class="demo-panel" id="panel-file">
-                    <div class="demo-card">
-                        <div class="demo-card-bar">
-                            <div class="demo-card-dots"><span></span><span></span><span></span></div>
-                            <div class="demo-card-title">nextshare — file share</div>
-                        </div>
-                        <div class="demo-card-body">
-                            <div class="drop-zone" id="dropZone" ondragover="event.preventDefault();this.classList.add('dragging')" ondragleave="this.classList.remove('dragging')" ondrop="handleDrop(event)" onclick="document.getElementById('fileIn').click()">
-                                <div class="drop-icon">📎</div>
-                                <div class="drop-label">Drop a file or <span>browse</span></div>
-                                <div class="drop-hint">Password protection · max-download cap · auto-expiry · no account</div>
-                                <input type="file" id="fileIn" style="display:none" onchange="handleFile(this)">
-                            </div>
-                            <div class="demo-result" id="fileResult" style="margin-top:14px;">
-                                <span class="demo-result-url" id="fileUrl"></span>
-                                <button class="demo-copy" onclick="copyFile()">Copy</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Code panel -->
-                <div class="demo-panel" id="panel-code">
-                    <div class="demo-card">
-                        <div class="demo-card-bar">
-                            <div class="demo-card-dots"><span></span><span></span><span></span></div>
-                            <div class="demo-card-title">nextshare — code paste</div>
-                        </div>
-                        <div class="demo-card-body">
-                            <textarea class="code-textarea" id="codeInput" placeholder="// paste your code here…&#10;const greet = (name) => `Hello, ${name}!`;"></textarea>
-                            <div class="code-controls">
-                                <select class="code-select" id="langSel">
+      <div class="demo-panel" id="panel-code">
+        <div class="demo-card">
+          <div class="demo-card-bar">
+            <div class="demo-card-dots"><span></span><span></span><span></span></div>
+            <div class="demo-card-title">nextshare — code paste</div>
+          </div>
+          <div class="demo-card-body">
+            <textarea class="code-textarea" id="codeInput" placeholder="// paste your code here…&#10;const greet = (name) => `Hello, ${name}!`;"></textarea>
+            <div class="code-controls">
+              <select class="code-select" id="langSel">
                 <option>JavaScript</option><option>TypeScript</option><option>Python</option>
                 <option>Rust</option><option>Go</option><option>CSS</option>
                 <option>HTML</option><option>SQL</option><option>Bash</option>
                 <option>JSON</option><option>YAML</option><option>Markdown</option>
               </select>
-                                <div class="burn-toggle">
-                                    <label><input type="checkbox" id="burnCheck"> <span class="rose-text">burn-after-read</span></label>
-                                </div>
-                                <button class="demo-action-btn paste-btn" onclick="runPaste()">Create paste</button>
-                            </div>
-                            <div class="demo-result" id="pasteResult" style="margin-top:14px;">
-                                <span class="demo-result-url" id="pasteUrl"></span>
-                                <button class="demo-copy" onclick="copyPaste()">Copy</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+              <div class="burn-toggle">
+                <label><input type="checkbox" id="burnCheck"> <span class="rose-text">burn-after-read</span></label>
+              </div>
+              <button class="demo-action-btn" onclick="runPaste()">Create paste</button>
             </div>
+            <div class="demo-result" id="pasteResult" style="margin-top:14px;">
+              <span class="demo-result-url" id="pasteUrl"></span>
+              <button class="demo-copy" onclick="copyPaste()">Copy</button>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- ─── ABOUT ─── -->
-    <div class="about-wrap">
-        <div class="about-card reveal">
-            <div class="about-left">
-                <div class="about-commit">
-                    <span class="about-commit-dot"></span> React · Express · MongoDB · Redis · PWA
-                </div>
-                <h2 class="about-title">Made by Meet Maru.<br>Free for everyone.</h2>
-                <p class="about-body">
-                    NextShare started as a full-stack side project to push my skills end-to-end — proper layered architecture, Redis caching, offline PWA, analytics, the works. I kept reaching for tools that were either bloated or paywalled, so I built the one I actually
-                    wanted. MIT licensed — fork it, self-host it, break it, improve it.
-                </p>
-                <a href="https://github.com/ivengexnce" target="_blank" class="about-author">
-                    <div class="about-avatar" aria-label="Meet Maru">MM</div>
-                    <div class="about-author-info">
-                        <div class="about-author-name">Meet Maru</div>
-                        <div class="about-author-role">CSE AI/ML · Viva Institute of Technology, Mumbai</div>
-                    </div>
-                </a>
-            </div>
-            <div class="about-right">
-                <div class="quick-links-card">
-                    <div class="quick-links-header">
-                        <div class="quick-links-label">// Quick Links</div>
-                    </div>
-                    <div class="quick-links-list">
-                        <a href="https://github.com/ivengexnce" target="_blank" class="quick-link-item">
-                            <div class="quick-link-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
-                            </div>
-                            <div class="quick-link-text">
-                                <div class="quick-link-name">View on GitHub</div>
-                                <div class="quick-link-sub">Star the repo · MIT License</div>
-                            </div>
-                            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                        <a href="https://linkedin.com/in/meetmaru149" target="_blank" class="quick-link-item">
-                            <div class="quick-link-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-                            </div>
-                            <div class="quick-link-text">
-                                <div class="quick-link-name">Connect on LinkedIn</div>
-                                <div class="quick-link-sub">Let's connect and chat</div>
-                            </div>
-                            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                        <a href="/app" class="quick-link-item">
-                            <div class="quick-link-icon">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                            </div>
-                            <div class="quick-link-text">
-                                <div class="quick-link-name">Open the App</div>
-                                <div class="quick-link-sub">nextshare</div>
-                            </div>
-                            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </a>
-                    </div>
-                    <div class="quick-links-meta">
-                        <div class="quick-links-meta-item">
-                            <div class="quick-meta-val">MIT</div>
-                            <div class="quick-meta-label">License</div>
-                        </div>
-                        <div class="quick-links-meta-item">
-                            <div class="quick-meta-val">3</div>
-                            <div class="quick-meta-label">Core tools</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!-- ─── ABOUT ─── -->
+<div class="about-wrap">
+  <div class="about-card reveal">
+    <div class="about-left">
+      <div class="about-commit">
+        <span class="about-commit-dot"></span> React · Express · MongoDB · Redis · PWA
+      </div>
+      <h2 class="about-title">Made by Meet Maru.<br>Free for everyone.</h2>
+      <p class="about-body">
+        NextShare started as a full-stack side project to push my skills end-to-end — proper layered architecture, Redis caching, offline PWA, analytics, the works. I kept reaching for tools that were either bloated or paywalled, so I built the one I actually wanted. MIT licensed — fork it, self-host it, break it, improve it.
+      </p>
+      <a href="https://github.com/ivengence" target="_blank" class="about-author">
+        <div class="about-avatar" aria-label="Meet Maru">MM</div>
+        <div class="about-author-info">
+          <div class="about-author-name">Meet Maru</div>
+          <div class="about-author-role">CSE AI/ML · Viva Institute of Technology, Mumbai</div>
         </div>
+      </a>
     </div>
-
-    <!-- ─── FOOTER ─── -->
-    <div style="border-top:1px solid var(--bdr)">
-        <footer>
-            <div>
-                <div class="footer-brand">Next<span>Share</span></div>
-                <div class="footer-credit">Built with care by <a href="https://github.com/ivengexnce" target="_blank">Meet Maru</a> · MIT License</div>
+    <div class="about-right">
+      <div class="quick-links-card">
+        <div class="quick-links-header"><div class="quick-links-label">// Quick Links</div></div>
+        <div class="quick-links-list">
+          <a href="https://github.com/ivengence" target="_blank" class="quick-link-item">
+            <div class="quick-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
             </div>
-            <div class="footer-links">
-                <a href="https://github.com/ivengexnce" target="_blank">GitHub</a>
-                <a href="https://linkedin.com/in/meetmaru149" target="_blank">LinkedIn</a>
-                <a href="#features">Features</a>
-                <a href="#demo">Demo</a>
+            <div class="quick-link-text">
+              <div class="quick-link-name">View on GitHub</div>
+              <div class="quick-link-sub">Star the repo · MIT License</div>
             </div>
-        </footer>
+            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="https://linkedin.com/in/meetmaru149" target="_blank" class="quick-link-item">
+            <div class="quick-link-icon">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </div>
+            <div class="quick-link-text">
+              <div class="quick-link-name">Connect on LinkedIn</div>
+              <div class="quick-link-sub">Let's connect and chat</div>
+            </div>
+            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="/app" class="quick-link-item">
+            <div class="quick-link-icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div class="quick-link-text">
+              <div class="quick-link-name">Open the App</div>
+              <div class="quick-link-sub">app.nextshare.dev</div>
+            </div>
+            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
+        <div class="quick-links-meta">
+          <div class="quick-links-meta-item"><div class="quick-meta-val">MIT</div><div class="quick-meta-label">License</div></div>
+          <div class="quick-links-meta-item"><div class="quick-meta-val">3</div><div class="quick-meta-label">Core tools</div></div>
+        </div>
+      </div>
     </div>
+  </div>
+</div>
 
-    <script>
-        /* ── Nav stuck ── */
-        const nav = document.getElementById('nav');
-        window.addEventListener('scroll', () => {
-            nav.classList.toggle('stuck', window.scrollY > 24);
-        }, {
-            passive: true
-        });
+<!-- ─── FOOTER ─── -->
+<div style="border-top:1px solid var(--bdr)">
+  <footer>
+    <div>
+      <div class="footer-brand">Next<span>Share</span></div>
+      <div class="footer-credit">Built with care by <a href="https://github.com/ivengence" target="_blank">Meet Maru</a> · MIT License</div>
+    </div>
+    <div class="footer-links">
+      <a href="https://github.com/ivengence" target="_blank">GitHub</a>
+      <a href="https://linkedin.com/in/meetmaru149" target="_blank">LinkedIn</a>
+      <a href="#features">Features</a>
+      <a href="#demo">Demo</a>
+    </div>
+  </footer>
+</div>
 
-        /* ── Hamburger / drawer ── */
-        const hamburger = document.getElementById('hamburger');
-        const drawer = document.getElementById('navDrawer');
-        let drawerOpen = false;
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('stuck', window.scrollY > 24);
+  }, { passive: true });
 
-        function openDrawer() {
-            drawerOpen = true;
-            hamburger.classList.add('open');
-            hamburger.setAttribute('aria-expanded', 'true');
-            drawer.classList.add('open');
-            drawer.setAttribute('aria-hidden', 'false');
-            document.body.style.overflow = 'hidden';
-        }
+  const hamburger = document.getElementById('hamburger');
+  const drawer = document.getElementById('navDrawer');
+  let drawerOpen = false;
 
-        function closeDrawer() {
-            drawerOpen = false;
-            hamburger.classList.remove('open');
-            hamburger.setAttribute('aria-expanded', 'false');
-            drawer.classList.remove('open');
-            drawer.setAttribute('aria-hidden', 'true');
-            document.body.style.overflow = '';
-        }
-        hamburger.addEventListener('click', () => {
-            drawerOpen ? closeDrawer() : openDrawer();
-        });
+  function openDrawer() {
+    drawerOpen = true;
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    drawer.classList.add('open');
+    drawer.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeDrawer() {
+    drawerOpen = false;
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    drawer.classList.remove('open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', () => { drawerOpen ? closeDrawer() : openDrawer(); });
+  window.addEventListener('scroll', closeDrawer, { passive: true });
+  document.addEventListener('click', (e) => {
+    if (drawerOpen && !nav.contains(e.target) && !drawer.contains(e.target)) closeDrawer();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && drawerOpen) closeDrawer(); });
+  drawer.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', closeDrawer));
 
-        // Close on scroll or outside tap
-        window.addEventListener('scroll', closeDrawer, {
-            passive: true
-        });
-        document.addEventListener('click', (e) => {
-            if (drawerOpen && !nav.contains(e.target) && !drawer.contains(e.target)) closeDrawer();
-        });
-        // Close on Escape
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && drawerOpen) closeDrawer();
-        });
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -24px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-        // Close when a hash link is followed (smooth-scroll)
-        drawer.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', closeDrawer));
+  setTimeout(() => {
+    document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+      setTimeout(() => el.classList.add('in'), i * 80);
+    });
+  }, 80);
 
-        /* ── Scroll reveal ── */
-        const io = new IntersectionObserver(entries => {
-            entries.forEach(e => {
-                if (e.isIntersecting) {
-                    e.target.classList.add('in');
-                    io.unobserve(e.target);
-                }
-            });
-        }, {
-            threshold: 0.08,
-            rootMargin: '0px 0px -24px 0px'
-        });
-        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  function switchTab(id, btn) {
+    document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + id).classList.add('active');
+  }
 
-        setTimeout(() => {
-            document.querySelectorAll('.hero .reveal').forEach((el, i) => {
-                setTimeout(() => el.classList.add('in'), i * 80);
-            });
-        }, 80);
+  const slugs = ['k9mPx','f7nRq','t3wLy','qA5vB','h2cZm','p8xJd','mN4rK','s6bWe'];
 
-        /* ── Tab switch ── */
-        function switchTab(id, btn) {
-            document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
-            btn.classList.add('active');
-            document.getElementById('panel-' + id).classList.add('active');
-        }
+  function runShorten() {
+    const val = document.getElementById('urlInput').value.trim();
+    const err = document.getElementById('urlError');
+    const res = document.getElementById('urlResult');
+    err.style.display = 'none';
+    res.classList.remove('show');
+    try { new URL(val); } catch { err.style.display = 'block'; return; }
+    if (!val.startsWith('http')) { err.style.display = 'block'; return; }
+    const slug = slugs[Math.floor(Math.random() * slugs.length)];
+    document.getElementById('resultUrl').textContent = 'app.nextshare.dev/s/' + slug;
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copy'; btn.classList.remove('done');
+    res.classList.add('show');
+  }
+  document.getElementById('urlInput').addEventListener('keydown', e => { if (e.key === 'Enter') runShorten(); });
 
-        /* ── URL Shortener (UI demo) ── */
-        const slugs = ['k9mPx', 'f7nRq', 't3wLy', 'qA5vB', 'h2cZm', 'p8xJd', 'mN4rK', 's6bWe'];
+  function copyUrl() {
+    const url = 'https://' + document.getElementById('resultUrl').textContent;
+    navigator.clipboard.writeText(url).catch(() => {});
+    const btn = document.getElementById('copyBtn');
+    btn.textContent = 'Copied ✓'; btn.classList.add('done');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('done'); }, 2000);
+  }
 
-        function runShorten() {
-            const val = document.getElementById('urlInput').value.trim();
-            const err = document.getElementById('urlError');
-            const res = document.getElementById('urlResult');
-            err.style.display = 'none';
-            res.classList.remove('show');
-            try {
-                new URL(val);
-            } catch {
-                err.style.display = 'block';
-                return;
-            }
-            if (!val.startsWith('http')) {
-                err.style.display = 'block';
-                return;
-            }
-            const slug = slugs[Math.floor(Math.random() * slugs.length)];
-            document.getElementById('resultUrl').textContent = 'nextsharebymeet/s/' + slug;
-            const btn = document.getElementById('copyBtn');
-            btn.textContent = 'Copy';
-            btn.classList.remove('done');
-            res.classList.add('show');
-        }
-        document.getElementById('urlInput').addEventListener('keydown', e => {
-            if (e.key === 'Enter') runShorten();
-        });
+  function handleDrop(e) {
+    e.preventDefault();
+    document.getElementById('dropZone').classList.remove('dragging');
+    showFile(e.dataTransfer.files[0]);
+  }
+  function handleFile(inp) { if (inp.files[0]) showFile(inp.files[0]); }
+  function showFile(f) {
+    if (!f) return;
+    const slug = slugs[Math.floor(Math.random() * slugs.length)];
+    document.getElementById('fileUrl').textContent = 'app.nextshare.dev/f/' + slug;
+    document.getElementById('fileResult').classList.add('show');
+  }
+  function copyFile() {
+    navigator.clipboard.writeText('https://' + document.getElementById('fileUrl').textContent).catch(() => {});
+  }
 
-        function copyUrl() {
-            const url = 'https://' + document.getElementById('resultUrl').textContent;
-            navigator.clipboard.writeText(url).catch(() => {});
-            const btn = document.getElementById('copyBtn');
-            btn.textContent = 'Copied ✓';
-            btn.classList.add('done');
-            setTimeout(() => {
-                btn.textContent = 'Copy';
-                btn.classList.remove('done');
-            }, 2000);
-        }
-
-        /* ── File (UI demo) ── */
-        function handleDrop(e) {
-            e.preventDefault();
-            document.getElementById('dropZone').classList.remove('dragging');
-            showFile(e.dataTransfer.files[0]);
-        }
-
-        function handleFile(inp) {
-            if (inp.files[0]) showFile(inp.files[0]);
-        }
-
-        function showFile(f) {
-            if (!f) return;
-            const slug = slugs[Math.floor(Math.random() * slugs.length)];
-            document.getElementById('fileUrl').textContent = 'nextsharebymeet/f/' + slug;
-            document.getElementById('fileResult').classList.add('show');
-        }
-
-        function copyFile() {
-            navigator.clipboard.writeText('https://' + document.getElementById('fileUrl').textContent).catch(() => {});
-        }
-
-        /* ── Code paste (UI demo) ── */
-        function runPaste() {
-            if (!document.getElementById('codeInput').value.trim()) return;
-            const slug = slugs[Math.floor(Math.random() * slugs.length)];
-            const burn = document.getElementById('burnCheck').checked;
-            document.getElementById('pasteUrl').textContent =
-                'nextsharebymeet/p/' + slug + (burn ? ' ⚡ burn' : '');
-            document.getElementById('pasteResult').classList.add('show');
-        }
-
-        function copyPaste() {
-            const raw = document.getElementById('pasteUrl').textContent.replace(' ⚡ burn', '');
-            navigator.clipboard.writeText('https://' + raw).catch(() => {});
-        }
-    </script>
+  function runPaste() {
+    if (!document.getElementById('codeInput').value.trim()) return;
+    const slug = slugs[Math.floor(Math.random() * slugs.length)];
+    const burn = document.getElementById('burnCheck').checked;
+    document.getElementById('pasteUrl').textContent =
+      'app.nextshare.dev/p/' + slug + (burn ? ' ⚡ burn' : '');
+    document.getElementById('pasteResult').classList.add('show');
+  }
+  function copyPaste() {
+    const raw = document.getElementById('pasteUrl').textContent.replace(' ⚡ burn','');
+    navigator.clipboard.writeText('https://' + raw).catch(() => {});
+  }
+</script>
 </body>
-
 </html>
