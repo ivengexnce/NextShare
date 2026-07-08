@@ -1,19 +1,20 @@
 <div align="center">
 
+<img src="docs/screenshots/hero.png" alt="NextShare — open source URL shortener, file sharing and code paste tool landing page" width="100%" />
+
 # 🔗 NextShare — Open Source URL Shortener, File Sharing & Code Paste Tool
 
-**Free & Open Source Alternative to Bitly, WeTransfer, and Pastebin — Built with React, Node.js, MongoDB & Redis**
-
-A full-stack, offline-capable link shortener, file-sharing, and code/text paste platform with real-time analytics and an admin dashboard. Built for developers who want a self-hostable, privacy-respecting alternative to closed-source SaaS tools.
+**Share links, files & code. Instantly.** No accounts. No tracking.
+A free, self-hostable alternative to Bitly, WeTransfer, and Pastebin — three dev tools in one app.
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-nextsharebymeet.vercel.app-00FFB3?style=for-the-badge&labelColor=0d1117)](https://nextsharebymeet.vercel.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge&labelColor=0d1117)](LICENSE)
 [![Made with React](https://img.shields.io/badge/Frontend-React_18-61DAFB?style=for-the-badge&logo=react&labelColor=0d1117)](https://react.dev)
 [![Made with Node](https://img.shields.io/badge/Backend-Node.js_20-339933?style=for-the-badge&logo=nodedotjs&labelColor=0d1117)](https://nodejs.org)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge&labelColor=0d1117)](#contributing)
+[![Redirects](https://img.shields.io/badge/Redirects-%3C100ms-00FFB3?style=for-the-badge&labelColor=0d1117)](#)
 [![Stars](https://img.shields.io/github/stars/ivengexnce/NextShare?style=for-the-badge&color=00FFB3&labelColor=0d1117)](https://github.com/ivengexnce/NextShare/stargazers)
 
-**Keywords:** url shortener open source · self hosted link shortener · file sharing app react node · code paste tool · pastebin alternative · bitly alternative · PWA offline file share · MERN stack developer tool · full stack portfolio project
+**Keywords:** url shortener open source · self hosted link shortener · file sharing app react node · code paste tool · pastebin alternative · bitly alternative · PWA offline file share · MERN stack developer tool
 
 </div>
 
@@ -21,14 +22,13 @@ A full-stack, offline-capable link shortener, file-sharing, and code/text paste 
 
 ## 📌 Why NextShare?
 
-Most link-shortener and file-sharing tools are closed-source SaaS products with paywalls, tracking, or vendor lock-in. **NextShare** is a fully open-source, self-hostable alternative that gives developers and teams:
+Most link-shortener and file-sharing tools are closed-source SaaS products with accounts, paywalls, and tracking. **NextShare** skips all of that:
 
-- 🆓 Zero licensing cost — MIT licensed, run it anywhere
-- 🔐 Full data ownership — your links, files, and pastes stay on your infrastructure
-- 📴 Works offline — installable PWA with background sync
-- 🧱 Production-grade architecture — layered backend (controller/service/repository), not a weekend script
-
-If you're evaluating **URL shortener open source projects**, **self-hosted file sharing tools**, or **Pastebin/Bitly alternatives** for a portfolio review, technical interview, or real deployment — this repo is built to be read, extended, and scaled.
+- 🚫 **No accounts, no tracking** — use it instantly, no sign-up wall
+- 🆓 **Zero licensing cost** — MIT licensed, self-host anywhere
+- ⚡ **Sub-100ms redirects** — Redis-backed, MongoDB for durability
+- 📴 **Works offline** — installable PWA with background sync
+- 🧱 **Production-grade architecture** — layered backend (controller/service/repository), not a weekend script
 
 ---
 
@@ -36,14 +36,55 @@ If you're evaluating **URL shortener open source projects**, **self-hosted file 
 
 | Feature | Description |
 |---|---|
-| 🔗 **URL Shortener** | Custom short links, Redis-cached redirects, click analytics |
-| 📁 **File Sharing** | Secure uploads, expiring links, download-count tracking |
-| 📝 **Code / Text Paste** | Shareable snippets with syntax support + burn-after-read mode |
+| 🔗 **URL Shortener** | Custom short codes, configurable expiry, live click stats |
+| 📁 **File Sharing** | Drag-and-drop uploads up to 50 MB, auto-expiring download links, no account needed |
+| 📝 **Code / Text Paste** | 15+ language syntax highlighting, burn-after-read mode, offline support |
 | 📊 **Admin Analytics Dashboard** | Owner-only, secret-gated, Chart.js visualizations of traffic |
 | 📡 **Unique Visitor Tracking** | Redis Set-based deduplication — accurate, low-overhead analytics |
 | 📴 **Offline-First PWA** | IndexedDB caching + background sync, installable on any device |
 | 📱 **Fully Responsive UI** | Six breakpoints, hamburger nav, reduced-motion support |
 | ⚙️ **Scalable Architecture** | Cache-aside Redis layer, MongoDB source of truth, horizontal-scaling-ready |
+
+---
+
+## 📸 Screenshots
+
+<table>
+<tr>
+<td width="50%">
+
+**URL Shortener**
+<img src="docs/screenshots/url-shortener.png" alt="NextShare URL shortener — shorten any link with custom code and expiry" width="100%" />
+
+</td>
+<td width="50%">
+
+**With link history & stats**
+<img src="docs/screenshots/url-shortener-history.png" alt="NextShare URL shortener with recent links, copy and stats" width="100%" />
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+**File Sharing**
+<img src="docs/screenshots/file-sharing.png" alt="NextShare file sharing — drag and drop upload, auto-expiring links" width="100%" />
+
+</td>
+<td width="50%">
+
+**Code / Text Paste**
+<img src="docs/screenshots/code-paste.png" alt="NextShare code paste — syntax highlighting and burn-after-read" width="100%" />
+
+</td>
+</tr>
+</table>
+
+<details>
+<summary><strong>Code paste result view</strong></summary>
+<br/>
+<img src="docs/screenshots/code-paste-result.png" alt="NextShare code paste result with shareable link" width="60%" />
+</details>
 
 ---
 
@@ -96,34 +137,34 @@ Strict layer separation across `url`, `files`, and `text` modules. The `admin` m
 
 ## ⚡ Quick Start
 
-\`\`\`bash
+```bash
 git clone https://github.com/ivengexnce/NextShare.git
 cd NextShare
 npm install
-\`\`\`
+```
 
-**Configure environment** — copy \`.env.example\` → \`.env\`:
+**Configure environment** — copy `.env.example` → `.env`:
 
-\`\`\`
+```
 MONGODB_URI=
 REDIS_URL=
 BASE_URL=
 FRONTEND_URL=
 ADMIN_SECRET=
-\`\`\`
+```
 
 **Run locally:**
 
-\`\`\`bash
+```bash
 cd apps/api && npm run dev     # backend
 cd apps/web && npm run dev     # frontend
-\`\`\`
+```
 
 **Or with Docker:**
 
-\`\`\`bash
+```bash
 docker compose up
-\`\`\`
+```
 
 ---
 
@@ -133,10 +174,10 @@ Unique visitors are tracked via Redis Sets (not simple counters), giving automat
 
 | Redis Key | Purpose |
 |---|---|
-| \`visitors:global\` | All unique visitors site-wide |
-| \`visitors:url:{code}\` | Unique clicks per short link |
-| \`visitors:paste:{code}\` | Unique views per paste |
-| \`visitors:file:{code}\` | Unique downloads per file |
+| `visitors:global` | All unique visitors site-wide |
+| `visitors:url:{code}` | Unique clicks per short link |
+| `visitors:paste:{code}` | Unique views per paste |
+| `visitors:file:{code}` | Unique downloads per file |
 
 **Core rule:** MongoDB is the source of truth; Redis is a speed layer. If Redis goes down, the app still works correctly — just slower.
 
@@ -156,16 +197,17 @@ NextShare ships with a documented scaling path — not just a demo:
 
 ## 🗂️ Project Structure
 
-\`\`\`
+```
 NextShare/
 ├── apps/
-│   ├── api/      # Express backend — controllers, services, repositories
-│   └── web/      # React frontend — Vite, Zustand, IndexedDB
-├── docker/       # Local development containers
-├── docs/         # Architecture & scaling documentation
+│   ├── api/            # Express backend — controllers, services, repositories
+│   └── web/             # React frontend — Vite, Zustand, IndexedDB
+├── docker/              # Local development containers
+├── docs/
+│   └── screenshots/     # README screenshots
 ├── .env.example
 └── LICENSE
-\`\`\`
+```
 
 ---
 
@@ -173,6 +215,9 @@ NextShare/
 
 **Is NextShare free to use?**
 Yes — it's MIT licensed and free to self-host or fork.
+
+**Do I need an account?**
+No. Every tool works instantly with no sign-up.
 
 **Can I use this as a Bitly or Pastebin replacement?**
 Yes. NextShare covers URL shortening and paste sharing (with burn-after-read) in one self-hosted app, plus file sharing that neither Bitly nor Pastebin offer.
@@ -190,7 +235,7 @@ Yes — deploy the backend to Render (or any Node host) and the frontend to Verc
 
 ## 🤝 Contributing
 
-Issues and PRs are welcome. Please follow the existing layer-boundary conventions (controller → service → repository → schema) and keep the frontend ESM-only — no \`require()\`, it breaks the build on Vercel.
+Issues and PRs are welcome. Please follow the existing layer-boundary conventions (controller → service → repository → schema) and keep the frontend ESM-only — no `require()`, it breaks the build on Vercel.
 
 ---
 
@@ -213,4 +258,4 @@ MIT © [Meet Maru](https://github.com/ivengexnce) — free to use, modify, and s
 
 ⭐ **If NextShare is useful to you, star the repo — it helps others discover it.** ⭐
 
-</div>
+</div>33
