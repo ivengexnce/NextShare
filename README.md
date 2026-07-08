@@ -255,11 +255,9 @@ NextShare/
 =>Yes — it's MIT licensed and free to self-host or fork.
 
 **Do I need an account?**
-
 =>No. Every tool works instantly with no sign-up.
 
 **Can I use this as a Bitly or Pastebin replacement?**
-
 =>Yes. NextShare covers URL shortening and paste sharing (with burn-after-read) in one self-hosted app, plus file sharing that neither Bitly nor Pastebin offer.
 
 **Does it work offline?**
