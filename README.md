@@ -324,9 +324,7 @@ AI & ML Engineer • Full-Stack Developer
 
 ## 📄 License
 
-This project is licensed under the **MIT License**.
-
-Copyright © Meet Maru
+This project is licensed under the **MIT License**. Copyright © Meet Maru
 
 You are free to use, modify, distribute, and self-host this project in accordance with the terms of the MIT License.
 
