@@ -290,27 +290,54 @@ NextShare is built with production-oriented engineering practices, including:
 
 ## 🤝 Contributing
 
-Issues and PRs are welcome. Please follow the existing layer-boundary conventions (controller → service → repository → schema) and keep the frontend ESM-only — no `require()`, it breaks the build on Vercel.
+Contributions are welcome!
+
+If you'd like to improve NextShare, feel free to open an issue or submit a pull request.
+
+Before contributing, please follow these project conventions:
+
+* Maintain the layered architecture:
+  `Controller → Service → Repository → Schema`
+* Keep the frontend **ESM-only**.
+* Do **not** use `require()` in frontend code, as it breaks Vercel builds.
+* Follow the existing coding style and project structure.
 
 ---
 
 ## 👤 Author
 
-**Meet Maru** — AI & ML Engineer | Full-Stack Developer | Mumbai, India
-Vice President, CSI VIVA · Front-End AI Engineering Intern @ FlyRank
+**Meet Maru**
 
-[Portfolio](https://ivengexnce.github.io/portfolio/) · [LinkedIn](https://www.linkedin.com/in/meetmaru149/) · [GitHub](https://github.com/ivengexnce)
+AI & ML Engineer • Full-Stack Developer
+📍 Mumbai, India
+
+* Vice President, CSI VIVA
+* Front-End AI Engineering Intern @ FlyRank
+
+**Connect with me:**
+
+* 🌐 **Portfolio:** https://ivengexnce.github.io/portfolio/
+* 💼 **LinkedIn:** https://www.linkedin.com/in/meetmaru149/
+* 💻 **GitHub:** https://github.com/ivengexnce
 
 ---
 
 ## 📄 License
 
-MIT © [Meet Maru](https://github.com/ivengexnce) — free to use, modify, and self-host.
+This project is licensed under the **MIT License**.
+
+Copyright © Meet Maru
+
+You are free to use, modify, distribute, and self-host this project in accordance with the terms of the MIT License.
 
 ---
 
 <div align="center">
 
-⭐ **If NextShare is useful to you, star the repo — it helps others discover it.** ⭐
+### ⭐ If you find **NextShare** useful, consider giving it a star!
+
+It helps others discover the project and motivates future development.
+
+**Thank you for your support! ❤️**
 
 </div>
