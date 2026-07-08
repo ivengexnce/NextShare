@@ -255,18 +255,23 @@ NextShare/
 =>Yes — it's MIT licensed and free to self-host or fork.
 
 **Do I need an account?**
+
 =>No. Every tool works instantly with no sign-up.
 
 **Can I use this as a Bitly or Pastebin replacement?**
+
 =>Yes. NextShare covers URL shortening and paste sharing (with burn-after-read) in one self-hosted app, plus file sharing that neither Bitly nor Pastebin offer.
 
 **Does it work offline?**
+
 =>Yes — it's a PWA with IndexedDB caching and background sync for offline use.
 
 **What makes this different from a typical student project?**
+
 =>A documented layered architecture (controller/service/repository), Redis caching strategy, visitor analytics, and a written scaling plan from single-node to 1M+ requests/day.
 
 **Can I deploy this myself?**
+
 =>Yes — deploy the backend to Render (or any Node host) and the frontend to Vercel (or any static host). Docker Compose is included for local/dev parity.
 
 ---
