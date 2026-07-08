@@ -251,8 +251,6 @@ NextShare/
 
 ## ❓ FAQ
 
-## ❓ Frequently Asked Questions
-
 ### Is NextShare free to use?
 
 **Yes.** NextShare is MIT licensed and completely free to self-host, modify, and fork.
