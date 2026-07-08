@@ -1,6 +1,6 @@
 <div align="center">
 
-<img width="1456" height="827" alt="image" src="https://github.com/user-attachments/assets/6d4303dd-913a-409d-b086-a8048584f96f" alt="NextShare — open source URL shortener, file sharing and code paste tool landing page" width="100%" />
+<img src="docs/screenshots/hero.png" alt="NextShare — open source URL shortener, file sharing and code paste tool landing page" width="100%" />
 
 # 🔗 NextShare — Open Source URL Shortener, File Sharing & Code Paste Tool
 
@@ -54,14 +54,13 @@ Most link-shortener and file-sharing tools are closed-source SaaS products with 
 <td width="50%">
 
 **URL Shortener**
-<img width="1151" height="945" alt="image" src="https://github.com/user-attachments/assets/92d9fe4f-024a-49f0-b9b6-970fdb878d97" alt="NextShare URL shortener — shorten any link with custom code and expiry" width="100%" />
+<img src="docs/screenshots/url-shortener.png" alt="NextShare URL shortener — shorten any link with custom code and expiry" width="100%" />
 
 </td>
 <td width="50%">
 
 **With link history & stats**
-<img width="697" height="962" alt="image" src="https://github.com/user-attachments/assets/44e19c49-7bdc-4020-b744-6e01c4eced77" />
-alt="NextShare URL shortener with recent links, copy and stats" width="100%" />
+<img src="docs/screenshots/url-shortener-history.png" alt="NextShare URL shortener with recent links, copy and stats" width="100%" />
 
 </td>
 </tr>
@@ -69,13 +68,13 @@ alt="NextShare URL shortener with recent links, copy and stats" width="100%" />
 <td width="50%">
 
 **File Sharing**
-<img width="1095" height="936" alt="image" src="https://github.com/user-attachments/assets/070f1ad9-9a4b-453d-832c-a90d6451c2c2" alt="NextShare file sharing — drag and drop upload, auto-expiring links" width="100%" />
+<img src="docs/screenshots/file-sharing.png" alt="NextShare file sharing — drag and drop upload, auto-expiring links" width="100%" />
 
 </td>
 <td width="50%">
 
 **Code / Text Paste**
-<img width="676" height="939" alt="image" src="https://github.com/user-attachments/assets/78265b41-f042-4284-8065-4fb4b5dc2737" alt="NextShare code paste — syntax highlighting and burn-after-read" width="100%" />
+<img src="docs/screenshots/code-paste.png" alt="NextShare code paste — syntax highlighting and burn-after-read" width="100%" />
 
 </td>
 </tr>
@@ -259,4 +258,4 @@ MIT © [Meet Maru](https://github.com/ivengexnce) — free to use, modify, and s
 
 ⭐ **If NextShare is useful to you, star the repo — it helps others discover it.** ⭐
 
-</div>33
+</div>
