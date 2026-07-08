@@ -1,7 +1,6 @@
 <div align="center">
 
-<img src="<img width="1456" height="827" alt="image" src="https://github.com/user-attachments/assets/6d4303dd-913a-409d-b086-a8048584f96f" />
-" alt="NextShare — open source URL shortener, file sharing and code paste tool landing page" width="100%" />
+<img width="1456" height="827" alt="image" src="https://github.com/user-attachments/assets/6d4303dd-913a-409d-b086-a8048584f96f" alt="NextShare — open source URL shortener, file sharing and code paste tool landing page" width="100%" />
 
 # 🔗 NextShare — Open Source URL Shortener, File Sharing & Code Paste Tool
 
