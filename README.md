@@ -1,186 +1,216 @@
 <div align="center">
 
-# 🔗 NextShare
+# 🔗 NextShare — Open Source URL Shortener, File Sharing & Code Paste Tool
 
-**URL Shortening · File Sharing · Code Paste — one toolkit, offline-ready.**
+**Free & Open Source Alternative to Bitly, WeTransfer, and Pastebin — Built with React, Node.js, MongoDB & Redis**
 
-[![Live App](https://img.shields.io/badge/Live-nextsharebymeet.vercel.app-00FFB3?style=for-the-badge&labelColor=0d1117)](https://nextsharebymeet.vercel.app/)
+A full-stack, offline-capable link shortener, file-sharing, and code/text paste platform with real-time analytics and an admin dashboard. Built for developers who want a self-hostable, privacy-respecting alternative to closed-source SaaS tools.
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-nextsharebymeet.vercel.app-00FFB3?style=for-the-badge&labelColor=0d1117)](https://nextsharebymeet.vercel.app/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge&labelColor=0d1117)](LICENSE)
+[![Made with React](https://img.shields.io/badge/Frontend-React_18-61DAFB?style=for-the-badge&logo=react&labelColor=0d1117)](https://react.dev)
+[![Made with Node](https://img.shields.io/badge/Backend-Node.js_20-339933?style=for-the-badge&logo=nodedotjs&labelColor=0d1117)](https://nodejs.org)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge&labelColor=0d1117)](#contributing)
+[![Stars](https://img.shields.io/github/stars/ivengexnce/NextShare?style=for-the-badge&color=00FFB3&labelColor=0d1117)](https://github.com/ivengexnce/NextShare/stargazers)
+
+**Keywords:** url shortener open source · self hosted link shortener · file sharing app react node · code paste tool · pastebin alternative · bitly alternative · PWA offline file share · MERN stack developer tool · full stack portfolio project
 
 </div>
 
 ---
 
-## What is NextShare?
+## 📌 Why NextShare?
 
-NextShare (internal codename **NexusToolkit**) is a full-stack developer utility platform combining three tools behind one clean UI:
+Most link-shortener and file-sharing tools are closed-source SaaS products with paywalls, tracking, or vendor lock-in. **NextShare** is a fully open-source, self-hostable alternative that gives developers and teams:
 
-- **URL Shortener** — short links with redirect analytics
-- **File Sharing** — upload & share files with download tracking
-- **Code / Text Paste** — shareable snippets, including burn-after-read
+- 🆓 Zero licensing cost — MIT licensed, run it anywhere
+- 🔐 Full data ownership — your links, files, and pastes stay on your infrastructure
+- 📴 Works offline — installable PWA with background sync
+- 🧱 Production-grade architecture — layered backend (controller/service/repository), not a weekend script
 
-It ships as a **PWA** with IndexedDB-backed offline support and background sync, plus a secret-gated **admin analytics dashboard** for owner-only insight into traffic.
+If you're evaluating **URL shortener open source projects**, **self-hosted file sharing tools**, or **Pastebin/Bitly alternatives** for a portfolio review, technical interview, or real deployment — this repo is built to be read, extended, and scaled.
 
 ---
 
 ## ✨ Features
 
-| | |
+| Feature | Description |
 |---|---|
-| 🔗 | Short links with Redis-cached redirects |
-| 📁 | File uploads with download-count tracking |
-| 📝 | Code/text pastes, including single-view burn-after-read |
-| 📊 | Owner-only admin dashboard (Chart.js visualizations) |
-| 📡 | Unique-visitor analytics via Redis Sets (per-URL, per-paste, per-file, global) |
-| 📴 | Full offline support — PWA + IndexedDB + background sync |
-| 📱 | Fully responsive, six breakpoints, hamburger nav, motion-preference aware |
+| 🔗 **URL Shortener** | Custom short links, Redis-cached redirects, click analytics |
+| 📁 **File Sharing** | Secure uploads, expiring links, download-count tracking |
+| 📝 **Code / Text Paste** | Shareable snippets with syntax support + burn-after-read mode |
+| 📊 **Admin Analytics Dashboard** | Owner-only, secret-gated, Chart.js visualizations of traffic |
+| 📡 **Unique Visitor Tracking** | Redis Set-based deduplication — accurate, low-overhead analytics |
+| 📴 **Offline-First PWA** | IndexedDB caching + background sync, installable on any device |
+| 📱 **Fully Responsive UI** | Six breakpoints, hamburger nav, reduced-motion support |
+| ⚙️ **Scalable Architecture** | Cache-aside Redis layer, MongoDB source of truth, horizontal-scaling-ready |
 
 ---
 
-## 🏗️ Architecture
+## 🖥️ Live Demo
+
+| | |
+|---|---|
+| 🌐 Landing Page | [nextsharebymeet.vercel.app](https://nextsharebymeet.vercel.app/) |
+| 🧰 App | `nextsharebymeet.vercel.app/app` |
+| ⚙️ API | Hosted on Render |
+
+---
+
+## 🏗️ Architecture Overview
 
 ```
 HTTP Request
      │
      ▼
-Controller        ← HTTP only (req, res). No business logic.
+Controller        ← HTTP only. No business logic.
      │
      ▼
-Service           ← business logic. Never touches req/res.
+Service           ← Business logic. Never touches req/res.
      │
      ▼
-Repository        ← DB operations only.
+Repository        ← Database operations only.
      │
      ▼
-Schema / Model    ← data shape.
+Schema / Model    ← Data shape (Mongoose).
 ```
 
-Each feature module (`url`, `files`, `text`) follows this 5-file pattern strictly, with one deliberate exception: the **admin** module is read-only and talks to Mongoose/Redis directly, skipping service/repository layers by design.
-
-Modules never import from each other directly — shared logic lives in `shared/`.
+Strict layer separation across `url`, `files`, and `text` modules. The `admin` module is a deliberate, documented exception — read-only, talking to MongoDB/Redis directly.
 
 ---
 
 ## 🧱 Tech Stack
 
-| Layer      | Tech                                                        |
-|------------|--------------------------------------------------------------|
-| Frontend   | React 18, Vite 4, Zustand, idb (IndexedDB)                   |
-| Backend    | Node.js 20, Express 4, Mongoose 7, Redis 4                    |
-| Storage    | MongoDB 7, Redis 7, local filesystem (`/uploads`)             |
-| Analytics  | Redis Sets for unique-visitor deduplication                   |
-| Deploy     | Backend → Render · Frontend → Vercel                          |
+| Layer      | Technology                                                       |
+|------------|-------------------------------------------------------------------|
+| Frontend   | React 18 · Vite 4 · Zustand · IndexedDB (idb)                    |
+| Backend    | Node.js 20 · Express 4 · Mongoose 7 · Redis 4                    |
+| Database   | MongoDB 7                                                          |
+| Cache      | Redis 7 (cache-aside pattern)                                     |
+| Deployment | Render (API) · Vercel (Frontend)                                  |
+| PWA        | Service Workers · Background Sync · Offline Queue                 |
+
+**Searchable stack tags:** `react` `nodejs` `expressjs` `mongodb` `redis` `vite` `zustand` `pwa` `javascript` `full-stack` `rest-api` `mern-stack`
 
 ---
 
-## 🚀 Live URLs
+## ⚡ Quick Start
 
-| | |
-|---|---|
-| Landing page | [`nextsharebymeet.vercel.app/`](https://nextsharebymeet.vercel.app/) |
-| App | `nextsharebymeet.vercel.app/app` |
-| API | Render (see `VITE_API_URL`) |
-
----
-
-## ⚡ Getting Started
-
-### Prerequisites
-- Node.js 20+
-- MongoDB (local or Atlas)
-- Redis (local or hosted)
-
-### Install
-
-```bash
+\`\`\`bash
 git clone https://github.com/ivengexnce/NextShare.git
 cd NextShare
 npm install
-```
+\`\`\`
 
-### Environment
+**Configure environment** — copy \`.env.example\` → \`.env\`:
 
-Copy `.env.example` to `.env` in the API app and fill in:
-
-```
+\`\`\`
 MONGODB_URI=
 REDIS_URL=
 BASE_URL=
 FRONTEND_URL=
 ADMIN_SECRET=
-```
+\`\`\`
 
-### Run
+**Run locally:**
 
-```bash
-# API
-cd apps/api && npm run dev
+\`\`\`bash
+cd apps/api && npm run dev     # backend
+cd apps/web && npm run dev     # frontend
+\`\`\`
 
-# Frontend
-cd apps/web && npm run dev
-```
+**Or with Docker:**
 
-### Docker
-
-A `docker/` setup is included for containerized local development (API + Redis + Mongo).
-
-```bash
+\`\`\`bash
 docker compose up
-```
+\`\`\`
 
 ---
 
-## 📊 Redis Key Schema
+## 📊 How Analytics Work
 
-| Key                     | Type | Contents                       |
-|-------------------------|------|---------------------------------|
-| `visitors:global`       | Set  | All unique IPs ever seen        |
-| `visitors:url:{code}`   | Set  | Unique IPs that clicked a link  |
-| `visitors:paste:{code}` | Set  | Unique IPs that viewed a paste  |
-| `visitors:file:{code}`  | Set  | Unique IPs that downloaded      |
-| `url:redirect:{code}`   | Str  | Cached redirect target + expiry |
-| `url:stats:{code}`      | Str  | Cached URL analytics            |
-| `paste:{code}`          | Str  | Cached paste content            |
+Unique visitors are tracked via Redis Sets (not simple counters), giving automatic, memory-efficient deduplication:
 
-**The one rule:** Redis is for speed, MongoDB is for truth. Writes always hit MongoDB first; Redis is cache-aside. Burn-after-read pastes bypass cache entirely.
+| Redis Key | Purpose |
+|---|---|
+| \`visitors:global\` | All unique visitors site-wide |
+| \`visitors:url:{code}\` | Unique clicks per short link |
+| \`visitors:paste:{code}\` | Unique views per paste |
+| \`visitors:file:{code}\` | Unique downloads per file |
+
+**Core rule:** MongoDB is the source of truth; Redis is a speed layer. If Redis goes down, the app still works correctly — just slower.
 
 ---
 
-## 📈 Scaling Notes
+## 📈 Built to Scale
 
-Current stage handles <10k req/day comfortably on a single Render instance + Vercel frontend. As traffic grows:
+NextShare ships with a documented scaling path — not just a demo:
 
-- Hot endpoints get Redis cache-aside (>100 req/min)
-- File uploads move to an async queue (Bull) past 20/min
-- Visitor Sets switch to HyperLogLog only if memory forces it
-- Horizontal scaling requires migrating local file storage to S3 first
-
-Full decision tree lives in the project's internal scaling docs.
+- Cache-aside Redis on any endpoint exceeding 100 req/min
+- Async upload queue (Bull) past 20 uploads/min
+- Horizontal API scaling with stateless design (shared Redis, no sticky sessions)
+- S3-ready file storage migration path for multi-instance deployments
+- HyperLogLog fallback for visitor tracking at massive scale
 
 ---
 
 ## 🗂️ Project Structure
 
-```
+\`\`\`
 NextShare/
 ├── apps/
-│   ├── api/      # Express backend (controllers, services, repositories)
-│   └── web/      # React frontend (Vite, Zustand, IndexedDB)
-├── docker/       # Local dev containers
-├── docs/         # Architecture & internal docs
+│   ├── api/      # Express backend — controllers, services, repositories
+│   └── web/      # React frontend — Vite, Zustand, IndexedDB
+├── docker/       # Local development containers
+├── docs/         # Architecture & scaling documentation
 ├── .env.example
 └── LICENSE
-```
+\`\`\`
+
+---
+
+## ❓ FAQ
+
+**Is NextShare free to use?**
+Yes — it's MIT licensed and free to self-host or fork.
+
+**Can I use this as a Bitly or Pastebin replacement?**
+Yes. NextShare covers URL shortening and paste sharing (with burn-after-read) in one self-hosted app, plus file sharing that neither Bitly nor Pastebin offer.
+
+**Does it work offline?**
+Yes — it's a PWA with IndexedDB caching and background sync for offline use.
+
+**What makes this different from a typical student project?**
+A documented layered architecture (controller/service/repository), Redis caching strategy, visitor analytics, and a written scaling plan from single-node to 1M+ requests/day.
+
+**Can I deploy this myself?**
+Yes — deploy the backend to Render (or any Node host) and the frontend to Vercel (or any static host). Docker Compose is included for local/dev parity.
 
 ---
 
 ## 🤝 Contributing
 
-Issues and PRs welcome. Please follow the existing layer-boundary conventions (controller → service → repository → schema) and keep the frontend ESM-only (no `require()` — it causes a blank screen on Vercel).
+Issues and PRs are welcome. Please follow the existing layer-boundary conventions (controller → service → repository → schema) and keep the frontend ESM-only — no \`require()\`, it breaks the build on Vercel.
+
+---
+
+## 👤 Author
+
+**Meet Maru** — AI & ML Engineer | Full-Stack Developer | Mumbai, India
+Vice President, CSI VIVA · Front-End AI Engineering Intern @ FlyRank
+
+[Portfolio](https://ivengexnce.github.io/portfolio/) · [LinkedIn](https://www.linkedin.com/in/meetmaru149/) · [GitHub](https://github.com/ivengexnce)
 
 ---
 
 ## 📄 License
 
-MIT © [Meet Maru](https://github.com/ivengexnce)
+MIT © [Meet Maru](https://github.com/ivengexnce) — free to use, modify, and self-host.
+
+---
+
+<div align="center">
+
+⭐ **If NextShare is useful to you, star the repo — it helps others discover it.** ⭐
+
+</div>
