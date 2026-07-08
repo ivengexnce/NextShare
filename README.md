@@ -60,7 +60,8 @@ Most link-shortener and file-sharing tools are closed-source SaaS products with 
 <td width="50%">
 
 **With link history & stats**
-<img width="250" height="250" alt="image" src="https://github.com/user-attachments/assets/981e96ca-999e-4cc4-9b90-4d1817cbed20" alt="NextShare URL shortener with recent links, copy and stats" width="100%" />
+<img width="697" height="962" alt="image" src="https://github.com/user-attachments/assets/44e19c49-7bdc-4020-b744-6e01c4eced77" />
+alt="NextShare URL shortener with recent links, copy and stats" width="100%" />
 
 </td>
 </tr>
@@ -68,8 +69,7 @@ Most link-shortener and file-sharing tools are closed-source SaaS products with 
 <td width="50%">
 
 **File Sharing**
-<img width="1095" height="936" alt="image" src="https://github.com/user-attachments/assets/070f1ad9-9a4b-453d-832c-a90d6451c2c2" />
- alt="NextShare file sharing — drag and drop upload, auto-expiring links" width="100%" />
+<img width="1095" height="936" alt="image" src="https://github.com/user-attachments/assets/070f1ad9-9a4b-453d-832c-a90d6451c2c2" alt="NextShare file sharing — drag and drop upload, auto-expiring links" width="100%" />
 
 </td>
 <td width="50%">
