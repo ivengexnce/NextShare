@@ -200,13 +200,51 @@ NextShare ships with a documented scaling path — not just a demo:
 ```
 NextShare/
 ├── apps/
-│   ├── api/            # Express backend — controllers, services, repositories
-│   └── web/             # React frontend — Vite, Zustand, IndexedDB
-├── docker/              # Local development containers
+│   ├── api/
+│   │   ├── src/
+│   │   │   ├── config/              # DB, Redis, env config
+│   │   │   ├── modules/
+│   │   │   │   ├── admin/           # Read-only analytics (controller + routes)
+│   │   │   │   ├── files/           # controller · repository · routes · schema · service
+│   │   │   │   ├── text/            # controller · repository · routes · schema · service
+│   │   │   │   └── url/             # controller · repository · routes · schema · service
+│   │   │   ├── shared/
+│   │   │   │   ├── errors/          # AppError, errorCodes
+│   │   │   │   ├── middleware/      # error, rateLimit, upload, visitor
+│   │   │   │   └── utils/           # hash, logger, response.factory
+│   │   │   ├── app.js
+│   │   │   └── server.js
+│   │   └── package.json
+│   └── web/
+│       ├── public/                  # favicon, PWA icons, manifest
+│       ├── src/
+│       │   ├── features/
+│       │   │   ├── admin/           # AdminDashboard.jsx
+│       │   │   ├── files/           # FileShare.jsx + files.api.js
+│       │   │   ├── text/            # TextShare.jsx, PasteViewer.jsx + text.api.js
+│       │   │   └── url/             # UrlShortener.jsx + url.api.js
+│       │   ├── shared/hooks/        # useOffline.js
+│       │   ├── store/               # useStore.js, offlineDB.js
+│       │   ├── styles/
+│       │   ├── App.jsx
+│       │   └── main.jsx
+│       ├── app.html                 # React SPA entry (mounted at /app)
+│       ├── index.html               # Static landing page (mounted at /)
+│       ├── vite.config.js
+│       └── package.json
+├── docker/
+│   ├── Dockerfile.api
+│   └── docker-compose.yml
 ├── docs/
-│   └── screenshots/     # README screenshots
+│   ├── screenshots/                 # README screenshots
+│   ├── AI_SYSTEM_PROMPT.md
+│   ├── ARCHITECTURE.md
+│   └── SCALING_RULES.md
 ├── .env.example
-└── LICENSE
+├── .gitignore
+├── LICENSE
+├── package.json
+└── package-lock.json
 ```
 
 ---
