@@ -237,9 +237,6 @@ NextShare/
 │   └── docker-compose.yml
 ├── docs/
 │   ├── screenshots/                 # README screenshots
-│   ├── AI_SYSTEM_PROMPT.md
-│   ├── ARCHITECTURE.md
-│   └── SCALING_RULES.md
 ├── .env.example
 ├── .gitignore
 ├── LICENSE
