@@ -251,26 +251,42 @@ NextShare/
 
 ## ❓ FAQ
 
-**Is NextShare free to use?**
-=>Yes — it's MIT licensed and free to self-host or fork.
+## ❓ Frequently Asked Questions
 
-**Do I need an account?**
-=>No. Every tool works instantly with no sign-up.
+### Is NextShare free to use?
 
-**Can I use this as a Bitly or Pastebin replacement?**
-=>Yes. NextShare covers URL shortening and paste sharing (with burn-after-read) in one self-hosted app, plus file sharing that neither Bitly nor Pastebin offer.
+**Yes.** NextShare is MIT licensed and completely free to self-host, modify, and fork.
 
-**Does it work offline?**
+### Do I need an account?
 
-=>Yes — it's a PWA with IndexedDB caching and background sync for offline use.
+**No.** Every tool works instantly without requiring sign-up or login.
 
-**What makes this different from a typical student project?**
+### Can I use this as a Bitly or Pastebin replacement?
 
-=>A documented layered architecture (controller/service/repository), Redis caching strategy, visitor analytics, and a written scaling plan from single-node to 1M+ requests/day.
+**Yes.** NextShare combines URL shortening, secure paste sharing (including burn-after-read), and file sharing in a single self-hosted platform—offering features that neither Bitly nor Pastebin provide together.
 
-**Can I deploy this myself?**
+### Does it work offline?
 
-=>Yes — deploy the backend to Render (or any Node host) and the frontend to Vercel (or any static host). Docker Compose is included for local/dev parity.
+**Yes.** NextShare is a Progressive Web App (PWA) with IndexedDB caching and Background Sync, allowing core functionality to work even when you're offline.
+
+### What makes this different from a typical student project?
+
+NextShare is built with production-oriented engineering practices, including:
+
+* Layered architecture (Controller → Service → Repository)
+* Redis caching strategy
+* Visitor analytics
+* Secure authentication and API design
+* A documented scaling plan from a single-node deployment to handling **1M+ requests per day**
+
+### Can I deploy this myself?
+
+**Yes.** You can deploy:
+
+* **Backend:** Render or any Node.js hosting provider
+* **Frontend:** Vercel or any static hosting platform
+* **Local Development:** Docker Compose is included for a consistent development and deployment environment.
+
 
 ---
 
