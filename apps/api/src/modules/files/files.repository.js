@@ -14,6 +14,11 @@ const FilesRepository = {
     return File.findOne({ shortCode, isActive: true }).select('+password');
   },
 
+  async findByCodeWithSecrets(shortCode) {
+    // Select secret fields only for authorized verification
+    return File.findOne({ shortCode, isActive: true }).select('+password +deleteTokenHash');
+  },
+
   async incrementDownloads(shortCode) {
     return File.updateOne({ shortCode }, { $inc: { downloadCount: 1 } });
   },

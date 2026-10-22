@@ -43,14 +43,19 @@ const fileDownloadLimiter = rateLimiter(100);
 /** Paste create — 50 per 15 min per IP */
 const pasteCreateLimiter = rateLimiter(50);
 
+/** Admin access — 15 per 15 min per IP */
+const adminLimiter = rateLimiter(15, 15 * 60 * 1000);
+
 /** General API — fallback for unlisted routes */
 const generalLimiter = rateLimiter(100);
 
 module.exports = {
+  rateLimiter,
   urlCreateLimiter,
   urlRedirectLimiter,
   fileUploadLimiter,
   fileDownloadLimiter,
   pasteCreateLimiter,
+  adminLimiter,
   generalLimiter,
 };

@@ -3,9 +3,15 @@ require('dotenv').config();
 // ─── Env Validation ────────────────────────────────────────────────────────────
 // Fail fast: crash on startup rather than at runtime if critical vars are missing
 const REQUIRED = ['MONGODB_URI', 'REDIS_URL'];
+if (process.env.NODE_ENV === 'production') {
+    REQUIRED.push('ADMIN_SECRET');
+}
 const missing = REQUIRED.filter((k) => !process.env[k]);
 if (missing.length && process.env.NODE_ENV !== 'test') {
     throw new Error(`[config] Missing required environment variables: ${missing.join(', ')}`);
+}
+if (process.env.NODE_ENV === 'production' && process.env.ADMIN_SECRET === 'dev-admin-secret') {
+    throw new Error('[config] Insecure default ADMIN_SECRET cannot be used in production environment');
 }
 
 // ─── Config Object ─────────────────────────────────────────────────────────────

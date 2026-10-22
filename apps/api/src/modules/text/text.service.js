@@ -71,7 +71,7 @@ const TextService = {
 
         return {
             shortCode: paste.shortCode,
-            shareUrl: `${config.app.frontendUrl}/p/${paste.shortCode}`,
+            shareUrl: `${config.app.frontendUrl}/paste/${paste.shortCode}`,
             title: paste.title,
             language: paste.language,
             expiresAt: paste.expiresAt,
@@ -93,15 +93,19 @@ const TextService = {
         }
 
         // 2. DB lookup
-        const paste = await TextRepository.findByCode(shortCode);
+        let paste = await TextRepository.findByCode(shortCode);
         if (!paste) throw new AppError('Paste not found', ErrorCodes.PASTE_NOT_FOUND, 404);
 
         if (paste.expiresAt && paste.expiresAt < new Date()) {
             throw new AppError('This paste has expired', ErrorCodes.PASTE_EXPIRED, 410);
         }
 
-        // 3. Burn-after-read — destroy immediately after returning content
+        // 3. Burn-after-read — atomically deactivate immediately to prevent race conditions
         if (paste.burnAfterRead) {
+            const burned = await TextRepository.findAndBurn(shortCode);
+            if (!burned) {
+                throw new AppError('Paste has already been viewed and burned', ErrorCodes.PASTE_EXPIRED, 410);
+            }
             setImmediate(() => TextRepository.destroy(shortCode));
         } else {
             setImmediate(() => TextRepository.incrementViews(shortCode));
@@ -119,6 +123,11 @@ const TextService = {
         };
 
         return result;
+    },
+
+    async burn(shortCode) {
+        await redis.del(cacheKey(shortCode));
+        await TextRepository.destroy(shortCode);
     },
 
     expiryPresets: Object.keys(EXPIRY_PRESETS),

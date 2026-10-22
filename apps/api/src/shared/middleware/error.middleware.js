@@ -3,14 +3,34 @@ const ErrorCodes = require('../errors/errorCodes');
 const ResponseFactory = require('../utils/response.factory');
 const logger = require('../utils/logger');
 
+const SENSITIVE_KEYS = ['password', 'secret', 'adminsecret', 'token', 'authorization', 'cookie'];
+
+/**
+ * Redact sensitive fields before writing to logs.
+ */
+function sanitizeForLogs(obj) {
+  if (!obj || typeof obj !== 'object') return obj;
+  if (Array.isArray(obj)) return obj.map(sanitizeForLogs);
+
+  const sanitized = {};
+  for (const [key, value] of Object.entries(obj)) {
+    if (SENSITIVE_KEYS.some((s) => key.toLowerCase().includes(s))) {
+      sanitized[key] = '[REDACTED]';
+    } else if (typeof value === 'object' && value !== null) {
+      sanitized[key] = sanitizeForLogs(value);
+    } else {
+      sanitized[key] = value;
+    }
+  }
+  return sanitized;
+}
+
 /**
  * Error Middleware — must be registered LAST in app.js (4 params = error handler).
  *
  * Classifies errors into two buckets:
  *  1. Operational (AppError) — expected, safe message sent to client.
- *  2. Unexpected              — internal bug, generic message + full log.
- *
- * Anti-breaking rule: NEVER remove this or move it above routes.
+ *  2. Unexpected              — internal bug, generic message + full log with redacted secrets.
  */
 // eslint-disable-next-line no-unused-vars
 function errorMiddleware(err, req, res, _next) {
@@ -66,7 +86,7 @@ function errorMiddleware(err, req, res, _next) {
     stack: err.stack,
     path: req.path,
     method: req.method,
-    body: req.body,
+    body: sanitizeForLogs(req.body),
   });
 
   return ResponseFactory.error(

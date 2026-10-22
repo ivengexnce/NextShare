@@ -12,11 +12,15 @@ const TextController = {
     get: async(req, res) => {
         const { code } = req.params;
         const result = await TextService.get(code);
-        const ip = req.headers['x-forwarded-for'] ?
-            req.headers['x-forwarded-for'].split(',')[0].trim() :
-            (req.ip || 'unknown');
+        const ip = req.ip || 'unknown';
         redisClient.sAdd(`visitors:paste:${code}`, ip).catch(() => {});
         return ResponseFactory.success(res, result, 'Paste retrieved');
+    },
+
+    async burn(req, res) {
+        const { code } = req.params;
+        await TextService.burn(code);
+        return ResponseFactory.success(res, null, 'Paste burned');
     },
 
     async presets(req, res) {

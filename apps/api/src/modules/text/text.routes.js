@@ -7,5 +7,6 @@ const router = Router();
 router.get('/meta/presets', TextController.presets);
 router.post('/',            pasteCreateLimiter, TextController.create);
 router.get('/:code',        generalLimiter,     TextController.get);
+router.post('/:code/burn',  generalLimiter,     TextController.burn);
 
 module.exports = router;

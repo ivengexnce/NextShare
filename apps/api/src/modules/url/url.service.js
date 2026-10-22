@@ -127,7 +127,7 @@ const UrlService = {
 
         const stats = {
             shortCode: url.shortCode,
-            shortUrl: `${config.app.frontendUrl}/${url.shortCode}`,
+            shortUrl: `${config.app.baseUrl}/${url.shortCode}`,
             originalUrl: url.originalUrl,
             title: url.title,
             clicks: url.clicks,

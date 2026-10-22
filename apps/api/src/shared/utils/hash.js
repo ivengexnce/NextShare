@@ -1,5 +1,5 @@
-// nanoid v3 — CommonJS-compatible (v4+ is ESM-only)
-const { nanoid, customAlphabet } = require('nanoid');
+const crypto = require('crypto');
+const { customAlphabet } = require('nanoid');
 
 // URL-safe alphabet — excludes confusable chars (0, O, l, I)
 const URL_ALPHABET = '23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ';
@@ -24,4 +24,51 @@ function validateCustomCode(code) {
   return /^[a-zA-Z0-9-]{3,20}$/.test(code);
 }
 
-module.exports = { generateShortCode, generateToken, validateCustomCode };
+/**
+ * Timing-safe string comparison to mitigate side-channel timing attacks.
+ */
+function timingSafeCompare(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string') return false;
+  const bufA = crypto.createHash('sha256').update(a).digest();
+  const bufB = crypto.createHash('sha256').update(b).digest();
+  return crypto.timingSafeEqual(bufA, bufB);
+}
+
+/**
+ * Deterministic hash for tokens (e.g. delete tokens stored in DB).
+ */
+function hashToken(token) {
+  return crypto.createHash('sha256').update(String(token)).digest('hex');
+}
+
+/**
+ * Cryptographically secure password hashing using Scrypt.
+ */
+function hashPassword(password) {
+  const salt = crypto.randomBytes(16).toString('hex');
+  const derivedKey = crypto.scryptSync(password, salt, 64);
+  return `${salt}:${derivedKey.toString('hex')}`;
+}
+
+/**
+ * Verify a password against a stored Scrypt hash with constant-time equality check.
+ */
+function verifyPassword(password, storedHash) {
+  if (!storedHash || !password || typeof storedHash !== 'string') return false;
+  const [salt, key] = storedHash.split(':');
+  if (!salt || !key) return false;
+  const keyBuffer = Buffer.from(key, 'hex');
+  const derivedKey = crypto.scryptSync(password, salt, 64);
+  if (keyBuffer.length !== derivedKey.length) return false;
+  return crypto.timingSafeEqual(keyBuffer, derivedKey);
+}
+
+module.exports = {
+  generateShortCode,
+  generateToken,
+  validateCustomCode,
+  timingSafeCompare,
+  hashToken,
+  hashPassword,
+  verifyPassword,
+};

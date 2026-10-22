@@ -4,7 +4,14 @@ const Joi = require('joi');
 const AppError = require('../../shared/errors/AppError');
 const ErrorCodes = require('../../shared/errors/errorCodes');
 const config = require('../../config');
-const { generateShortCode } = require('../../shared/utils/hash');
+const {
+    generateShortCode,
+    generateToken,
+    hashToken,
+    hashPassword,
+    verifyPassword,
+    timingSafeCompare,
+} = require('../../shared/utils/hash');
 const FilesRepository = require('./files.repository');
 
 // ─── Validation ────────────────────────────────────────────────────────────────
@@ -19,7 +26,7 @@ const uploadOptionsSchema = Joi.object({
 const FilesService = {
     /**
      * Register an uploaded file (multer has already saved it to disk).
-     * Returns the shareable file record.
+     * Returns the shareable file record including deleteToken.
      */
     async registerUpload(file, body, uploadedBy = 'anonymous') {
         if (!file) {
@@ -33,7 +40,7 @@ const FilesService = {
             throw new AppError(error.details.map((d) => d.message).join('; '), ErrorCodes.VALIDATION_ERROR, 400);
         }
 
-        const { expiresIn, maxDownloads } = value;
+        const { expiresIn, maxDownloads, password } = value;
 
         // Generate unique short code
         let shortCode;
@@ -47,6 +54,11 @@ const FilesService = {
             new Date(Date.now() + expiresIn * 24 * 60 * 60 * 1000) :
             null;
 
+        // Generate cryptographically random delete token
+        const deleteToken = `${generateToken()}${generateToken()}`;
+        const deleteTokenHash = hashToken(deleteToken);
+        const passwordHash = password ? hashPassword(password) : null;
+
         const record = await FilesRepository.create({
             shortCode,
             storedName: path.basename(file.path),
@@ -55,12 +67,16 @@ const FilesService = {
             size: file.size,
             expiresAt,
             maxDownloads: maxDownloads || null,
+            password: passwordHash,
+            deleteTokenHash,
             uploadedBy,
         });
 
         return {
             shortCode: record.shortCode,
-            shareUrl: `${config.app.frontendUrl}/f/${record.shortCode}/download`,
+            shareUrl: `${config.app.baseUrl}/api/files/${record.shortCode}/download`,
+            deleteToken,
+            hasPassword: !!passwordHash,
             originalName: record.originalName,
             size: record.size,
             mimeType: record.mimeType,
@@ -74,8 +90,8 @@ const FilesService = {
      * Resolve a short code to a file stream path.
      * Enforces expiry, download limits, and password.
      */
-    async resolveDownload(shortCode) {
-        const record = await FilesRepository.findByCode(shortCode);
+    async resolveDownload(shortCode, providedPassword = null) {
+        const record = await FilesRepository.findByCodeWithPassword(shortCode);
         if (!record) throw new AppError('File not found', ErrorCodes.FILE_NOT_FOUND, 404);
 
         if (record.expiresAt && record.expiresAt < new Date()) {
@@ -84,6 +100,12 @@ const FilesService = {
 
         if (record.maxDownloads && record.downloadCount >= record.maxDownloads) {
             throw new AppError('Download limit reached for this file', ErrorCodes.FILE_EXPIRED, 410);
+        }
+
+        if (record.password) {
+            if (!providedPassword || !verifyPassword(providedPassword, record.password)) {
+                throw new AppError('Valid password required to download this file', ErrorCodes.UNAUTHORIZED, 401);
+            }
         }
 
         const filePath = path.join(path.resolve(config.upload.dir), record.storedName);
@@ -108,7 +130,7 @@ const FilesService = {
 
     /** Get file metadata (no file stream, no auth needed). */
     async getMeta(shortCode) {
-        const record = await FilesRepository.findByCode(shortCode);
+        const record = await FilesRepository.findByCodeWithPassword(shortCode);
         if (!record) throw new AppError('File not found', ErrorCodes.FILE_NOT_FOUND, 404);
 
         return {
@@ -118,17 +140,30 @@ const FilesService = {
             size: record.size,
             downloadCount: record.downloadCount,
             maxDownloads: record.maxDownloads,
+            hasPassword: !!record.password,
             expiresAt: record.expiresAt,
             createdAt: record.createdAt,
         };
     },
 
-    /** Soft-delete a file record and remove from disk. */
-    async deleteFile(shortCode, requestedBy) {
-        const record = await FilesRepository.findByCode(shortCode);
+    /** Soft-delete a file record and remove from disk. Requires deleteToken or adminSecret. */
+    async deleteFile(shortCode, deleteToken = null, adminSecret = null) {
+        const record = await FilesRepository.findByCodeWithSecrets(shortCode);
         if (!record) throw new AppError('File not found', ErrorCodes.FILE_NOT_FOUND, 404);
 
-        if (record.uploadedBy !== requestedBy) {
+        const isAdmin = Boolean(
+            adminSecret &&
+            config.app.adminSecret &&
+            timingSafeCompare(adminSecret, config.app.adminSecret)
+        );
+
+        const isAuthorizedOwner = Boolean(
+            deleteToken &&
+            record.deleteTokenHash &&
+            timingSafeCompare(hashToken(deleteToken), record.deleteTokenHash)
+        );
+
+        if (!isAdmin && !isAuthorizedOwner) {
             throw new AppError('You do not have permission to delete this file', ErrorCodes.FORBIDDEN, 403);
         }
 

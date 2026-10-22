@@ -19,23 +19,33 @@ const UrlController = require('./modules/url/url.controller');
 
 const app = express();
 
-// Trust proxy — required for correct req.ip behind Render's load balancer
+// Trust proxy — required for correct req.ip behind reverse proxy / load balancer
 app.set('trust proxy', 1);
 
-app.use(helmet({ crossOriginResourcePolicy: { policy: 'cross-origin' } }));
+app.use(helmet({
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+}));
+
+// Build explicit allowed origins list
+const allowedOrigins = new Set([
+    config.app.corsOrigin,
+    config.app.frontendUrl,
+].filter(Boolean));
+
+if (config.app.corsOrigin && config.app.corsOrigin.includes(',')) {
+    config.app.corsOrigin.split(',').map((o) => o.trim()).forEach((o) => allowedOrigins.add(o));
+}
 
 app.use(cors({
     origin: (origin, callback) => {
-        const allowed = [config.app.corsOrigin, /\.netlify\.app$/, /\.vercel\.app$/];
+        // Allow requests with no origin (e.g. mobile apps, server-to-server, curl)
         if (!origin) return callback(null, true);
-        const ok = allowed.some((p) =>
-            typeof p === 'string' ? p === origin : p.test(origin)
-        );
-        callback(ok ? null : new Error('CORS blocked'), ok);
+        const ok = allowedOrigins.has(origin);
+        return callback(null, ok);
     },
     methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-secret'],
-    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-secret', 'x-delete-token', 'x-file-password'],
+    credentials: false,
 }));
 
 app.use(express.json({ limit: '1mb' }));

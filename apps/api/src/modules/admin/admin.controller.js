@@ -25,7 +25,7 @@ const AdminController = {
                 urlData.push({
                     code: u.shortCode,
                     originalUrl: u.originalUrl,
-                    clicks: u.clickCount || 0,
+                    clicks: u.clicks || 0,
                     uniqueViews: await safeCard(`visitors:url:${u.shortCode}`),
                     createdAt: u.createdAt,
                 });
@@ -33,7 +33,7 @@ const AdminController = {
         }
 
         // Pastes
-        const PasteModel = tryModel('Text') || tryModel('Paste') || tryModel('TextPaste');
+        const PasteModel = tryModel('Paste') || tryModel('Text') || tryModel('TextPaste');
         if (PasteModel) {
             const items = await PasteModel.find({}).lean().limit(1000);
             for (const p of items) {

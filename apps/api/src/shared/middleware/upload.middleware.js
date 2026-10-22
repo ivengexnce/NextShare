@@ -12,31 +12,47 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
+// ─── Allowed Extensions Set (defence-in-depth alongside MIME types) ────────────
+const ALLOWED_EXTENSIONS = new Set([
+  '.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg',
+  '.pdf',
+  '.txt', '.md', '.csv',
+  '.zip',
+  '.doc', '.docx', '.xls', '.xlsx',
+  '.mp4', '.webm',
+  '.mp3', '.wav', '.ogg',
+]);
+
 // ─── Storage Engine ────────────────────────────────────────────────────────────
 const storage = multer.diskStorage({
   destination(_req, _file, cb) {
     cb(null, uploadDir);
   },
   filename(_req, file, cb) {
-    // Store as {token}.{ext} to prevent directory traversal & collisions
-    const ext = path.extname(file.originalname).toLowerCase();
+    // Sanitize and extract extension
+    const cleanBasename = path.basename(file.originalname).replace(/[\x00-\x1f\x7f]/g, '');
+    const ext = path.extname(cleanBasename).toLowerCase();
+    // Store as {token}{ext} inside upload directory to prevent traversal and overwrites
     cb(null, `${generateToken()}${ext}`);
   },
 });
 
 // ─── File Filter ───────────────────────────────────────────────────────────────
-function fileFilter(_req, file, cb) {
-  if (config.upload.allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(
-      new AppError(
-        `File type "${file.mimetype}" is not allowed`,
-        ErrorCodes.INVALID_FILE_TYPE,
-        415,
-      ),
-    );
+function fileFilter(req, file, cb) {
+  const cleanBasename = path.basename(file.originalname || '').replace(/[\x00-\x1f\x7f]/g, '');
+  const ext = path.extname(cleanBasename).toLowerCase();
+
+  if (!ALLOWED_EXTENSIONS.has(ext)) {
+    req.fileValidationError = `File extension "${ext || 'none'}" is not permitted`;
+    return cb(null, false);
   }
+
+  if (!config.upload.allowedTypes.includes(file.mimetype)) {
+    req.fileValidationError = `File type "${file.mimetype}" is not allowed`;
+    return cb(null, false);
+  }
+
+  cb(null, true);
 }
 
 // ─── Multer Instance ───────────────────────────────────────────────────────────
@@ -50,10 +66,27 @@ const upload = multer({
   },
 });
 
+const uploadSingle = upload.single('file');
+
 /**
- * Single-file upload middleware.
- * Usage: router.post('/upload', uploadMiddleware, filesController.upload)
+ * Single-file upload middleware with smooth stream consumption and error mapping.
  */
-const uploadMiddleware = upload.single('file');
+function uploadMiddleware(req, res, next) {
+  uploadSingle(req, res, (err) => {
+    if (err) {
+      return next(err);
+    }
+    if (req.fileValidationError) {
+      return next(
+        new AppError(
+          req.fileValidationError,
+          ErrorCodes.INVALID_FILE_TYPE,
+          415,
+        ),
+      );
+    }
+    next();
+  });
+}
 
 module.exports = uploadMiddleware;

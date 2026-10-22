@@ -21,6 +21,11 @@ const TextRepository = {
   async destroy(shortCode) {
     return Paste.deleteOne({ shortCode });
   },
+
+  /** Atomic find and deactivate for race-condition-safe burn-after-read */
+  async findAndBurn(shortCode) {
+    return Paste.findOneAndUpdate({ shortCode, isActive: true }, { $set: { isActive: false } });
+  },
 };
 
 module.exports = TextRepository;

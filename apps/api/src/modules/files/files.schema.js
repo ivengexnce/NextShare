@@ -36,9 +36,14 @@ const fileSchema = new mongoose.Schema(
       default: null,    // null = unlimited
     },
     password: {
-      type: String,     // bcrypt hash — null if no password
+      type: String,     // scrypt hash — null if no password
       default: null,
       select: false,    // never return password hash to clients
+    },
+    deleteTokenHash: {
+      type: String,     // sha256 hash of deletion authorization token
+      default: null,
+      select: false,    // never return hash to clients
     },
     expiresAt: {
       type: Date,

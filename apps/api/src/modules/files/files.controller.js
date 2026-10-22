@@ -11,17 +11,24 @@ const FilesController = {
 
     async download(req, res) {
         const { code } = req.params;
-        const { filePath, originalName, mimeType, size } = await FilesService.resolveDownload(code);
-        const ip = req.headers['x-forwarded-for'] ?
-            req.headers['x-forwarded-for'].split(',')[0].trim() :
-            (req.ip || 'unknown');
+        const password = req.headers['x-file-password'] || req.query.password;
+        const { filePath, originalName, mimeType, size } = await FilesService.resolveDownload(code, password);
+
+        const ip = req.ip || 'unknown';
         redisClient.sAdd(`visitors:file:${code}`, ip).catch(() => {});
 
         res.setHeader('Content-Type', mimeType);
         res.setHeader('Content-Length', size);
         res.setHeader('Content-Disposition', `attachment; filename="${encodeURIComponent(originalName)}"`);
         res.setHeader('Cache-Control', 'no-store');
-        return res.sendFile(filePath, { dotfiles: 'deny' });
+        res.setHeader('X-Content-Type-Options', 'nosniff');
+        res.setHeader('Content-Security-Policy', "default-src 'none'");
+
+        const nodePath = require('path');
+        return res.sendFile(nodePath.basename(filePath), {
+            root: nodePath.dirname(filePath),
+            dotfiles: 'deny',
+        });
     },
 
     async meta(req, res) {
@@ -32,8 +39,9 @@ const FilesController = {
 
     async remove(req, res) {
         const { code } = req.params;
-        const requestedBy = req.ip || 'anonymous';
-        await FilesService.deleteFile(code, requestedBy);
+        const deleteToken = req.headers['x-delete-token'] || req.query.deleteToken || req.body?.deleteToken;
+        const adminSecret = req.headers['x-admin-secret'];
+        await FilesService.deleteFile(code, deleteToken, adminSecret);
         return ResponseFactory.success(res, null, 'File deleted');
     },
 };

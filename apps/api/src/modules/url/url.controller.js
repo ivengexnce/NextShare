@@ -12,9 +12,7 @@ const UrlController = {
     async redirect(req, res) {
         const { code } = req.params;
         const originalUrl = await UrlService.resolve(code);
-        const ip = req.headers['x-forwarded-for'] ?
-            req.headers['x-forwarded-for'].split(',')[0].trim() :
-            (req.ip || 'unknown');
+        const ip = req.ip || 'unknown';
         redisClient.sAdd(`visitors:url:${code}`, ip).catch(() => {});
         return ResponseFactory.redirect(res, originalUrl);
     },
