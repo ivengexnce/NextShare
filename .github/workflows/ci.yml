@@ -1,0 +1,50 @@
+name: CI/CD Quality Gates & Security Pipeline
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  quality-and-security:
+    name: Lint, Test, Build & Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js 20.x
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: 1. Lint & Static Analysis
+        run: npm run lint
+
+      - name: 2. Production Web Bundle Build
+        run: npm run build
+
+      - name: 3. Automated Test Suite & Coverage Verification
+        run: npm test
+        env:
+          NODE_ENV: test
+          ADMIN_SECRET: ci-test-admin-secret-key-12345
+          MONGODB_URI: mongodb://localhost:27017/nexus-test
+          REDIS_URL: redis://localhost:6379
+
+      - name: 4. Dependency Vulnerability Audit Gate
+        run: npm audit --audit-level=critical
+
+      - name: 5. Secret Leak Detection
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
