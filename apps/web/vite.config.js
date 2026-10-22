@@ -7,8 +7,47 @@ import { dirname, resolve } from 'path';
 const __dirname = dirname(fileURLToPath(
     import.meta.url));
 
+function multiPageRewritesPlugin() {
+    return {
+        name: 'multi-page-rewrites',
+        configureServer(server) {
+            server.middlewares.use((req, res, next) => {
+                const url = req.url || '';
+                const pathname = url.split('?')[0];
+                if (
+                    pathname === '/app' ||
+                    pathname === '/app/' ||
+                    pathname === '/admin' ||
+                    pathname === '/admin/' ||
+                    pathname.startsWith('/paste/')
+                ) {
+                    req.url = '/app.html' + (url.includes('?') ? '?' + url.split('?')[1] : '');
+                }
+                next();
+            });
+        },
+        configurePreviewServer(server) {
+            server.middlewares.use((req, res, next) => {
+                const url = req.url || '';
+                const pathname = url.split('?')[0];
+                if (
+                    pathname === '/app' ||
+                    pathname === '/app/' ||
+                    pathname === '/admin' ||
+                    pathname === '/admin/' ||
+                    pathname.startsWith('/paste/')
+                ) {
+                    req.url = '/app.html' + (url.includes('?') ? '?' + url.split('?')[1] : '');
+                }
+                next();
+            });
+        },
+    };
+}
+
 export default defineConfig({
     plugins: [
+        multiPageRewritesPlugin(),
         react(),
         VitePWA({
             registerType: 'autoUpdate',
