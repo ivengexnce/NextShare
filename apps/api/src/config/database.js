@@ -12,22 +12,25 @@ const OPTS = {
 // ─── Retry Logic ───────────────────────────────────────────────────────────────
 // Scaling rule: wrap connection in retry so a slow DB start doesn't kill the pod
 let retries = 0;
-const MAX_RETRIES = 5;
-const RETRY_DELAY_MS = 3000;
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 2000;
+let isInitialConnected = false;
 
 async function connect() {
   try {
     await mongoose.connect(config.mongodb.uri, OPTS);
     retries = 0;
+    isInitialConnected = true;
     logger.info('[db] MongoDB connected', { uri: config.mongodb.uri.replace(/\/\/.*@/, '//***@') });
   } catch (err) {
     retries += 1;
-    logger.error('[db] MongoDB connection failed', { attempt: retries, error: err.message });
+    logger.error('[db] MongoDB connection failed', { attempt: retries, maxRetries: MAX_RETRIES, error: err.message });
+    await mongoose.disconnect().catch(() => {});
 
     if (retries >= MAX_RETRIES) {
-      logger.error('[db] Max retries reached — exiting.');
-      logger.error(`[db] Could not connect to MongoDB at ${config.mongodb.uri.replace(/\/\/.*@/, '//***@')}`);
-      logger.error('[db] Ensure MongoDB is running locally (e.g. via local service/Docker) or provide a cloud connection string in .env (e.g. MongoDB Atlas MONGODB_URI).');
+      logger.error('[db] Max retries reached — could not connect to MongoDB.');
+      logger.error(`[db] Target URI: ${config.mongodb.uri.replace(/\/\/.*@/, '//***@')}`);
+      logger.error('[db] Please make sure a MongoDB server is running or provide a valid MONGODB_URI in .env (e.g., MongoDB Atlas cloud URI).');
       process.exit(1);
     }
 
@@ -38,17 +41,24 @@ async function connect() {
 }
 
 // ─── Event Hooks ───────────────────────────────────────────────────────────────
+// Only trigger reconnect on 'disconnected' AFTER an initial successful connection
 mongoose.connection.on('disconnected', () => {
-  logger.warn('[db] MongoDB disconnected — attempting reconnect');
-  connect();
+  if (isInitialConnected) {
+    logger.warn('[db] MongoDB disconnected — attempting reconnect');
+    isInitialConnected = false;
+    connect().catch(() => {});
+  }
 });
 
 mongoose.connection.on('error', (err) => {
-  logger.error('[db] MongoDB error', { error: err.message });
+  if (isInitialConnected) {
+    logger.error('[db] MongoDB error', { error: err.message });
+  }
 });
 
 // ─── Graceful Shutdown ─────────────────────────────────────────────────────────
 async function disconnect() {
+  isInitialConnected = false;
   await mongoose.connection.close();
   logger.info('[db] MongoDB connection closed');
 }
