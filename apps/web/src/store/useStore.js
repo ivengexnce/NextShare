@@ -21,7 +21,16 @@ const useStore = create((set) => ({
   removeToast: (id) => set((s) => ({ toasts: s.toasts.filter((t) => t.id !== id) })),
 
   // ── Active tool tab ───────────────────────────────────────────────────────
-  activeTab: 'url',
+  activeTab: (() => {
+    try {
+      const searchParam = new URLSearchParams(window.location.search).get('tab');
+      const hashParam = window.location.hash.replace('#', '');
+      const candidate = searchParam || hashParam;
+      return ['url', 'files', 'text'].includes(candidate) ? candidate : 'url';
+    } catch {
+      return 'url';
+    }
+  })(),
   setActiveTab: (tab) => set({ activeTab: tab }),
 }));
 

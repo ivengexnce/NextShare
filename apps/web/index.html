@@ -3221,6 +3221,24 @@
             const raw = document.getElementById('pasteUrl').textContent.replace(' ⚡ burn', '');
             navigator.clipboard.writeText('https://' + raw).catch(() => {});
         }
+
+        // Fix: Ensure App links work seamlessly in file:// protocol, local file previews, direct static servers, and dev
+        (function() {
+            function updateAppLinks() {
+                var isFileProto = window.location.protocol === 'file:';
+                var isHtmlDirect = window.location.pathname.endsWith('.html');
+                if (isFileProto || isHtmlDirect) {
+                    document.querySelectorAll('a[href="/app"]').forEach(function(link) {
+                        link.setAttribute('href', 'app.html');
+                    });
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', updateAppLinks);
+            } else {
+                updateAppLinks();
+            }
+        })();
     </script>
 </body>
 
