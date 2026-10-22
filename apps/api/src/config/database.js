@@ -25,7 +25,9 @@ async function connect() {
     logger.error('[db] MongoDB connection failed', { attempt: retries, error: err.message });
 
     if (retries >= MAX_RETRIES) {
-      logger.error('[db] Max retries reached — exiting');
+      logger.error('[db] Max retries reached — exiting.');
+      logger.error(`[db] Could not connect to MongoDB at ${config.mongodb.uri.replace(/\/\/.*@/, '//***@')}`);
+      logger.error('[db] Ensure MongoDB is running locally (e.g. via local service/Docker) or provide a cloud connection string in .env (e.g. MongoDB Atlas MONGODB_URI).');
       process.exit(1);
     }
 
