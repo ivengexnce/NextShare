@@ -4,10 +4,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NextShare — Developer sharing tools by Meet Maru</title>
+    <title>NextShare — Free URL Shortener, Secure File Sharing &amp; Code Pastebin</title>
+    <meta name="description" content="Share links, files, and code instantly with NextShare. Free, open-source developer toolkit featuring custom short URLs, password-protected file sharing, and burn-after-read code pastes. No accounts required." />
+    <meta name="keywords" content="url shortener, file sharing, code paste, pastebin, burn after read, developer sharing tools, temporary file upload, open source share, nextshare, meet maru" />
+    <meta name="author" content="Meet Maru" />
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+    <link rel="canonical" href="https://nextsharebymeet.vercel.app/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://nextsharebymeet.vercel.app/" />
+    <meta property="og:title" content="NextShare — Free URL Shortener, Secure File Sharing &amp; Code Pastebin" />
+    <meta property="og:description" content="Share links, files, and code in seconds. Open source, zero tracking, sub-100ms Redis caching, and offline-capable PWA." />
+    <meta property="og:image" content="https://nextsharebymeet.vercel.app/og-image.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="NextShare Developer Platform Preview" />
+    <meta property="og:site_name" content="NextShare" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://nextsharebymeet.vercel.app/" />
+    <meta name="twitter:title" content="NextShare — Free URL Shortener, Secure File Sharing &amp; Code Pastebin" />
+    <meta name="twitter:description" content="Share links, files, and code in seconds. Open source, zero tracking, sub-100ms Redis caching." />
+    <meta name="twitter:image" content="https://nextsharebymeet.vercel.app/og-image.svg" />
+    <meta name="twitter:creator" content="@meetmaru" />
+
+    <!-- Theme & Icons -->
+    <meta name="theme-color" content="#0C0B0A" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Performance & Font Preconnects -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://nextsharebymeet.vercel.app/#website",
+          "url": "https://nextsharebymeet.vercel.app/",
+          "name": "NextShare",
+          "description": "Developer sharing tools: URL shortener, encrypted file sharing, and burn-after-read code pastebin.",
+          "publisher": {
+            "@id": "https://nextsharebymeet.vercel.app/#person"
+          },
+          "inLanguage": "en-US"
+        },
+        {
+          "@type": "WebApplication",
+          "@id": "https://nextsharebymeet.vercel.app/#webapp",
+          "name": "NextShare",
+          "url": "https://nextsharebymeet.vercel.app/app",
+          "applicationCategory": "DeveloperApplication",
+          "operatingSystem": "All",
+          "browserRequirements": "Requires JavaScript. Requires HTML5.",
+          "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+          },
+          "featureList": [
+            "Custom URL Shortener with click analytics and unique visitor tracking",
+            "Password-protected file sharing up to 50MB with max-download cap",
+            "Code pastebin with syntax highlighting across 23 languages and burn-after-read mode",
+            "Progressive Web App with offline queuing and IndexedDB sync"
+          ]
+        },
+        {
+          "@type": "Person",
+          "@id": "https://nextsharebymeet.vercel.app/#person",
+          "name": "Meet Maru",
+          "url": "https://github.com/ivengexnce",
+          "sameAs": [
+            "https://linkedin.com/in/meetmaru149",
+            "https://github.com/ivengexnce"
+          ],
+          "jobTitle": "Full-Stack Engineer",
+          "worksFor": {
+            "@type": "Organization",
+            "name": "NextShare Open Source"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://nextsharebymeet.vercel.app/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "What is NextShare?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "NextShare is an open-source, privacy-focused developer sharing platform that combines a fast URL shortener, secure file sharing up to 50MB, and a syntax-highlighted code pastebin with burn-after-read security."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Do I need to create an account to use NextShare?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. NextShare requires zero account registration and does not collect tracking cookies or personal data."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does burn-after-read code paste work?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "When you enable burn-after-read on a code paste, the paste is fetched directly from the database and immediately destroyed upon its first view. It is excluded from the cache, making second reads impossible."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I protect shared files with a password?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. NextShare allows you to set a custom password, an expiration timer, and a maximum download count on uploaded files. Passwords are cryptographically verified using Scrypt hashing."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does NextShare work offline?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. NextShare is built as a Progressive Web App (PWA) with service workers and IndexedDB. You can install it on your device and create links or pastes offline; they will automatically sync when you reconnect."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
     <style>
         /* ─── TOKENS ─── */
         

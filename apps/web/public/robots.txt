@@ -1,0 +1,14 @@
+# robots.txt for https://nextsharebymeet.vercel.app/
+User-agent: *
+Allow: /
+Allow: /app
+
+# Protect private admin dashboard and sensitive API endpoints
+Disallow: /admin
+Disallow: /api/
+
+# Prevent crawlers from triggering burn-after-read paste destruction
+Disallow: /paste/
+
+# Search Engine Sitemap
+Sitemap: https://nextsharebymeet.vercel.app/sitemap.xml
