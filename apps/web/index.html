@@ -2671,7 +2671,7 @@
           </svg>
                     </div>
                     <div class="feat-badge"><span class="feat-badge-dot"></span> Most used</div>
-                    <div class="feat-name">URL Shortener</div>
+                    <h3 class="feat-name">URL Shortener</h3>
                     <p class="feat-desc">Paste any URL and get a short link with a custom alias. Redis caches every redirect, so links resolve in under 100ms. Click analytics, unique visitor counts, and optional expiry baked in.</p>
                     <div class="feat-tags">
                         <span class="feat-tag">custom-alias</span>
@@ -2692,7 +2692,7 @@
             <path d="M13 10h2a2 2 0 012 2v4a2 2 0 01-2 2H9a2 2 0 01-2-2v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
                     </div>
-                    <div class="feat-name">File Sharing</div>
+                    <h3 class="feat-name">File Sharing</h3>
                     <p class="feat-desc">Drop a file, get a direct download link. Set a password, cap the max download count, or let it auto-expire. Supports image and text previews. Files stream directly from the server — no S3 fees.</p>
                     <div class="feat-tags">
                         <span class="feat-tag">drag-drop</span>
@@ -2713,7 +2713,7 @@
             <path d="M11 7l-2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
           </svg>
                     </div>
-                    <div class="feat-name">Code Paste</div>
+                    <h3 class="feat-name">Code Paste</h3>
                     <p class="feat-desc">Share syntax-highlighted snippets across 23 languages. Burn-after-read mode destroys the paste on first view. Redis caches normal pastes; burn pastes always hit the DB directly — no second read possible.</p>
                     <div class="feat-code-preview">
                         <div class="feat-code-bar">
@@ -2751,7 +2751,7 @@
           </svg>
                     </div>
                     <div class="feat-badge-green"><span class="feat-badge-green-dot"></span> PWA</div>
-                    <div class="feat-name">Works Offline</div>
+                    <h3 class="feat-name">Works Offline</h3>
                     <p class="feat-desc">The whole app installs as a PWA. Go offline and actions queue in IndexedDB. The moment you reconnect, background sync flushes the queue automatically — nothing is lost mid-session.</p>
                     <div class="pwa-grid">
                         <div class="pwa-chip">
@@ -2804,28 +2804,28 @@
                 <div class="process-step">
                     <div class="process-step-num">1</div>
                     <div>
-                        <div class="process-step-name">Paste or drop</div>
+                        <h3 class="process-step-name">Paste or drop</h3>
                         <p class="process-step-desc">Enter a URL, drop a file, or paste code into the React app. Zustand manages local state while you type.</p>
                     </div>
                 </div>
                 <div class="process-step">
                     <div class="process-step-num">2</div>
                     <div>
-                        <div class="process-step-name">API creates it</div>
+                        <h3 class="process-step-name">API creates it</h3>
                         <p class="process-step-desc">Vite proxies the request to Express. The service validates it, generates a short code, and writes to MongoDB first.</p>
                     </div>
                 </div>
                 <div class="process-step">
                     <div class="process-step-num">3</div>
                     <div>
-                        <div class="process-step-name">Redis caches it</div>
+                        <h3 class="process-step-name">Redis caches it</h3>
                         <p class="process-step-desc">The result is written to Redis with a TTL. Every subsequent redirect or fetch hits the cache, not Mongo.</p>
                     </div>
                 </div>
                 <div class="process-step">
                     <div class="process-step-num">4</div>
                     <div>
-                        <div class="process-step-name">Share the link</div>
+                        <h3 class="process-step-name">Share the link</h3>
                         <p class="process-step-desc">You get a short URL back. Analytics, visitor deduplication via Redis Sets, and expiry all run automatically.</p>
                     </div>
                 </div>
@@ -3006,18 +3006,61 @@
         </div>
     </div>
 
+    <!-- ─── FAQ ─── -->
+    <div id="faq" class="section" style="max-width:1120px;margin:0 auto;padding:80px 32px;">
+        <div class="section-tag reveal">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
+                <path d="M6 8.5v.5M6 3.5a1.5 1.5 0 011.5 1.5c0 1-1.5 1.5-1.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg> FAQ
+        </div>
+        <h2 class="section-title reveal d1" style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:16px;">Frequently Asked Questions</h2>
+        <p class="section-sub reveal d2" style="max-width:540px;color:var(--t2);margin-bottom:40px;line-height:1.75;">
+            Everything you need to know about NextShare privacy, security architecture, and developer sharing features.
+        </p>
+
+        <div class="faq-grid reveal d3" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;">
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">What is NextShare?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">NextShare is a fast, open-source developer sharing suite providing custom URL shortening with click analytics, encrypted file sharing up to 50MB, and a syntax-highlighted code pastebin with burn-after-read security.</p>
+            </div>
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">Do I need to sign up or create an account?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">No account is needed. NextShare is designed as a frictionless anonymous utility. There are no tracking scripts, third-party analytics pixels, or paywalls.</p>
+            </div>
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">How does burn-after-read code paste work?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">When you enable burn-after-read, the snippet is fetched directly from the database and atomically marked inactive upon first retrieval. It completely bypasses Redis cache so no second read is ever possible.</p>
+            </div>
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">Can I set passwords on shared files?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">Yes. You can optionally protect any file upload with a custom password verified via Scrypt hashing, set an expiration window, and limit total download count.</p>
+            </div>
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">Does NextShare work without an internet connection?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">Yes. As an installable Progressive Web App (PWA), items created while offline are queued in IndexedDB and automatically synchronized when connection is restored.</p>
+            </div>
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">Can I self-host NextShare?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">Yes. NextShare is fully open-source under the MIT License and includes ready-to-run Docker Compose configurations for deploying on your own servers.</p>
+            </div>
+        </div>
+    </div>
+
     <!-- ─── FOOTER ─── -->
     <div style="border-top:1px solid var(--bdr)">
         <footer>
             <div>
                 <div class="footer-brand">Next<span>Share</span></div>
-                <div class="footer-credit">Built with care by <a href="https://github.com/ivengexnce" target="_blank">Meet Maru</a> · MIT License</div>
+                <div class="footer-credit">Built with care by <a href="https://github.com/ivengexnce" target="_blank" rel="noopener noreferrer">Meet Maru</a> · MIT License</div>
             </div>
             <div class="footer-links">
-                <a href="https://github.com/ivengexnce" target="_blank">GitHub</a>
-                <a href="https://linkedin.com/in/meetmaru149" target="_blank">LinkedIn</a>
+                <a href="https://github.com/ivengexnce" target="_blank" rel="noopener noreferrer">GitHub</a>
+                <a href="https://linkedin.com/in/meetmaru149" target="_blank" rel="noopener noreferrer">LinkedIn</a>
                 <a href="#features">Features</a>
+                <a href="#how-it-works">How it works</a>
                 <a href="#demo">Demo</a>
+                <a href="#faq">FAQ</a>
             </div>
         </footer>
     </div>

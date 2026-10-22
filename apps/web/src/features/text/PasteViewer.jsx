@@ -8,10 +8,24 @@ export default function PasteViewer({ code }) {
   const [copied, setCopied]   = useState(false);
 
   useEffect(() => {
+    // SEO Safeguard: Ensure private/burn pastes are never indexed by search engines
+    let metaRobots = document.querySelector('meta[name="robots"]');
+    const prevRobots = metaRobots ? metaRobots.content : 'index, follow';
+    if (!metaRobots) {
+      metaRobots = document.createElement('meta');
+      metaRobots.name = 'robots';
+      document.head.appendChild(metaRobots);
+    }
+    metaRobots.content = 'noindex, nofollow';
+
     textApi.get(code)
       .then(setPaste)
       .catch((err) => setError(err.message))
       .finally(() => setLoading(false));
+
+    return () => {
+      if (metaRobots) metaRobots.content = prevRobots;
+    };
   }, [code]);
 
   function copy() {

@@ -50,6 +50,20 @@ export default function AdminDashboard() {
   const [error, setError]   = useState(null);
   const [tab, setTab]       = useState('analytics');
 
+  useEffect(() => {
+    let metaRobots = document.querySelector('meta[name="robots"]');
+    const prev = metaRobots ? metaRobots.content : 'index, follow';
+    if (!metaRobots) {
+      metaRobots = document.createElement('meta');
+      metaRobots.name = 'robots';
+      document.head.appendChild(metaRobots);
+    }
+    metaRobots.content = 'noindex, nofollow';
+    return () => {
+      if (metaRobots) metaRobots.content = prev;
+    };
+  }, []);
+
   async function fetchStats(s) {
     setLoading(true);
     setError(null);
