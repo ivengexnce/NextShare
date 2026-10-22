@@ -37,8 +37,8 @@ export default function App() {
         <div className="header-inner">
           <a href="/" className="logo" style={{ textDecoration: 'none' }}>
             <div className="logo-mark">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M2 7h10M7 2l5 5-5 5" stroke="#fff" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <path d="M5 12h14M12.5 5.5L19 12l-6.5 6.5" stroke="#fff" strokeWidth="2.8" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
             </div>
             <span className="logo-text">Next<span>Share</span></span>

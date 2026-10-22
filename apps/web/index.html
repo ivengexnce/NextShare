@@ -288,25 +288,26 @@
         }
         
         .nav-logo-mark {
-            width: 26px;
-            height: 26px;
-            border-radius: 7px;
-            background: var(--accent);
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: #6366F1;
             display: grid;
             place-items: center;
             flex-shrink: 0;
+            box-shadow: 0 2px 8px rgba(99, 102, 241, .32);
         }
         
         .brand-name {
             font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            font-size: 1.05rem;
-            letter-spacing: -.02em;
-            color: var(--t1);
+            font-weight: 800;
+            font-size: 1.15rem;
+            letter-spacing: -.03em;
+            color: #FFFFFF;
         }
         
         .brand-name span {
-            color: var(--accent-l);
+            color: #818CF8;
         }
         
         .nav-links {
@@ -1986,14 +1987,17 @@
         
         .footer-brand {
             font-family: 'Sora', sans-serif;
-            font-weight: 700;
-            font-size: 1rem;
-            letter-spacing: -.01em;
-            color: var(--t1);
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: -.03em;
+            color: #FFFFFF;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
         
         .footer-brand span {
-            color: var(--accent-l);
+            color: #818CF8;
         }
         
         .footer-credit {
@@ -2492,9 +2496,9 @@
         <div class="nav-inner">
             <a href="#" class="nav-logo">
                 <div class="nav-logo-mark">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-          <path d="M2 7h10M7 2l5 5-5 5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12h14M12.5 5.5L19 12l-6.5 6.5" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
                 </div>
                 <div class="brand-name">Next<span>Share</span></div>
             </a>
@@ -3051,7 +3055,14 @@
     <div style="border-top:1px solid var(--bdr)">
         <footer>
             <div>
-                <div class="footer-brand">Next<span>Share</span></div>
+                <div class="footer-brand">
+                    <div class="nav-logo-mark" style="width:22px;height:22px;border-radius:6px;box-shadow:none;">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12h14M12.5 5.5L19 12l-6.5 6.5" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    Next<span>Share</span>
+                </div>
                 <div class="footer-credit">Built with care by <a href="https://github.com/ivengexnce" target="_blank" rel="noopener noreferrer">Meet Maru</a> · MIT License</div>
             </div>
             <div class="footer-links">

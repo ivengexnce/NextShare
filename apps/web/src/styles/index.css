@@ -143,25 +143,26 @@ button {
 }
 
 .logo-mark {
-    width: 26px;
-    height: 26px;
-    border-radius: 7px;
-    background: var(--accent);
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: #6366F1;
     display: grid;
     place-items: center;
     flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, .32);
 }
 
 .logo-text {
     font-family: var(--font-heading);
-    font-weight: 700;
-    font-size: 1rem;
-    letter-spacing: -.02em;
-    color: var(--t1);
+    font-weight: 800;
+    font-size: 1.12rem;
+    letter-spacing: -.03em;
+    color: #FFFFFF;
 }
 
 .logo-text span {
-    color: var(--accent-l);
+    color: #818CF8;
 }
 
 .status-badge {
