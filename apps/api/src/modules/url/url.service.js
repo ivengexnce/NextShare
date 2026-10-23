@@ -30,7 +30,7 @@ const UrlService = {
      * Shorten a URL.
      * Returns { shortCode, shortUrl, originalUrl, expiresAt }
      */
-    async shorten(payload, createdBy = 'anonymous') {
+    async shorten(payload, createdBy = 'anonymous', baseUrl = config.app.baseUrl) {
         // 1. Validate input
         const { error, value } = shortenSchema.validate(payload, { abortEarly: false });
         if (error) {
