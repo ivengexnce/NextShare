@@ -34,16 +34,27 @@ const config = {
         dir: process.env.UPLOAD_DIR || './uploads',
         maxFileSize: parseInt(process.env.MAX_FILE_SIZE, 10) || 50 * 1024 * 1024, // 50 MB
         allowedTypes: [
-            'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml',
+            // HTML & Web
+            'text/html', 'text/css', 'text/javascript', 'application/javascript', 'application/json', 'application/xml', 'text/xml',
+            // Images
+            'image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml', 'image/x-icon', 'image/bmp', 'image/tiff',
+            // Documents
             'application/pdf',
-            'text/plain', 'text/markdown', 'text/csv',
-            'application/zip', 'application/x-zip-compressed',
             'application/msword',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/vnd.ms-excel',
             'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-            'video/mp4', 'video/webm',
-            'audio/mpeg', 'audio/wav', 'audio/ogg',
+            'application/vnd.ms-powerpoint',
+            'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+            // Text & Data
+            'text/plain', 'text/markdown', 'text/csv', 'text/tab-separated-values',
+            // Archives
+            'application/zip', 'application/x-zip-compressed', 'application/x-tar', 'application/gzip', 'application/x-gzip', 'application/x-7z-compressed', 'application/vnd.rar',
+            // Video & Audio
+            'video/mp4', 'video/webm', 'video/quicktime',
+            'audio/mpeg', 'audio/wav', 'audio/ogg', 'audio/mp4', 'audio/x-m4a',
+            // Developer text & binary payloads
+            'application/octet-stream',
         ],
     },
 

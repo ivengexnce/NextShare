@@ -14,13 +14,27 @@ if (!fs.existsSync(uploadDir)) {
 
 // ─── Allowed Extensions Set (defence-in-depth alongside MIME types) ────────────
 const ALLOWED_EXTENSIONS = new Set([
-  '.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg',
-  '.pdf',
-  '.txt', '.md', '.csv',
-  '.zip',
-  '.doc', '.docx', '.xls', '.xlsx',
-  '.mp4', '.webm',
-  '.mp3', '.wav', '.ogg',
+  // Web & HTML
+  '.html', '.htm', '.css', '.js', '.mjs', '.jsx', '.ts', '.tsx', '.json', '.xml',
+  // Images
+  '.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.ico', '.bmp', '.tiff',
+  // Documents
+  '.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx',
+  // Text & Data
+  '.txt', '.md', '.markdown', '.csv', '.tsv', '.log',
+  // Developer source & configs
+  '.py', '.java', '.c', '.cpp', '.h', '.hpp', '.cs', '.go', '.rs', '.sql', '.sh', '.yaml', '.yml', '.toml', '.ini',
+  // Archives
+  '.zip', '.tar', '.gz', '.tgz', '.7z', '.rar',
+  // Media
+  '.mp4', '.webm', '.mov',
+  '.mp3', '.wav', '.ogg', '.m4a',
+]);
+
+// ─── Blocked Executable Extensions ─────────────────────────────────────────────
+const BLOCKED_EXTENSIONS = new Set([
+  '.exe', '.bat', '.cmd', '.ps1', '.vbs', '.msi', '.dll', '.com', '.scr',
+  '.jar', '.apk', '.iso', '.dmg', '.pif', '.application', '.gadget', '.wsf', '.cpl', '.reg',
 ]);
 
 // ─── Storage Engine ────────────────────────────────────────────────────────────
@@ -42,13 +56,14 @@ function fileFilter(req, file, cb) {
   const cleanBasename = path.basename(file.originalname || '').replace(/[\x00-\x1f\x7f]/g, '');
   const ext = path.extname(cleanBasename).toLowerCase();
 
-  if (!ALLOWED_EXTENSIONS.has(ext)) {
+  if (BLOCKED_EXTENSIONS.has(ext) || !ALLOWED_EXTENSIONS.has(ext)) {
     req.fileValidationError = `File extension "${ext || 'none'}" is not permitted`;
     return cb(null, false);
   }
 
-  if (!config.upload.allowedTypes.includes(file.mimetype)) {
-    req.fileValidationError = `File type "${file.mimetype}" is not allowed`;
+  const mime = file.mimetype || '';
+  if (!config.upload.allowedTypes.includes(mime) && !mime.startsWith('text/')) {
+    req.fileValidationError = `File type "${mime}" is not allowed`;
     return cb(null, false);
   }
 

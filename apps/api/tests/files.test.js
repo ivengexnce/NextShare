@@ -71,6 +71,34 @@ describe('Files Module & BOLA / IDOR Security', () => {
       expect(typeof res.body.data.deleteToken).toBe('string');
       expect(res.body.data.deleteToken.length).toBeGreaterThan(10);
     });
+
+    it('should successfully upload an .html developer file (201)', async () => {
+      const htmlFilePath = path.join(uploadDir, 'test-doc.html');
+      fs.writeFileSync(htmlFilePath, '<!DOCTYPE html><html><body><h1>Test</h1></body></html>');
+      try {
+        const mockRecord = {
+          shortCode: 'html123',
+          originalName: 'test-doc.html',
+          size: 55,
+          mimeType: 'text/html',
+          expiresAt: null,
+          maxDownloads: null,
+          createdAt: new Date().toISOString(),
+        };
+        jest.spyOn(FilesRepository, 'findByCode').mockResolvedValue(null);
+        jest.spyOn(FilesRepository, 'create').mockResolvedValue(mockRecord);
+
+        const res = await request(app)
+          .post('/api/files/upload')
+          .attach('file', htmlFilePath);
+
+        expect(res.status).toBe(201);
+        expect(res.body.success).toBe(true);
+        expect(res.body.data.shortCode).toBe('html123');
+      } finally {
+        if (fs.existsSync(htmlFilePath)) fs.unlinkSync(htmlFilePath);
+      }
+    });
   });
 
   describe('GET /api/files/:code/download (Security headers & password enforcement)', () => {
