@@ -6,9 +6,9 @@ const URL_ALPHABET = '23456789abcdefghjkmnpqrstuvwxyzABCDEFGHJKMNPQRSTUVWXYZ';
 
 /**
  * Generate a random short code.
- * @param {number} [size=7]  Default 7 → ~57B combinations, collision-resistant for millions of links
+ * @param {number} [size=5]  Default 5 → ~380M combinations, clean and short
  */
-const generateShortCode = customAlphabet(URL_ALPHABET, 7);
+const generateShortCode = customAlphabet(URL_ALPHABET, 5);
 
 /**
  * Generate a longer download token (e.g. for file share links).

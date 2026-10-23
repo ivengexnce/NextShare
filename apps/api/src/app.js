@@ -101,6 +101,8 @@ app.use('/api/pastes', textRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/admin', adminRoutes);
 
+app.get('/s/:code([a-zA-Z0-9-]{3,20})', urlRedirectLimiter, UrlController.redirect);
+app.get('/r/:code([a-zA-Z0-9-]{3,20})', urlRedirectLimiter, UrlController.redirect);
 app.get('/:code([a-zA-Z0-9-]{3,20})', urlRedirectLimiter, UrlController.redirect);
 
 app.use((_req, res) =>
