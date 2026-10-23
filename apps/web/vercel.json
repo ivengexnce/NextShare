@@ -14,28 +14,27 @@
       ]
     },
     {
-      "source": "/(assets|icons)/.*",
+      "source": "/assets/:path*",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
       ]
     },
     {
-      "source": "/(sitemap\\.xml|robots\\.txt)",
+      "source": "/sitemap.xml",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" },
         { "key": "X-Robots-Tag", "value": "all" }
       ]
     },
     {
-      "source": "/(index\\.html|app\\.html|/)",
+      "source": "/robots.txt",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" },
+        { "key": "X-Robots-Tag", "value": "all" }
       ]
     }
   ],
   "rewrites": [
-    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
-    { "source": "/robots.txt", "destination": "/robots.txt" },
     { "source": "/app", "destination": "/app.html" },
     { "source": "/admin", "destination": "/app.html" },
     { "source": "/paste/:path*", "destination": "/app.html" }
