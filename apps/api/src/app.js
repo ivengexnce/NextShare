@@ -63,6 +63,19 @@ app.use(visitorMiddleware);
 
 app.use('/api', generalLimiter);
 
+app.get('/', (req, res) => {
+    if (req.accepts('html')) {
+        return res.redirect('/admin');
+    }
+    return ResponseFactory.success(res, {
+        name: 'NextShare API',
+        status: 'online',
+        health: '/health',
+        admin: '/admin',
+        frontend: config.app.frontendUrl,
+    });
+});
+
 app.get('/health', (_req, res) =>
     ResponseFactory.success(res, {
         status: 'ok',
