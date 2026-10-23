@@ -9,7 +9,14 @@ function tryModel(name) {
     try { return mongoose.model(name); } catch { return null; }
 }
 
+const { getAdminPortalHtml } = require('./admin.portal');
+
 const AdminController = {
+    portal(_req, res) {
+        res.setHeader('Content-Type', 'text/html; charset=utf-8');
+        res.send(getAdminPortalHtml());
+    },
+
     async stats(_req, res) {
         const globalVisitors = await safeCard('visitors:global');
 
@@ -58,6 +65,7 @@ const AdminController = {
                     filename: f.originalName || f.filename || f.shortCode,
                     downloads: f.downloadCount || 0,
                     uniqueViews: await safeCard(`visitors:file:${f.shortCode}`),
+                    sha256: f.sha256 || null,
                     createdAt: f.createdAt,
                 });
             }

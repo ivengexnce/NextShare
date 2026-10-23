@@ -6,7 +6,7 @@ require('dotenv').config();
 // ─── Env Validation ────────────────────────────────────────────────────────────
 // In production, enforce explicit configuration and secure, non-default secrets.
 if (process.env.NODE_ENV === 'production') {
-    const REQUIRED = ['MONGODB_URI', 'REDIS_URL', 'ADMIN_SECRET'];
+    const REQUIRED = ['MONGODB_URI', 'ADMIN_SECRET'];
     const missing = REQUIRED.filter((k) => !process.env[k]);
     if (missing.length) {
         throw new Error(`[config] Missing required production environment variables: ${missing.join(', ')}`);

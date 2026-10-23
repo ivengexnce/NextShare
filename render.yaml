@@ -1,0 +1,32 @@
+# Render Blueprint specification for NextShare Backend
+# Docs: https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: nextshare-api
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: node apps/api/src/server.js
+    healthCheckPath: /health
+    autoDeploy: true
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: CORS_ORIGIN
+        value: https://nextsharebymeet.vercel.app
+      - key: FRONTEND_URL
+        value: https://nextsharebymeet.vercel.app
+      - key: MONGODB_URI
+        sync: false # Set in Render Dashboard: mongodb+srv://<user>:<password>@cluster0.../nextshare?retryWrites=true&w=majority
+      - key: ADMIN_SECRET
+        generateValue: true # Render will automatically generate a cryptographically strong secret
+      - key: JWT_SECRET
+        generateValue: true
+      - key: BASE_URL
+        sync: false # Set to your Render URL: https://<service-name>.onrender.com
+      - key: REDIS_URL
+        sync: false # Optional: Upstash Redis or Render Key-Value URL

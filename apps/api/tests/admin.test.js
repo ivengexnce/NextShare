@@ -19,6 +19,16 @@ describe('Admin Module & Authorization Tests', () => {
     jest.restoreAllMocks();
   });
 
+  describe('GET /admin standalone portal', () => {
+    it('should serve standalone admin HTML portal on GET /admin', async () => {
+      const res = await request(app).get('/admin').set('Accept', 'text/html');
+      expect(res.status).toBe(200);
+      expect(res.headers['content-type']).toMatch(/text\/html/);
+      expect(res.text).toContain('NextShare Admin');
+      expect(res.text).toContain('Render Backend');
+    });
+  });
+
   describe('GET /admin/stats authentication', () => {
     it('should reject request without x-admin-secret header (401)', async () => {
       const res = await request(app).get('/admin/stats');
