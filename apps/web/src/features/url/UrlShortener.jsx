@@ -14,9 +14,25 @@ function formatExpiry(expiresAt) {
   return `${days}d`;
 }
 
+function formatShortUrl(url, shortCode) {
+  if (!url) return '';
+  const apiBase = (import.meta.env.VITE_API_URL || 'https://nextshare-0cy3.onrender.com').replace(/\/+$/, '');
+  if (url.includes('localhost') && ((typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) || import.meta.env.VITE_API_URL)) {
+    return `${apiBase}/${shortCode}`;
+  }
+  return url;
+}
+
 function loadHistory() {
-  try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
-  catch { return []; }
+  try {
+    const raw = JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+    return raw.map((item) => ({
+      ...item,
+      shortUrl: formatShortUrl(item.shortUrl, item.shortCode),
+    }));
+  } catch {
+    return [];
+  }
 }
 
 function saveHistory(list) {
@@ -51,12 +67,14 @@ export default function UrlShortener() {
       if (form.expiresIn)  payload.expiresIn  = Number(form.expiresIn);
 
       const data = await urlApi.shorten(payload);
-      setResult(data);
+      const cleanUrl = formatShortUrl(data.shortUrl, data.shortCode);
+      const cleanData = { ...data, shortUrl: cleanUrl };
+      setResult(cleanData);
 
       // Save to local history
       const entry = {
         shortCode: data.shortCode,
-        shortUrl:  data.shortUrl,
+        shortUrl:  cleanUrl,
         originalUrl: form.originalUrl,
         expiresAt: data.expiresAt || null,
         createdAt: new Date().toISOString(),

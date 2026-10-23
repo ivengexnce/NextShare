@@ -42,6 +42,10 @@ export default function FileShare() {
         { expiresIn: options.expiresIn || undefined, maxDownloads: options.maxDownloads || undefined },
         setProgress,
       );
+      const apiBase = (import.meta.env.VITE_API_URL || 'https://nextshare-0cy3.onrender.com').replace(/\/+$/, '');
+      if (data.shareUrl && data.shareUrl.includes('localhost') && ((typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) || import.meta.env.VITE_API_URL)) {
+        data.shareUrl = `${apiBase}/api/files/${data.shortCode}/download`;
+      }
       setResult(data); setFile(null);
       addToast('File uploaded!', 'success');
     } catch (err) {

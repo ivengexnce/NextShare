@@ -29,7 +29,7 @@ const FilesService = {
      * Register an uploaded file (multer has already saved it to disk).
      * Returns the shareable file record including deleteToken.
      */
-    async registerUpload(file, body, uploadedBy = 'anonymous') {
+    async registerUpload(file, body, uploadedBy = 'anonymous', baseUrl = config.app.baseUrl) {
         if (!file) {
             throw new AppError('No file received', ErrorCodes.VALIDATION_ERROR, 400);
         }
@@ -83,9 +83,10 @@ const FilesService = {
             uploadedBy,
         });
 
+        const hostUrl = (baseUrl || config.app.baseUrl || 'https://nextshare-0cy3.onrender.com').replace(/\/+$/, '');
         return {
             shortCode: record.shortCode,
-            shareUrl: `${config.app.baseUrl}/api/files/${record.shortCode}/download`,
+            shareUrl: `${hostUrl}/api/files/${record.shortCode}/download`,
             deleteToken,
             hasPassword: !!passwordHash,
             originalName: record.originalName,

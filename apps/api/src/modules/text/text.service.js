@@ -31,7 +31,7 @@ const cacheKey = (code) => `paste:${code}`;
 
 // ─── Service ───────────────────────────────────────────────────────────────────
 const TextService = {
-    async create(payload, createdBy = 'anonymous') {
+    async create(payload, createdBy = 'anonymous', frontendUrl = config.app.frontendUrl) {
         const { error, value } = createSchema.validate(payload, { abortEarly: false });
         if (error) {
             throw new AppError(error.details.map((d) => d.message).join('; '), ErrorCodes.VALIDATION_ERROR, 400);
@@ -69,9 +69,10 @@ const TextService = {
             }, ttlSeconds);
         }
 
+        const hostUrl = (frontendUrl || config.app.frontendUrl || 'https://nextsharebymeet.vercel.app').replace(/\/+$/, '');
         return {
             shortCode: paste.shortCode,
-            shareUrl: `${config.app.frontendUrl}/paste/${paste.shortCode}`,
+            shareUrl: `${hostUrl}/paste/${paste.shortCode}`,
             title: paste.title,
             language: paste.language,
             expiresAt: paste.expiresAt,
