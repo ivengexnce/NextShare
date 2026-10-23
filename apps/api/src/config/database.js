@@ -50,7 +50,16 @@ async function connect() {
     if (retries >= MAX_RETRIES) {
       logger.error('[db] Max retries reached — could not connect to MongoDB.');
       logger.error(`[db] Target URI: ${config.mongodb.uri.replace(/\/\/.*@/, '//***@')}`);
-      logger.error('[db] Please make sure a MongoDB server is running or provide a valid MONGODB_URI in .env (e.g., MongoDB Atlas cloud URI).');
+      if (err.message && err.message.includes('querySrv ENOTFOUND')) {
+        logger.error('[db] DIAGNOSIS: The cluster hostname in MONGODB_URI does not exist in DNS (ENOTFOUND).');
+        logger.error('[db] Go to MongoDB Atlas -> Clusters -> Connect -> Drivers to copy the exact cluster hostname (e.g. cluster0.xxxxx.mongodb.net).');
+      } else if (err.message && (err.message.includes('bad auth') || err.message.includes('Authentication failed'))) {
+        logger.error('[db] DIAGNOSIS: Invalid MongoDB database username or password in MONGODB_URI.');
+      } else if (err.message && err.message.includes('ETIMEDOUT')) {
+        logger.error('[db] DIAGNOSIS: Connection timed out. Ensure Atlas Network Access allows IP 0.0.0.0/0.');
+      } else {
+        logger.error('[db] Please make sure a MongoDB server is running or provide a valid MONGODB_URI in .env (e.g., MongoDB Atlas cloud URI).');
+      }
       process.exit(1);
     }
 
