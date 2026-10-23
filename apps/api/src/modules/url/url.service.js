@@ -73,10 +73,12 @@ const UrlService = {
         // 5. Warm Redis cache immediately (avoids first-redirect DB hit)
         await redis.set(cacheKey.redirect(shortCode), { originalUrl, expiresAt }, config.cache.urlRedirectTtl);
 
-        const hostUrl = (baseUrl || config.app.baseUrl || 'https://nextshare-0cy3.onrender.com').replace(/\/+$/, '');
+        const hostUrl = (baseUrl || config.app.frontendUrl || config.app.baseUrl || 'https://nextsharebymeet.vercel.app').replace(/\/+$/, '');
+        const isFrontend = hostUrl.includes('vercel.app') || (config.app.frontendUrl && hostUrl === config.app.frontendUrl.replace(/\/+$/, ''));
+        const shortUrl = isFrontend ? `${hostUrl}/s/${url.shortCode}` : `${hostUrl}/${url.shortCode}`;
         return {
             shortCode: url.shortCode,
-            shortUrl: `${hostUrl}/${url.shortCode}`,
+            shortUrl,
             originalUrl: url.originalUrl,
             title: url.title,
             expiresAt: url.expiresAt,

@@ -36,6 +36,8 @@
   ],
   "rewrites": [
     { "source": "/api/:path*", "destination": "https://nextshare-0cy3.onrender.com/api/:path*" },
+    { "source": "/s/:code", "destination": "https://nextshare-0cy3.onrender.com/s/:code" },
+    { "source": "/r/:code", "destination": "https://nextshare-0cy3.onrender.com/r/:code" },
     { "source": "/app", "destination": "/app.html" },
     { "source": "/admin", "destination": "/app.html" },
     { "source": "/paste/:path*", "destination": "/app.html" }

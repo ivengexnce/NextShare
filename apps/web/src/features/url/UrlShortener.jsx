@@ -16,9 +16,9 @@ function formatExpiry(expiresAt) {
 
 function formatShortUrl(url, shortCode) {
   if (!url) return '';
-  const apiBase = (import.meta.env.VITE_API_URL || 'https://nextshare-0cy3.onrender.com').replace(/\/+$/, '');
-  if (url.includes('localhost') && ((typeof window !== 'undefined' && !window.location.hostname.includes('localhost')) || import.meta.env.VITE_API_URL)) {
-    return `${apiBase}/${shortCode}`;
+  const currentOrigin = (typeof window !== 'undefined' && window.location.origin) || 'https://nextsharebymeet.vercel.app';
+  if (url.includes('onrender.com') || url.includes('localhost')) {
+    return `${currentOrigin}/s/${shortCode}`;
   }
   return url;
 }

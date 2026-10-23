@@ -5,15 +5,28 @@ const { client: redisClient } = require('../../config/redis');
 const config = require('../../config');
 
 function getBaseUrl(req) {
-    if (config.app.baseUrl && !config.app.baseUrl.includes('localhost')) {
-        return config.app.baseUrl.replace(/\/+$/, '');
+    const origin = req.get('origin');
+    if (origin && !origin.includes('localhost')) {
+        return origin.replace(/\/+$/, '');
+    }
+    const referer = req.get('referer');
+    if (referer) {
+        try {
+            const parsed = new URL(referer);
+            if (!parsed.origin.includes('localhost')) {
+                return parsed.origin;
+            }
+        } catch {}
+    }
+    if (config.app.frontendUrl && !config.app.frontendUrl.includes('localhost')) {
+        return config.app.frontendUrl.replace(/\/+$/, '');
     }
     const host = req.get('x-forwarded-host') || req.get('host');
     const proto = req.get('x-forwarded-proto') || req.protocol || 'https';
     if (host && !host.includes('localhost')) {
         return `${proto}://${host}`.replace(/\/+$/, '');
     }
-    return (config.app.baseUrl || 'http://localhost:3001').replace(/\/+$/, '');
+    return (config.app.baseUrl || 'https://nextsharebymeet.vercel.app').replace(/\/+$/, '');
 }
 
 const UrlController = {
