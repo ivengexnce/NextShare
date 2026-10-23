@@ -27,6 +27,6 @@ services:
       - key: JWT_SECRET
         generateValue: true
       - key: BASE_URL
-        sync: false # Set to your Render URL: https://<service-name>.onrender.com
+        value: https://nextshare-0cy3.onrender.com
       - key: REDIS_URL
         sync: false # Optional: Upstash Redis or Render Key-Value URL
