@@ -1,11 +1,25 @@
 const FilesService = require('./files.service');
 const ResponseFactory = require('../../shared/utils/response.factory');
 const { client: redisClient } = require('../../config/redis');
+const config = require('../../config');
+
+function getBaseUrl(req) {
+    if (config.app.baseUrl && !config.app.baseUrl.includes('localhost')) {
+        return config.app.baseUrl.replace(/\/+$/, '');
+    }
+    const host = req.get('x-forwarded-host') || req.get('host');
+    const proto = req.get('x-forwarded-proto') || req.protocol || 'https';
+    if (host && !host.includes('localhost')) {
+        return `${proto}://${host}`.replace(/\/+$/, '');
+    }
+    return (config.app.baseUrl || 'https://nextshare-0cy3.onrender.com').replace(/\/+$/, '');
+}
 
 const FilesController = {
     async upload(req, res) {
         const uploadedBy = req.ip || 'anonymous';
-        const result = await FilesService.registerUpload(req.file, req.body, uploadedBy);
+        const baseUrl = getBaseUrl(req);
+        const result = await FilesService.registerUpload(req.file, req.body, uploadedBy, baseUrl);
         return ResponseFactory.success(res, result, 'File uploaded successfully', 201);
     },
 

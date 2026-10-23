@@ -73,9 +73,10 @@ const UrlService = {
         // 5. Warm Redis cache immediately (avoids first-redirect DB hit)
         await redis.set(cacheKey.redirect(shortCode), { originalUrl, expiresAt }, config.cache.urlRedirectTtl);
 
+        const hostUrl = (baseUrl || config.app.baseUrl || 'https://nextshare-0cy3.onrender.com').replace(/\/+$/, '');
         return {
             shortCode: url.shortCode,
-            shortUrl: `${config.app.baseUrl}/${url.shortCode}`,
+            shortUrl: `${hostUrl}/${url.shortCode}`,
             originalUrl: url.originalUrl,
             title: url.title,
             expiresAt: url.expiresAt,

@@ -59,9 +59,9 @@ const config = {
     },
 
     app: {
-        baseUrl: process.env.BASE_URL || 'http://localhost:3001',
-        frontendUrl: process.env.FRONTEND_URL || 'http://localhost:5173',
-        corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173',
+        baseUrl: process.env.BASE_URL || (process.env.NODE_ENV === 'production' ? 'https://nextshare-0cy3.onrender.com' : 'http://localhost:3001'),
+        frontendUrl: process.env.FRONTEND_URL || (process.env.NODE_ENV === 'production' ? 'https://nextsharebymeet.vercel.app' : 'http://localhost:5173'),
+        corsOrigin: process.env.CORS_ORIGIN || 'http://localhost:5173,https://nextsharebymeet.vercel.app',
         adminSecret: process.env.ADMIN_SECRET || 'dev-admin-secret',
         jwtSecret: process.env.JWT_SECRET || 'dev-secret-change-in-production',
     },
