@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 
-const API = import.meta.env.VITE_API_URL || '';
+const API = `${import.meta.env.VITE_API_URL || ''}/api/admin`;
 
 const CHART_COLORS = {
   url:   '#378ADD',
@@ -65,15 +65,23 @@ export default function AdminDashboard() {
   }, []);
 
   async function fetchStats(s) {
+    if (!s || !s.trim()) {
+      setError('Please enter your admin secret key.');
+      return;
+    }
     setLoading(true);
     setError(null);
     try {
-      const res  = await fetch(`${API}/admin/stats`, { headers: { 'x-admin-secret': s } });
+      const res = await fetch(`${API}/stats`, { headers: { 'x-admin-secret': s.trim() } });
+      const contentType = res.headers.get('content-type') || '';
+      if (!contentType.includes('application/json')) {
+        throw new Error(`Server returned non-JSON response (${res.status}). Verify API server is running on port 3001.`);
+      }
       const json = await res.json();
-      if (!json.success) throw new Error(json.message);
+      if (!json.success) throw new Error(json.message || 'Invalid admin secret');
       setData(json.data);
-      sessionStorage.setItem('adminSecret', s);
-      setSecret(s);
+      sessionStorage.setItem('adminSecret', s.trim());
+      setSecret(s.trim());
     } catch (err) {
       setError(err.message);
       sessionStorage.removeItem('adminSecret');

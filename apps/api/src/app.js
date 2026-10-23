@@ -74,6 +74,7 @@ app.get('/health', (_req, res) =>
 app.use('/api/urls', urlRoutes);
 app.use('/api/files', filesRoutes);
 app.use('/api/pastes', textRoutes);
+app.use('/api/admin', adminRoutes);
 app.use('/admin', adminRoutes);
 
 app.get('/:code([a-zA-Z0-9-]{3,20})', urlRedirectLimiter, UrlController.redirect);
