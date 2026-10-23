@@ -63,6 +63,13 @@ function verifyPassword(password, storedHash) {
   return crypto.timingSafeEqual(keyBuffer, derivedKey);
 }
 
+/**
+ * Compute SHA-256 hash of a buffer or stream for file integrity checksum.
+ */
+function hashFile(buffer) {
+  return crypto.createHash('sha256').update(buffer).digest('hex');
+}
+
 module.exports = {
   generateShortCode,
   generateToken,
@@ -71,4 +78,5 @@ module.exports = {
   hashToken,
   hashPassword,
   verifyPassword,
+  hashFile,
 };

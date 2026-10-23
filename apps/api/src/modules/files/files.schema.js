@@ -26,6 +26,11 @@ const fileSchema = new mongoose.Schema(
       type: Number,     // bytes
       required: true,
     },
+    sha256: {
+      type: String,     // sha256 cryptographic checksum of file contents
+      default: null,
+      index: true,
+    },
     // ── Sharing settings ──────────────────────────────────────────────────────
     downloadCount: {
       type: Number,

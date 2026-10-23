@@ -11,6 +11,7 @@ const {
     hashPassword,
     verifyPassword,
     timingSafeCompare,
+    hashFile,
 } = require('../../shared/utils/hash');
 const FilesRepository = require('./files.repository');
 
@@ -59,12 +60,22 @@ const FilesService = {
         const deleteTokenHash = hashToken(deleteToken);
         const passwordHash = password ? hashPassword(password) : null;
 
+        // Compute cryptographic SHA-256 integrity hash of uploaded file
+        let sha256 = null;
+        try {
+            const fileData = await fs.readFile(file.path);
+            sha256 = hashFile(fileData);
+        } catch {
+            // non-fatal if file stream couldn't be read for hash
+        }
+
         const record = await FilesRepository.create({
             shortCode,
             storedName: path.basename(file.path),
             originalName: file.originalname,
             mimeType: file.mimetype,
             size: file.size,
+            sha256,
             expiresAt,
             maxDownloads: maxDownloads || null,
             password: passwordHash,
@@ -80,6 +91,7 @@ const FilesService = {
             originalName: record.originalName,
             size: record.size,
             mimeType: record.mimeType,
+            sha256: record.sha256,
             expiresAt: record.expiresAt,
             maxDownloads: record.maxDownloads,
             createdAt: record.createdAt,
@@ -125,6 +137,7 @@ const FilesService = {
             originalName: record.originalName,
             mimeType: record.mimeType,
             size: record.size,
+            sha256: record.sha256,
         };
     },
 
@@ -138,6 +151,7 @@ const FilesService = {
             originalName: record.originalName,
             mimeType: record.mimeType,
             size: record.size,
+            sha256: record.sha256,
             downloadCount: record.downloadCount,
             maxDownloads: record.maxDownloads,
             hasPassword: !!record.password,

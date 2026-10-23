@@ -12,7 +12,7 @@ const FilesController = {
     async download(req, res) {
         const { code } = req.params;
         const password = req.headers['x-file-password'] || req.query.password;
-        const { filePath, originalName, mimeType, size } = await FilesService.resolveDownload(code, password);
+        const { filePath, originalName, mimeType, size, sha256 } = await FilesService.resolveDownload(code, password);
 
         const ip = req.ip || 'unknown';
         redisClient.sAdd(`visitors:file:${code}`, ip).catch(() => {});
@@ -23,6 +23,10 @@ const FilesController = {
         res.setHeader('Cache-Control', 'no-store');
         res.setHeader('X-Content-Type-Options', 'nosniff');
         res.setHeader('Content-Security-Policy', "default-src 'none'");
+        if (sha256) {
+            res.setHeader('ETag', `"${sha256}"`);
+            res.setHeader('X-Checksum-SHA256', sha256);
+        }
 
         const nodePath = require('path');
         return res.sendFile(nodePath.basename(filePath), {
