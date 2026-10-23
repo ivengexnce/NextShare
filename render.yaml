@@ -21,9 +21,9 @@ services:
       - key: FRONTEND_URL
         value: https://nextsharebymeet.vercel.app
       - key: MONGODB_URI
-        sync: false # Set in Render Dashboard: mongodb+srv://<user>:<password>@cluster0.../nextshare?retryWrites=true&w=majority
+        sync: false 
       - key: ADMIN_SECRET
-        generateValue: true # Render will automatically generate a cryptographically strong secret
+        generateValue: true 
       - key: JWT_SECRET
         generateValue: true
       - key: BASE_URL
