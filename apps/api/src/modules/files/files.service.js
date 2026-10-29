@@ -83,10 +83,11 @@ const FilesService = {
             uploadedBy,
         });
 
-        const hostUrl = (baseUrl || config.app.baseUrl || 'https://nextshare-0cy3.onrender.com').replace(/\/+$/, '');
+        const hostUrl = (baseUrl || config.app.frontendUrl || config.app.baseUrl || 'https://nextsharebymeet.vercel.app').replace(/\/+$/, '');
+        const shareUrl = `${hostUrl}/f/${record.shortCode}`;
         return {
             shortCode: record.shortCode,
-            shareUrl: `${hostUrl}/api/files/${record.shortCode}/download`,
+            shareUrl,
             deleteToken,
             hasPassword: !!passwordHash,
             originalName: record.originalName,

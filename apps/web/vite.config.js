@@ -19,7 +19,8 @@ function multiPageRewritesPlugin() {
                     pathname === '/app/' ||
                     pathname === '/admin' ||
                     pathname === '/admin/' ||
-                    pathname.startsWith('/paste/')
+                    pathname.startsWith('/paste/') ||
+                    pathname.startsWith('/p/')
                 ) {
                     req.url = '/app.html' + (url.includes('?') ? '?' + url.split('?')[1] : '');
                 }
@@ -35,7 +36,8 @@ function multiPageRewritesPlugin() {
                     pathname === '/app/' ||
                     pathname === '/admin' ||
                     pathname === '/admin/' ||
-                    pathname.startsWith('/paste/')
+                    pathname.startsWith('/paste/') ||
+                    pathname.startsWith('/p/')
                 ) {
                     req.url = '/app.html' + (url.includes('?') ? '?' + url.split('?')[1] : '');
                 }
@@ -93,6 +95,8 @@ export default defineConfig({
             '/admin/stats': { target: 'http://localhost:3001', changeOrigin: true },
             '/s': { target: 'http://localhost:3001', changeOrigin: true },
             '/r': { target: 'http://localhost:3001', changeOrigin: true },
+            '/f': { target: 'http://localhost:3001', changeOrigin: true },
+            '/d': { target: 'http://localhost:3001', changeOrigin: true },
         },
     },
 });

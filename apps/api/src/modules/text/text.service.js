@@ -72,7 +72,7 @@ const TextService = {
         const hostUrl = (frontendUrl || config.app.frontendUrl || 'https://nextsharebymeet.vercel.app').replace(/\/+$/, '');
         return {
             shortCode: paste.shortCode,
-            shareUrl: `${hostUrl}/paste/${paste.shortCode}`,
+            shareUrl: `${hostUrl}/p/${paste.shortCode}`,
             title: paste.title,
             language: paste.language,
             expiresAt: paste.expiresAt,

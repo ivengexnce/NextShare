@@ -10,7 +10,13 @@ if (redirectMatch) {
   window.location.replace(`https://nextshare-0cy3.onrender.com/${code}`);
 }
 
-const pasteMatch = window.location.pathname.match(/^\/paste\/([^/]+)$/);
+const fileMatch = window.location.pathname.match(/^\/(?:f|d)\/([^/]+)$/);
+if (fileMatch) {
+  const code = fileMatch[1];
+  window.location.replace(`https://nextshare-0cy3.onrender.com/api/files/${code}/download`);
+}
+
+const pasteMatch = window.location.pathname.match(/^\/(?:paste|p)\/([^/]+)$/);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>

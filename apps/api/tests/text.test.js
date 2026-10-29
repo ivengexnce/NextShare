@@ -55,7 +55,7 @@ describe('Code Paste (Text) Module', () => {
       expect(res.status).toBe(201);
       expect(res.body.success).toBe(true);
       expect(res.body.data.shortCode).toBe('pst123');
-      expect(res.body.data.shareUrl).toContain('/paste/pst123');
+      expect(res.body.data.shareUrl).toMatch(/\/(?:paste|p)\/pst123/);
     });
   });
 

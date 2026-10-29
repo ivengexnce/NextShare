@@ -15,12 +15,10 @@ function formatExpiry(expiresAt) {
 }
 
 function formatShortUrl(url, shortCode) {
-  if (!url) return '';
+  const code = shortCode || (url ? url.split('/').filter(Boolean).pop() : '');
+  if (!code) return url || '';
   const currentOrigin = (typeof window !== 'undefined' && window.location.origin) || 'https://nextsharebymeet.vercel.app';
-  if (url.includes('onrender.com') || url.includes('localhost')) {
-    return `${currentOrigin}/s/${shortCode}`;
-  }
-  return url;
+  return `${currentOrigin}/s/${code}`;
 }
 
 function loadHistory() {

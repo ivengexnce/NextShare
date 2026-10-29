@@ -60,7 +60,8 @@ export default function TextShare() {
         return;
       }
       const data = await textApi.create(payload);
-      data.shareUrl = `${window.location.origin}/paste/${data.shortCode}`;
+      const currentOrigin = (typeof window !== 'undefined' && window.location.origin) || 'https://nextsharebymeet.vercel.app';
+      data.shareUrl = `${currentOrigin}/p/${data.shortCode}`;
       await offlineDB.cachePaste({ ...data, content: form.content, language: form.language });
       setResult(data);
       setForm(DEFAULT); setCharCount(0);

@@ -8,7 +8,7 @@ const config = require('./config');
 const logger = require('./shared/utils/logger');
 const errorMiddleware = require('./shared/middleware/error.middleware');
 const visitorMiddleware = require('./shared/middleware/visitor.middleware');
-const { generalLimiter, urlRedirectLimiter } = require('./shared/middleware/rateLimit.middleware');
+const { generalLimiter, urlRedirectLimiter, fileDownloadLimiter } = require('./shared/middleware/rateLimit.middleware');
 const ResponseFactory = require('./shared/utils/response.factory');
 
 const urlRoutes = require('./modules/url/url.routes');
@@ -16,6 +16,7 @@ const filesRoutes = require('./modules/files/files.routes');
 const textRoutes = require('./modules/text/text.routes');
 const adminRoutes = require('./modules/admin/admin.routes');
 const UrlController = require('./modules/url/url.controller');
+const FilesController = require('./modules/files/files.controller');
 
 const app = express();
 
@@ -103,6 +104,8 @@ app.use('/admin', adminRoutes);
 
 app.get('/s/:code([a-zA-Z0-9-]{3,20})', urlRedirectLimiter, UrlController.redirect);
 app.get('/r/:code([a-zA-Z0-9-]{3,20})', urlRedirectLimiter, UrlController.redirect);
+app.get('/f/:code([a-zA-Z0-9-]{3,20})', fileDownloadLimiter, FilesController.download);
+app.get('/d/:code([a-zA-Z0-9-]{3,20})', fileDownloadLimiter, FilesController.download);
 app.get('/:code([a-zA-Z0-9-]{3,20})', urlRedirectLimiter, UrlController.redirect);
 
 app.use((_req, res) =>

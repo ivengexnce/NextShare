@@ -38,8 +38,11 @@
     { "source": "/api/:path*", "destination": "https://nextshare-0cy3.onrender.com/api/:path*" },
     { "source": "/s/:code", "destination": "https://nextshare-0cy3.onrender.com/:code" },
     { "source": "/r/:code", "destination": "https://nextshare-0cy3.onrender.com/:code" },
+    { "source": "/f/:code", "destination": "https://nextshare-0cy3.onrender.com/api/files/:code/download" },
+    { "source": "/d/:code", "destination": "https://nextshare-0cy3.onrender.com/api/files/:code/download" },
     { "source": "/app", "destination": "/app.html" },
     { "source": "/admin", "destination": "/app.html" },
+    { "source": "/p/:path*", "destination": "/app.html" },
     { "source": "/paste/:path*", "destination": "/app.html" }
   ]
 }
