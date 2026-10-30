@@ -2,6 +2,28 @@
 <html lang="en">
 
 <head>
+    <script>
+        (function() {
+            var pathname = window.location.pathname;
+            var redirectMatch = pathname.match(/^\/(?:s|r)\/([^/]+)$/);
+            if (redirectMatch) {
+                window.location.replace('https://nextshare-0cy3.onrender.com/' + redirectMatch[1]);
+                return;
+            }
+            var fileMatch = pathname.match(/^\/(?:f|d)\/([^/]+)$/);
+            if (fileMatch) {
+                window.location.replace('https://nextshare-0cy3.onrender.com/api/files/' + fileMatch[1] + '/download');
+                return;
+            }
+            var pasteMatch = pathname.match(/^\/(?:paste|p)\/([^/]+)$/);
+            if (pasteMatch) {
+                var search = window.location.search ? '&' + window.location.search.slice(1) : '';
+                window.location.replace('/app.html?p=' + pasteMatch[1] + search);
+                return;
+            }
+        })();
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NextShare — Free URL Shortener, Secure File Sharing &amp; Code Pastebin</title>

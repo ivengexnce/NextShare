@@ -17,9 +17,11 @@ if (fileMatch) {
 }
 
 const pasteMatch = window.location.pathname.match(/^\/(?:paste|p)\/([^/]+)$/);
+const urlParams = new URLSearchParams(window.location.search);
+const pasteCode = (pasteMatch && pasteMatch[1]) || urlParams.get('p') || urlParams.get('paste');
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    {pasteMatch ? <PasteViewer code={pasteMatch[1]} /> : <App />}
+    {pasteCode ? <PasteViewer code={pasteCode} /> : <App />}
   </StrictMode>,
 );

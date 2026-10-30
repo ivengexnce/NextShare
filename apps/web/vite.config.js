@@ -4,8 +4,7 @@ import { VitePWA } from 'vite-plugin-pwa';
 import { fileURLToPath } from 'url';
 import { dirname, resolve } from 'path';
 
-const __dirname = dirname(fileURLToPath(
-    import.meta.url));
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 function multiPageRewritesPlugin() {
     return {
@@ -68,6 +67,19 @@ export default defineConfig({
             },
             workbox: {
                 globPatterns: ['**/*.{js,css,html,ico,png,svg}'],
+                navigateFallback: null,
+                navigateFallbackDenylist: [
+                    /^\/s\/.*/,
+                    /^\/r\/.*/,
+                    /^\/f\/.*/,
+                    /^\/d\/.*/,
+                    /^\/api\/.*/,
+                    /^\/admin\/.*/,
+                    /^\/p\/.*/,
+                    /^\/paste\/.*/,
+                ],
+                skipWaiting: true,
+                clientsClaim: true,
                 runtimeCaching: [{
                     urlPattern: /^https?:\/\/.*\/api\/.*/i,
                     handler: 'NetworkFirst',
