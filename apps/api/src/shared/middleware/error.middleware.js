@@ -2,6 +2,7 @@ const AppError = require('../errors/AppError');
 const ErrorCodes = require('../errors/errorCodes');
 const ResponseFactory = require('../utils/response.factory');
 const logger = require('../utils/logger');
+const config = require('../../config');
 
 const SENSITIVE_KEYS = ['password', 'secret', 'adminsecret', 'token', 'authorization', 'cookie'];
 
@@ -89,9 +90,10 @@ function errorMiddleware(err, req, res, _next) {
     body: sanitizeForLogs(req.body),
   });
 
+  const devMessage = config.isDev ? `${err.message || 'Error'} [${err.name || 'Error'}]` : 'An unexpected error occurred';
   return ResponseFactory.error(
     res,
-    new AppError('An unexpected error occurred', ErrorCodes.INTERNAL_ERROR, 500),
+    new AppError(devMessage, ErrorCodes.INTERNAL_ERROR, 500, { stack: config.isDev ? err.stack : undefined }),
   );
 }
 

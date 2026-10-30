@@ -29,12 +29,16 @@ const ResponseFactory = {
    */
   error(res, error) {
     const statusCode = error.statusCode || 500;
-    return res.status(statusCode).json({
+    const body = {
       success: false,
       code: error.code || 'INTERNAL_ERROR',
       message: error.isOperational ? error.message : 'An unexpected error occurred',
       timestamp: new Date().toISOString(),
-    });
+    };
+    if (error.meta && error.meta.stack) {
+      body.stack = error.meta.stack;
+    }
+    return res.status(statusCode).json(body);
   },
 
   /** Convenience — redirect with click tracking pre-registered */
