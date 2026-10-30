@@ -347,3 +347,4 @@ Built with React (Vite), Node.js (Express), MongoDB Atlas, and Redis. Would love
 3. **Be Transparent**: Always mention that you are the creator ("I built this..."). Communities appreciate honest makers much more than disguised marketing.
 4. **Spacing Out**: Don't post to 5 subreddits simultaneously on the same day. Spread posts 2–3 days apart across different subreddits.
 5. **No URL Shorteners in Reddit Posts**: When submitting the post itself, use the full direct link (`https://nextsharebymeet.vercel.app`), as Reddit's automated spam filter automatically flags submissions containing link shorteners.
+
