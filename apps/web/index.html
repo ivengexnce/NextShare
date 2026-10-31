@@ -128,7 +128,7 @@
               "name": "What is NextShare and why should I use it over commercial sharing tools?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "NextShare is a free, open-source developer sharing suite that combines an ultra-short URL shortener, encrypted temporary file sharing (up to 50MB), and a syntax-highlighted code pastebin with burn-after-read security into a single interface. Unlike commercial tools like Bitly or WeTransfer, NextShare requires no accounts or email addresses, displays zero ads, collects no tracking cookies, and runs sub-100ms redirects via Redis caching."
+                "text": "NextShare is an open-source, privacy-first developer sharing suite combining custom URL shortening with sub-100ms Redis caching, client-side encrypted file sharing up to 50MB, and a syntax-highlighted code pastebin. Unlike commercial utilities like Bitly or WeTransfer, NextShare requires no registration, displays zero ads, collects no tracking cookies, and never places limits behind paywalls."
               }
             },
             {
@@ -136,55 +136,7 @@
               "name": "Do I need to sign up, provide an email, or create an account?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "No. NextShare is 100% anonymous and requires zero signup, login, or personal data. There are no tracking scripts, third-party analytics pixels, or paywalls. Every uploaded file generates a private delete token so you can permanently remove your data at any time without an account."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "How fast are short link redirects and how do custom aliases work?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Short URL redirects resolve with sub-100ms latency. NextShare leverages a Redis in-memory cache layer to serve 301 redirects immediately without waiting for database writes. You can choose a custom alias (3–20 alphanumeric characters) or receive an ultra-short 5-character NanoID code (e.g. nextsharebymeet.vercel.app/s/eCUgH) with non-intrusive click analytics."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Does NextShare track visitors or inject ads into shortened URLs?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "No. NextShare never injects interstitial ads, countdown timer screens, or tracking pixels into shortened URLs. It performs immediate HTTP 301 redirects to the destination URL while tracking only aggregated visitor metrics (total clicks and approximate unique visitors) without storing personal IP addresses."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "How secure is file sharing, and what happens when download limits are reached?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "Every file upload can be protected with an optional password encrypted via Scrypt key derivation, an expiration window (1 hour, 1 day, 7 days), and a strict download cap (e.g. 1, 5, or 10 downloads). When a file reaches its download limit or expiration threshold, it is permanently purged via MongoDB TTL background indexes. Downloads are delivered with strict Content Security Policies and SHA-256 integrity checksums."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "What file types and maximum upload sizes does NextShare support?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "NextShare supports file transfers up to 50MB across developer, document, archive, media, and data formats, including ZIP, TAR, 7Z, PDF, DOCX, XLSX, JSON, CSV, images, audio, video, and source code files. Executable file extensions like .exe, .bat, and .sh are strictly blocked by upload middleware to prevent malware distribution."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "How does the burn-after-read code pastebin protect sensitive data?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "When Burn-After-Read is enabled, the code snippet is fetched directly from the database and atomically marked inactive upon first retrieval. It completely bypasses the Redis cache so no copies persist in memory, and integrates with the browser sendBeacon API to trigger destruction if the recipient closes the window or tab. It is ideal for passing API keys, environment secrets, and credentials."
-              }
-            },
-            {
-              "@type": "Question",
-              "name": "Which programming languages and syntax highlighting modes are supported?",
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": "NextShare supports syntax highlighting across 23+ major programming languages including JavaScript, TypeScript, Python, Go, Rust, Java, C, C++, C#, PHP, Ruby, Swift, Kotlin, SQL, HTML, CSS, JSON, YAML, Markdown, Bash/Shell, Dockerfile, GraphQL, and plain text."
+                "text": "No account, email, or personal identity is required. NextShare is designed as a frictionless anonymous developer tool. There are zero tracking scripts, third-party analytics pixels, or login gates. When you upload a file or create a paste, a cryptographically secure private delete token is returned to you so you can permanently wipe your data at any time."
               }
             },
             {
@@ -192,15 +144,63 @@
               "name": "Does NextShare work offline without an active internet connection?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. NextShare is engineered as an installable Progressive Web App (PWA). Shortened links and code pastes drafted while offline are securely stored in local browser storage (IndexedDB) and automatically synchronized with the server as soon as an internet connection is re-established."
+                "text": "Yes. NextShare is a certified Progressive Web App (PWA) with Service Worker precaching. Shortened links and code pastes drafted while offline are queued locally in browser IndexedDB storage and automatically synchronized with the server as soon as network connectivity is restored."
               }
             },
             {
               "@type": "Question",
-              "name": "How do I self-host NextShare using Docker and customize my own domain?",
+              "name": "How fast are short link redirects and how do custom aliases work?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "NextShare is 100% open-source under the MIT license. You can self-host the entire stack (React frontend, Express API, MongoDB, and Redis) on any VPS or home lab using Docker Compose with a single command: 'docker-compose up -d'. Custom domains, rate limits, and file size quotas can be customized via simple environment variables."
+                "text": "Redirects resolve in under 100ms. NextShare leverages an in-memory Redis cache to serve HTTP 301 redirects instantly without querying the primary database. You can specify a custom alphanumeric alias (3 to 20 characters) or receive an ultra-short 5-character NanoID link (e.g. nextsharebymeet.vercel.app/s/KXKFN) with real-time, privacy-friendly click analytics."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does NextShare track visitors or inject ads into shortened URLs?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. NextShare never injects interstitial ads, countdown landing screens, or tracking pixels into shortened URLs. Every link performs a direct HTTP 301 redirect to the destination URL while tracking only aggregated, anonymized metrics (total clicks and approximate unique visitors) without storing personal IP addresses."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What file types and maximum upload sizes does NextShare support?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "NextShare supports file uploads up to 50MB across document, archive, media, and developer formats, including ZIP, TAR, 7Z, PDF, DOCX, XLSX, JSON, CSV, images, audio, and source code. Executable file extensions (.exe, .bat, .sh) are blocked by upload middleware to prevent malicious distribution."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I set passwords, expiration windows, and download limits on files?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. You can optionally protect any file upload with a custom password verified via salted Scrypt key derivation, choose an expiration window (1 hour, 1 day, or 7 days), and enforce a strict download cap (1, 5, or 10 downloads). Once the download cap or TTL expiration is reached, the file and its metadata are permanently expunged."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does the burn-after-read code pastebin protect sensitive data?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "When Burn-After-Read is enabled, the code snippet is fetched directly from MongoDB and atomically destroyed upon first retrieval. It completely bypasses the Redis cache so no copies persist in memory, and integrates with the browser sendBeacon API to trigger immediate deletion if the tab is closed, ensuring API tokens, keys, and secrets are never read twice."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Which programming languages and syntax highlighting modes are supported?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "NextShare supports full syntax highlighting across 23+ major languages, including JavaScript, TypeScript, Python, Go, Rust, Java, C, C++, C#, PHP, Ruby, Swift, Kotlin, SQL, HTML, CSS, JSON, YAML, Markdown, Bash/Shell, Dockerfile, and GraphQL, complete with line numbering and one-click clipboard copying."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I self-host NextShare using Docker on my own server?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. NextShare is 100% open-source under the MIT license. You can self-host the entire production stack (React frontend, Express API, MongoDB, and Redis) on any VPS or private server with a single command: 'docker compose up -d'. Custom domains, storage paths, and rate limits are fully configurable via environment variables."
               }
             }
           ]
@@ -209,46 +209,209 @@
     }
     </script>
     <style>
-        /* ─── SLEEK BALANCED FAQ GRID ─── */
-        .faq-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+        /* ─── SLEEK TABBED ACCORDION FAQ (MATCHING USER MOCKUP) ─── */
+        .faq-wrap {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 72px 24px;
         }
-        @media (max-width: 768px) {
-            .faq-grid {
+        .faq-header {
+            text-align: center;
+            max-width: 680px;
+            margin: 0 auto 44px;
+        }
+        .faq-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+        @media (max-width: 860px) {
+            .faq-layout {
                 grid-template-columns: 1fr;
-                gap: 16px;
+                gap: 20px;
+            }
+        }
+        /* Left Column: Category Tabs */
+        .faq-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: sticky;
+            top: calc(var(--nav-h) + 24px);
+        }
+        @media (max-width: 860px) {
+            .faq-nav {
+                flex-direction: row;
+                overflow-x: auto;
+                padding-bottom: 8px;
+                position: static;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: none;
+            }
+            .faq-nav::-webkit-scrollbar {
+                display: none;
+            }
+        }
+        .faq-tab-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 16px 20px;
+            background: var(--bg-1);
+            border: 1px solid var(--bdr);
+            border-radius: var(--r-md);
+            color: var(--t2);
+            font-family: 'Sora', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s var(--ease);
+            user-select: none;
+            white-space: nowrap;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .faq-tab-btn:hover {
+            background: var(--bg-2);
+            border-color: var(--bdr-md);
+            color: var(--t1);
+        }
+        .faq-tab-btn.active {
+            background: var(--bg-2);
+            border-color: rgba(99, 102, 241, 0.5);
+            color: #FFFFFF;
+            box-shadow: 0 4px 20px rgba(99, 102, 241, 0.14);
+        }
+        .faq-tab-chevron {
+            width: 14px;
+            height: 14px;
+            stroke: currentColor;
+            opacity: 0.5;
+            transition: transform 0.2s var(--ease), opacity 0.2s var(--ease), color 0.2s var(--ease);
+            flex-shrink: 0;
+        }
+        .faq-tab-btn.active .faq-tab-chevron {
+            color: #818CF8;
+            opacity: 1;
+            transform: translateX(3px);
+        }
+        /* Right Column: Accordion Cards */
+        .faq-panel {
+            display: none;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .faq-panel.active {
+            display: flex;
+            animation: faqFade 0.25s var(--ease);
+        }
+        @keyframes faqFade {
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
             }
         }
         .faq-card {
             background: var(--bg-1);
             border: 1px solid var(--bdr);
-            border-radius: var(--r-lg);
-            padding: 24px 26px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            transition: border-color 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+            border-radius: var(--r-md);
+            padding: 20px 24px;
+            transition: all 0.22s var(--ease);
+            cursor: pointer;
+            user-select: none;
         }
         .faq-card:hover {
             border-color: var(--bdr-md);
-            transform: translateY(-2px);
+            background: var(--bg-2);
+        }
+        .faq-card.open {
+            background: var(--bg-2);
+            border-color: rgba(99, 102, 241, 0.45);
             box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.5);
+        }
+        .faq-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
         }
         .faq-card-title {
             font-family: 'Sora', sans-serif;
-            font-size: 1.05rem;
+            font-size: 1.02rem;
             font-weight: 600;
             color: var(--t1);
-            margin-bottom: 12px;
-            line-height: 1.4;
-        }
-        .faq-card-text {
-            font-size: 0.9rem;
-            color: var(--t2);
-            line-height: 1.7;
+            line-height: 1.45;
             margin: 0;
+            transition: color 0.15s ease;
+        }
+        .faq-card.open .faq-card-title {
+            color: #FFFFFF;
+        }
+        .faq-card-toggle {
+            width: 28px;
+            height: 28px;
+            display: grid;
+            place-items: center;
+            font-size: 1.35rem;
+            font-weight: 300;
+            color: var(--t2);
+            border-radius: 50%;
+            background: var(--bg-3);
+            border: 1px solid var(--bdr);
+            flex-shrink: 0;
+            transition: all 0.22s var(--ease);
+            line-height: 1;
+        }
+        .faq-card:hover .faq-card-toggle {
+            color: var(--t1);
+            border-color: var(--bdr-md);
+        }
+        .faq-card.open .faq-card-toggle {
+            transform: rotate(45deg);
+            background: rgba(99, 102, 241, 0.18);
+            border-color: rgba(99, 102, 241, 0.4);
+            color: #818CF8;
+        }
+        .faq-card-body {
+            display: none;
+            margin-top: 14px;
+            padding-top: 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            color: var(--t2);
+            font-size: 0.92rem;
+            line-height: 1.7;
+        }
+        .faq-card.open .faq-card-body {
+            display: block;
+            animation: faqFadeBody 0.2s var(--ease);
+        }
+        @keyframes faqFadeBody {
+            from {
+                opacity: 0;
+                transform: translateY(-4px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .faq-card-body p {
+            margin: 0;
+        }
+        .faq-card-body code {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            background: var(--bg-3);
+            color: var(--t1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid var(--bdr);
         }
 
         /* ─── TOKENS ─── */
@@ -3117,9 +3280,9 @@
         </div>
     </div>
 
-    <!-- ─── FAQ ─── -->
-    <div id="faq" class="section" style="max-width:1040px;margin:0 auto;padding:72px 24px;">
-        <div style="margin-bottom:36px;">
+        <!-- ─── FAQ (SLEEK TABBED ACCORDION) ─── -->
+    <div id="faq" class="section faq-wrap" itemscope itemtype="https://schema.org/FAQPage">
+        <div class="faq-header">
             <div class="section-tag reveal" style="display:inline-flex;margin-bottom:12px;">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                     <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
@@ -3127,65 +3290,174 @@
                 </svg> FAQ
             </div>
             <h2 class="section-title reveal d1" style="font-size:clamp(1.75rem,3vw,2.4rem);margin-bottom:12px;">Frequently Asked Questions</h2>
-            <p class="section-sub reveal d2" style="max-width:540px;color:var(--t2);font-size:0.92rem;line-height:1.65;">
-                Everything you need to know about NextShare privacy, security architecture, and developer sharing features.
+            <p class="section-sub reveal d2" style="color:var(--t2);font-size:0.92rem;line-height:1.65;margin:0 auto;">
+                Direct answers to technical questions about NextShare architecture, privacy guarantees, encryption, and developer utilities.
             </p>
         </div>
 
-        <div class="faq-grid reveal d3">
-            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <h3 class="faq-card-title" itemprop="name">What is NextShare?</h3>
-                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                    <p class="faq-card-text" itemprop="text">
-                        NextShare is a fast, open-source developer sharing suite providing custom URL shortening with click analytics, encrypted file sharing up to 50MB, and a syntax-highlighted code pastebin with burn-after-read security — all unified into a single zero-tracking web app.
-                    </p>
-                </div>
-            </article>
+        <div class="faq-layout reveal d3">
+            <!-- Left: Category Navigation Tabs -->
+            <nav class="faq-nav" role="tablist" aria-label="FAQ categories">
+                <button class="faq-tab-btn active" role="tab" aria-selected="true" aria-controls="panel-general" id="tab-general" onclick="switchFaqCategory('general')">
+                    <span>General Questions</span>
+                    <svg class="faq-tab-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="faq-tab-btn" role="tab" aria-selected="false" aria-controls="panel-url" id="tab-url" onclick="switchFaqCategory('url')">
+                    <span>URL Shortener</span>
+                    <svg class="faq-tab-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="faq-tab-btn" role="tab" aria-selected="false" aria-controls="panel-files" id="tab-files" onclick="switchFaqCategory('files')">
+                    <span>File Sharing</span>
+                    <svg class="faq-tab-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+                <button class="faq-tab-btn" role="tab" aria-selected="false" aria-controls="panel-paste" id="tab-paste" onclick="switchFaqCategory('paste')">
+                    <span>Pastebin &amp; Self-Host</span>
+                    <svg class="faq-tab-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+            </nav>
 
-            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <h3 class="faq-card-title" itemprop="name">Do I need to sign up or create an account?</h3>
-                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                    <p class="faq-card-text" itemprop="text">
-                        No account, email, or registration is required. NextShare is designed as a frictionless anonymous utility. There are zero tracking scripts, third-party analytics pixels, or paywalls, and each upload provides a private delete token to wipe data on demand.
-                    </p>
-                </div>
-            </article>
+            <!-- Right: Questions and Answers Panels -->
+            <div class="faq-content-area">
+                <!-- PANEL 1: General Questions -->
+                <div class="faq-panel active" id="panel-general" role="tabpanel" aria-labelledby="tab-general">
+                    <article class="faq-card open" id="faq-what-is-nextshare" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <div class="faq-card-header" onclick="toggleFaqCard(this)">
+                            <h3 class="faq-card-title" itemprop="name">What is NextShare and why should I use it over commercial sharing tools?</h3>
+                            <div class="faq-card-toggle" aria-hidden="true">+</div>
+                        </div>
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                NextShare is an open-source, privacy-first developer sharing suite combining custom URL shortening with sub-100ms Redis caching, client-side encrypted file sharing up to 50MB, and a syntax-highlighted code pastebin. Unlike commercial utilities like Bitly or WeTransfer, NextShare requires no registration, displays zero ads, collects no tracking cookies, and never places limits behind paywalls.
+                            </p>
+                        </div>
+                    </article>
 
-            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <h3 class="faq-card-title" itemprop="name">How does burn-after-read code paste work?</h3>
-                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                    <p class="faq-card-text" itemprop="text">
-                        When you enable burn-after-read, the snippet is fetched directly from the database and atomically marked inactive upon first retrieval. It completely bypasses the Redis cache so no copies persist in memory, and auto-destroys if the tab is closed.
-                    </p>
-                </div>
-            </article>
+                    <article class="faq-card" id="faq-account-requirements" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <div class="faq-card-header" onclick="toggleFaqCard(this)">
+                            <h3 class="faq-card-title" itemprop="name">Do I need to sign up, provide an email, or create an account?</h3>
+                            <div class="faq-card-toggle" aria-hidden="true">+</div>
+                        </div>
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                No account, email, or personal identity is required. NextShare is designed as a frictionless anonymous developer tool. There are zero tracking scripts, third-party analytics pixels, or login gates. When you upload a file or create a paste, a cryptographically secure private delete token is returned to you so you can permanently wipe your data at any time.
+                            </p>
+                        </div>
+                    </article>
 
-            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <h3 class="faq-card-title" itemprop="name">Can I set passwords on shared files?</h3>
-                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                    <p class="faq-card-text" itemprop="text">
-                        Yes. You can optionally protect any file upload with a custom password verified via salted Scrypt hashing, set an expiration window from 1 hour to 7 days, and limit the total download count before the file is automatically purged.
-                    </p>
+                    <article class="faq-card" id="faq-offline-pwa" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <div class="faq-card-header" onclick="toggleFaqCard(this)">
+                            <h3 class="faq-card-title" itemprop="name">Does NextShare work offline without an active internet connection?</h3>
+                            <div class="faq-card-toggle" aria-hidden="true">+</div>
+                        </div>
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                Yes. NextShare is a certified Progressive Web App (PWA) with Service Worker precaching. Shortened links and code pastes drafted while offline are queued locally in browser IndexedDB storage and automatically synchronized with the server as soon as network connectivity is restored.
+                            </p>
+                        </div>
+                    </article>
                 </div>
-            </article>
 
-            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <h3 class="faq-card-title" itemprop="name">Does NextShare work without an internet connection?</h3>
-                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                    <p class="faq-card-text" itemprop="text">
-                        Yes. As an installable Progressive Web App (PWA), items created while offline are queued locally in browser IndexedDB storage and automatically synchronized with the server as soon as your internet connection is restored.
-                    </p>
-                </div>
-            </article>
+                <!-- PANEL 2: URL Shortener -->
+                <div class="faq-panel" id="panel-url" role="tabpanel" aria-labelledby="tab-url">
+                    <article class="faq-card open" id="faq-redirect-speed" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <div class="faq-card-header" onclick="toggleFaqCard(this)">
+                            <h3 class="faq-card-title" itemprop="name">How fast are short link redirects and how do custom aliases work?</h3>
+                            <div class="faq-card-toggle" aria-hidden="true">+</div>
+                        </div>
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                Redirects resolve in under 100ms. NextShare leverages an in-memory Redis cache to serve HTTP 301 redirects instantly without querying the primary database. You can specify a custom alphanumeric alias (3 to 20 characters) or receive an ultra-short 5-character NanoID link (e.g. <code>nextsharebymeet.vercel.app/s/KXKFN</code>) with real-time, privacy-friendly click analytics.
+                            </p>
+                        </div>
+                    </article>
 
-            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                <h3 class="faq-card-title" itemprop="name">Can I self-host NextShare?</h3>
-                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                    <p class="faq-card-text" itemprop="text">
-                        Yes. NextShare is fully open-source under the MIT License and includes ready-to-run Docker Compose configurations for deploying the React frontend, Node.js API, MongoDB, and Redis stack on your own server with a single command.
-                    </p>
+                    <article class="faq-card" id="faq-url-tracking" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <div class="faq-card-header" onclick="toggleFaqCard(this)">
+                            <h3 class="faq-card-title" itemprop="name">Does NextShare track visitors or inject ads into shortened URLs?</h3>
+                            <div class="faq-card-toggle" aria-hidden="true">+</div>
+                        </div>
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                No. NextShare never injects interstitial ads, countdown landing screens, or tracking pixels into shortened URLs. Every link performs a direct HTTP 301 redirect to the destination URL while tracking only aggregated, anonymized metrics (total clicks and approximate unique visitors) without storing personal IP addresses.
+                            </p>
+                        </div>
+                    </article>
                 </div>
-            </article>
+
+                <!-- PANEL 3: File Sharing -->
+                <div class="faq-panel" id="panel-files" role="tabpanel" aria-labelledby="tab-files">
+                    <article class="faq-card open" id="faq-file-limits" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <div class="faq-card-header" onclick="toggleFaqCard(this)">
+                            <h3 class="faq-card-title" itemprop="name">What file types and maximum upload sizes does NextShare support?</h3>
+                            <div class="faq-card-toggle" aria-hidden="true">+</div>
+                        </div>
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                NextShare supports file uploads up to 50MB across document, archive, media, and developer formats, including ZIP, TAR, 7Z, PDF, DOCX, XLSX, JSON, CSV, images, audio, and source code. Executable file extensions (.exe, .bat, .sh) are blocked by upload middleware to prevent malicious distribution.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="faq-card" id="faq-file-passwords" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <div class="faq-card-header" onclick="toggleFaqCard(this)">
+                            <h3 class="faq-card-title" itemprop="name">Can I set passwords, expiration windows, and download limits on files?</h3>
+                            <div class="faq-card-toggle" aria-hidden="true">+</div>
+                        </div>
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                Yes. You can optionally protect any file upload with a custom password verified via salted Scrypt key derivation, choose an expiration window (1 hour, 1 day, or 7 days), and enforce a strict download cap (1, 5, or 10 downloads). Once the download cap or TTL expiration is reached, the file and its metadata are permanently expunged.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+
+                <!-- PANEL 4: Pastebin & Self-Host -->
+                <div class="faq-panel" id="panel-paste" role="tabpanel" aria-labelledby="tab-paste">
+                    <article class="faq-card open" id="faq-burn-after-read" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <div class="faq-card-header" onclick="toggleFaqCard(this)">
+                            <h3 class="faq-card-title" itemprop="name">How does the burn-after-read code pastebin protect sensitive data?</h3>
+                            <div class="faq-card-toggle" aria-hidden="true">+</div>
+                        </div>
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                When Burn-After-Read is enabled, the code snippet is fetched directly from MongoDB and atomically destroyed upon first retrieval. It completely bypasses the Redis cache so no copies persist in memory, and integrates with the browser sendBeacon API to trigger immediate deletion if the tab is closed, ensuring API tokens, keys, and secrets are never read twice.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="faq-card" id="faq-syntax-highlighting" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <div class="faq-card-header" onclick="toggleFaqCard(this)">
+                            <h3 class="faq-card-title" itemprop="name">Which programming languages and syntax highlighting modes are supported?</h3>
+                            <div class="faq-card-toggle" aria-hidden="true">+</div>
+                        </div>
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                NextShare supports full syntax highlighting across 23+ major languages, including JavaScript, TypeScript, Python, Go, Rust, Java, C, C++, C#, PHP, Ruby, Swift, Kotlin, SQL, HTML, CSS, JSON, YAML, Markdown, Bash/Shell, Dockerfile, and GraphQL, complete with line numbering and one-click clipboard copying.
+                            </p>
+                        </div>
+                    </article>
+
+                    <article class="faq-card" id="faq-self-host" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                        <div class="faq-card-header" onclick="toggleFaqCard(this)">
+                            <h3 class="faq-card-title" itemprop="name">Can I self-host NextShare using Docker on my own server?</h3>
+                            <div class="faq-card-toggle" aria-hidden="true">+</div>
+                        </div>
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                            <p itemprop="text">
+                                Yes. NextShare is 100% open-source under the MIT license. You can self-host the entire production stack (React frontend, Express API, MongoDB, and Redis) on any VPS or private server with a single command: <code>docker compose up -d</code>. Custom domains, storage paths, and rate limits are fully configurable via environment variables.
+                            </p>
+                        </div>
+                    </article>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -3388,6 +3660,53 @@
                 updateAppLinks();
             }
         })();
+    
+        /* ─── FAQ Category & Accordion Interactions (SEO / AEO / GEO Deep-linking) ─── */
+        function switchFaqCategory(category) {
+            document.querySelectorAll('.faq-tab-btn').forEach(function(btn) {
+                var isActive = btn.id === 'tab-' + category;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+            document.querySelectorAll('.faq-panel').forEach(function(panel) {
+                var isActive = panel.id === 'panel-' + category;
+                panel.classList.toggle('active', isActive);
+            });
+        }
+
+        function toggleFaqCard(headerEl) {
+            var card = headerEl.closest('.faq-card');
+            if (card) {
+                card.classList.toggle('open');
+            }
+        }
+
+        // Support direct AEO / GEO deep-links (e.g. #faq-burn-after-read)
+        (function() {
+            function handleFaqDeepLink() {
+                var hash = window.location.hash;
+                if (!hash) return;
+                var targetEl = document.querySelector(hash);
+                if (targetEl && targetEl.classList.contains('faq-card')) {
+                    var panel = targetEl.closest('.faq-panel');
+                    if (panel) {
+                        var cat = panel.id.replace('panel-', '');
+                        switchFaqCategory(cat);
+                        targetEl.classList.add('open');
+                        setTimeout(function() {
+                            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 100);
+                    }
+                }
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', handleFaqDeepLink);
+            } else {
+                handleFaqDeepLink();
+            }
+            window.addEventListener('hashchange', handleFaqDeepLink);
+        })();
+
     </script>
 </body>
 
