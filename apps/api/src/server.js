@@ -60,6 +60,7 @@ async function shutdown(code = 0) {
 
 process.on('SIGTERM', () => shutdown(0));
 process.on('SIGINT',  () => shutdown(0));
+process.once('SIGUSR2', () => shutdown(0));
 
 // Catch unhandled errors as a last resort
 process.on('unhandledRejection', (reason) => {
