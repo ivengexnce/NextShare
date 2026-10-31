@@ -3,41 +3,19 @@ import useStore from '../../store/useStore';
 import { textApi } from './text.api';
 import { offlineDB } from '../../store/offlineDB';
 
-const LANGUAGES = [
-  'plaintext','javascript','typescript','python','java','c','cpp','csharp',
-  'go','rust','php','ruby','swift','kotlin','html','css','json','yaml',
-  'toml','markdown','sql','bash','dockerfile',
-];
+const LANGUAGES = ['plaintext','javascript','typescript','python','java','c','cpp','csharp','go','rust','php','ruby','swift','kotlin','html','css','json','yaml','toml','markdown','sql','bash','dockerfile'];
 const EXPIRY_OPTS = ['10m','1h','24h','7d','30d','never'];
-const DEFAULT = {
-  content: '',
-  language: 'javascript',
-  title: '',
-  expiresIn: 'never',
-  burnMode: 'off',
-  maxViews: 1,
-};
+const DEFAULT = { content: '', language: 'javascript', title: '', expiresIn: 'never', burnMode: 'off', maxViews: 1 };
 const MAX = 500_000;
-
-const BURN_OPTS = [
-  { value: 'off',         label: 'No burn' },
-  { value: 'on-close',    label: 'Burn when viewer closes tab' },
-  { value: 'after-views', label: 'Burn after N views' },
-];
 
 export default function TextShare() {
   const { isOnline, addToast } = useStore();
-  const [form, setForm]           = useState(DEFAULT);
-  const [result, setResult]       = useState(null);
-  const [loading, setLoading]     = useState(false);
-  const [charCount, setCharCount] = useState(0);
-  const [copied, setCopied]       = useState(false);
+  const [form, setForm] = useState(DEFAULT);
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [copied, setCopied] = useState(false);
 
-  const set = (k) => (e) => {
-    const val = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setForm((f) => ({ ...f, [k]: val }));
-    if (k === 'content') setCharCount(e.target.value.length);
-  };
+  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.type === 'checkbox' ? e.target.checked : e.target.value }));
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -45,26 +23,22 @@ export default function TextShare() {
     setLoading(true);
     try {
       const payload = {
-        content:       form.content,
-        language:      form.language,
-        title:         form.title,
-        expiresIn:     form.expiresIn,
-        burnAfterRead: form.burnMode !== 'off',
+        content: form.content, language: form.language, title: form.title, expiresIn: form.expiresIn, burnAfterRead: form.burnMode !== 'off',
+        ...(form.burnMode === 'after-views' && { maxViews: Number(form.maxViews) }),
       };
-      if (form.burnMode === 'after-views') payload.maxViews = Number(form.maxViews);
 
       if (!isOnline) {
         await offlineDB.queuePaste(payload);
         addToast('Paste saved offline — will upload when reconnected', 'warning');
-        setForm(DEFAULT); setCharCount(0);
+        setForm(DEFAULT);
         return;
       }
       const data = await textApi.create(payload);
-      const currentOrigin = (typeof window !== 'undefined' && window.location.origin) || 'https://nextsharebymeet.vercel.app';
-      data.shareUrl = `${currentOrigin}/p/${data.shortCode}`;
+      const origin = (typeof window !== 'undefined' && window.location.origin) || 'https://nextsharebymeet.vercel.app';
+      data.shareUrl = `${origin}/p/${data.shortCode}`;
       await offlineDB.cachePaste({ ...data, content: form.content, language: form.language });
       setResult(data);
-      setForm(DEFAULT); setCharCount(0);
+      setForm(DEFAULT);
       addToast('Paste created!', 'success');
     } catch (err) {
       addToast(err.message, 'error');
@@ -80,14 +54,10 @@ export default function TextShare() {
     setTimeout(() => setCopied(false), 2000);
   }
 
-  const pct = charCount / MAX;
-
   return (
     <div className="tool-card">
       <div className="tool-card-bar">
-        <div className="card-dots">
-          <div className="card-dot" /><div className="card-dot" /><div className="card-dot" />
-        </div>
+        <div className="card-dots"><div className="card-dot" /><div className="card-dot" /><div className="card-dot" /></div>
         <span className="card-tab-label">nextshare — code paste</span>
       </div>
 
@@ -95,83 +65,62 @@ export default function TextShare() {
         <div className="tool-header">
           <div className="tool-tag">CODE PASTE</div>
           <h2 className="tool-title">Share code or text</h2>
-          <p className="tool-desc">Syntax highlighting, burn-after-read, and offline support. Fifteen+ languages out of the box.</p>
+          <p className="tool-desc">Syntax highlighting, burn-after-read, and offline support. 23+ languages out of the box.</p>
         </div>
 
         <form onSubmit={handleSubmit} className="form-stack">
-          <div className="field">
-            <label className="label">Title</label>
-            <input
-              className="input"
-              placeholder="Optional title…"
-              value={form.title}
-              onChange={set('title')}
-              maxLength={255}
-            />
+          <div className="field-row">
+            <div className="field">
+              <label className="label">Language</label>
+              <select className="input" value={form.language} onChange={set('language')}>
+                {LANGUAGES.map((l) => (<option key={l} value={l}>{l}</option>))}
+              </select>
+            </div>
+            <div className="field">
+              <label className="label">Title (optional)</label>
+              <input className="input" placeholder="e.g. auth-middleware.js" value={form.title} onChange={set('title')} maxLength={100} />
+            </div>
           </div>
 
           <div className="field">
-            <div className="label-row">
-              <label className="label">Content <span className="required">*</span></label>
-              <span className={`char-count ${pct > 0.9 ? 'char-count--warn' : ''}`}>
-                {charCount.toLocaleString()} / {(MAX / 1000).toFixed(0)}k
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+              <label className="label" style={{ margin: 0 }}>Content <span className="required">*</span></label>
+              <span style={{ fontSize: '11px', color: form.content.length > MAX ? 'var(--rose)' : 'var(--t3)', fontFamily: 'var(--font-mono)' }}>
+                {form.content.length.toLocaleString()} / {MAX.toLocaleString()}
               </span>
             </div>
             <textarea
-              className="input textarea"
-              placeholder={`// paste your code here…\nconst greet = (name) => \`Hello, \${name}!\`;`}
-              rows={10}
-              value={form.content}
-              onChange={set('content')}
-              maxLength={MAX}
-              required
+              className="input paste-textarea" rows={10} placeholder="Paste code or text here..."
+              value={form.content} onChange={set('content')} maxLength={MAX} required autoFocus
             />
           </div>
 
           <div className="field-row">
             <div className="field">
-              <label className="label">Language</label>
-              <select className="input" value={form.language} onChange={set('language')}>
-                {LANGUAGES.map((l) => <option key={l} value={l}>{l}</option>)}
+              <label className="label">Expires in</label>
+              <select className="input" value={form.expiresIn} onChange={set('expiresIn')}>
+                {EXPIRY_OPTS.map((e) => (<option key={e} value={e}>{e === 'never' ? 'Never' : e}</option>))}
               </select>
             </div>
             <div className="field">
-              <label className="label">Expires</label>
-              <select className="input" value={form.expiresIn} onChange={set('expiresIn')}>
-                {EXPIRY_OPTS.map((o) => <option key={o} value={o}>{o}</option>)}
+              <label className="label">Burn mode</label>
+              <select className="input" value={form.burnMode} onChange={set('burnMode')}>
+                <option value="off">No burn</option>
+                <option value="on-close">Burn when viewer closes tab</option>
+                <option value="after-views">Burn after N views</option>
               </select>
             </div>
-          </div>
-
-          <div className="field">
-            <label className="label">🔥 Burn mode</label>
-            <select className="input" value={form.burnMode} onChange={set('burnMode')}>
-              {BURN_OPTS.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-            </select>
           </div>
 
           {form.burnMode === 'after-views' && (
             <div className="field">
-              <label className="label">Max views before burn</label>
-              <input
-                className="input"
-                type="number"
-                min={1}
-                max={1000}
-                value={form.maxViews}
-                onChange={set('maxViews')}
-              />
+              <label className="label">Max views before destruction</label>
+              <input className="input" type="number" min={1} max={100} value={form.maxViews} onChange={set('maxViews')} />
             </div>
           )}
 
-          {form.burnMode === 'on-close' && (
-            <p style={{ fontSize: '.75rem', color: 'var(--t3)', fontFamily: 'var(--font-mono)', marginTop: '-4px' }}>
-              ⚠ Paste will be permanently deleted when the viewer closes the tab.
-            </p>
-          )}
-
-          <button className="btn-primary" type="submit" disabled={loading}>
-            {loading ? 'Creating…' : isOnline ? 'Create paste →' : 'Save offline'}
+          <button className="btn-primary" type="submit" disabled={loading || !form.content.trim()}>
+            {loading ? 'Creating paste…' : isOnline ? 'Create paste →' : 'Save offline'}
           </button>
         </form>
 
@@ -184,28 +133,9 @@ export default function TextShare() {
               </button>
             </div>
             <div className="result-stats">
-              <div className="result-stat">
-                <div className="result-stat-label">Language</div>
-                <div className="result-stat-val" style={{ fontSize: '.8rem' }}>{result.language}</div>
-              </div>
-              <div className="result-stat">
-                <div className="result-stat-label">Expires</div>
-                <div className="result-stat-val">
-                  {result.expiresAt
-                    ? `${Math.ceil((new Date(result.expiresAt) - Date.now()) / 86400000)}d`
-                    : 'Never'}
-                </div>
-              </div>
-              <div className="result-stat">
-                <div className="result-stat-label">Burn</div>
-                <div className="result-stat-val">
-                  {result.burnAfterRead
-                    ? result.maxViews
-                      ? `🔥 After ${result.maxViews} view${result.maxViews > 1 ? 's' : ''}`
-                      : '🔥 On close'
-                    : '—'}
-                </div>
-              </div>
+              <div className="result-stat"><div className="result-stat-label">Lang</div><div className="result-stat-val">{result.language}</div></div>
+              <div className="result-stat"><div className="result-stat-label">Burn</div><div className="result-stat-val">{result.burnAfterRead ? '🔥 Active' : 'Off'}</div></div>
+              <div className="result-stat"><div className="result-stat-label">Status</div><div className="result-stat-val result-stat-val--green">Active</div></div>
             </div>
           </div>
         )}

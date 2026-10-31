@@ -6,49 +6,21 @@ import { dirname, resolve } from 'path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-function multiPageRewritesPlugin() {
-    return {
-        name: 'multi-page-rewrites',
-        configureServer(server) {
-            server.middlewares.use((req, res, next) => {
-                const url = req.url || '';
-                const pathname = url.split('?')[0];
-                if (
-                    pathname === '/app' ||
-                    pathname === '/app/' ||
-                    pathname === '/admin' ||
-                    pathname === '/admin/' ||
-                    pathname.startsWith('/paste/') ||
-                    pathname.startsWith('/p/')
-                ) {
-                    req.url = '/app.html' + (url.includes('?') ? '?' + url.split('?')[1] : '');
-                }
-                next();
-            });
-        },
-        configurePreviewServer(server) {
-            server.middlewares.use((req, res, next) => {
-                const url = req.url || '';
-                const pathname = url.split('?')[0];
-                if (
-                    pathname === '/app' ||
-                    pathname === '/app/' ||
-                    pathname === '/admin' ||
-                    pathname === '/admin/' ||
-                    pathname.startsWith('/paste/') ||
-                    pathname.startsWith('/p/')
-                ) {
-                    req.url = '/app.html' + (url.includes('?') ? '?' + url.split('?')[1] : '');
-                }
-                next();
-            });
-        },
-    };
-}
+const rewriteMiddleware = (req, _res, next) => {
+    const [path, query] = (req.url || '').split('?');
+    if (/^\/(app|admin|paste|p)(\/.*)?$/.test(path)) {
+        req.url = '/app.html' + (query ? '?' + query : '');
+    }
+    next();
+};
 
 export default defineConfig({
     plugins: [
-        multiPageRewritesPlugin(),
+        {
+            name: 'multi-page-rewrites',
+            configureServer: (s) => s.middlewares.use(rewriteMiddleware),
+            configurePreviewServer: (s) => s.middlewares.use(rewriteMiddleware),
+        },
         react(),
         VitePWA({
             registerType: 'autoUpdate',
