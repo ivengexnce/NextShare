@@ -125,42 +125,66 @@
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "What is NextShare?",
+              "name": "What is NextShare and what features does it include?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "NextShare is an open-source, privacy-focused developer sharing platform that combines a fast URL shortener, secure file sharing up to 50MB, and a syntax-highlighted code pastebin with burn-after-read security."
+                "text": "NextShare is a free, open-source developer sharing suite that brings together an ultra-short URL shortener, secure ephemeral file sharing up to 50MB, and a syntax-highlighted code pastebin with burn-after-read security into a single privacy-first platform."
               }
             },
             {
               "@type": "Question",
-              "name": "Do I need to create an account to use NextShare?",
+              "name": "Do I need to sign up or create an account to use NextShare?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "No. NextShare requires zero account registration and does not collect tracking cookies or personal data."
+                "text": "No account, registration, or email is ever required. NextShare is completely free, anonymous, and designed as a zero-friction utility without tracking cookies, advertising scripts, or subscription tiers."
               }
             },
             {
               "@type": "Question",
-              "name": "How does burn-after-read code paste work?",
+              "name": "How does the burn-after-read code pastebin work?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "When you enable burn-after-read on a code paste, the paste is fetched directly from the database and immediately destroyed upon its first view. It is excluded from the cache, making second reads impossible."
+                "text": "When Burn-After-Read is enabled, the code snippet is fetched directly from the database and permanently destroyed upon its first view. It completely bypasses the Redis cache and integrates with the browser sendBeacon API to ensure no second read is ever possible."
               }
             },
             {
               "@type": "Question",
-              "name": "Can I protect shared files with a password?",
+              "name": "Can I protect shared files with passwords and download caps?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. NextShare allows you to set a custom password, an expiration timer, and a maximum download count on uploaded files. Passwords are cryptographically verified using Scrypt hashing."
+                "text": "Yes. Shared files can be protected with custom passwords verified via Scrypt hashing, download limits (e.g., 1 or 5 downloads), and automatic expiration timers (1 hour, 1 day, 7 days) via MongoDB TTL indexes."
               }
             },
             {
               "@type": "Question",
-              "name": "Does NextShare work offline?",
+              "name": "Does NextShare work offline without an internet connection?",
               "acceptedAnswer": {
                 "@type": "Answer",
-                "text": "Yes. NextShare is built as a Progressive Web App (PWA) with service workers and IndexedDB. You can install it on your device and create links or pastes offline; they will automatically sync when you reconnect."
+                "text": "Yes. NextShare is built as an installable Progressive Web App (PWA). Links and pastes created while offline are queued in local IndexedDB storage and automatically synchronized once an internet connection is restored."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I self-host NextShare on my own server using Docker?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes. NextShare is fully open-source under the MIT license and includes production-ready Docker Compose configurations for one-command deployment on any VPS, cloud instance, or home lab."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does NextShare compare to Bitly, Pastebin, and WeTransfer?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "NextShare replaces the need for separate commercial services by offering link shortening, file transfers, and code pasting in one ad-free dashboard with uniform 5-character URLs, zero tracking, and sub-100ms Redis-cached redirects."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What file types and maximum file sizes does NextShare support?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "NextShare supports file uploads up to 50MB across archives (ZIP, TAR, 7Z), documents (PDF, DOCX, XLSX), images, media, and source code files, while automatically blocking dangerous executable binaries."
               }
             }
           ]
@@ -3048,30 +3072,101 @@
             Everything you need to know about NextShare privacy, security architecture, and developer sharing features.
         </p>
 
-        <div class="faq-grid reveal d3" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:20px;">
-            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
-                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">What is NextShare?</h3>
-                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">NextShare is a fast, open-source developer sharing suite providing custom URL shortening with click analytics, encrypted file sharing up to 50MB, and a syntax-highlighted code pastebin with burn-after-read security.</p>
+        <div class="faq-grid reveal d3" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:24px;">
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:12px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;color:var(--t1);line-height:1.4;">What is NextShare and what features does it include?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;margin:0;">
+                    <strong>NextShare is a free, open-source developer sharing suite</strong> that unifies three essential tools into one privacy-first dashboard:
+                </p>
+                <ul style="font-size:.875rem;color:var(--t2);line-height:1.65;margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+                    <li><strong>URL Shortener:</strong> Clean 5-character links (<code>/s/:code</code>) with sub-100ms Redis caching and real-time click analytics.</li>
+                    <li><strong>Encrypted File Share:</strong> Up to 50MB with Scrypt password protection, download limits, and auto-expiration.</li>
+                    <li><strong>Code Pastebin:</strong> Syntax highlighting for 23+ languages with one-time burn-after-read secret destruction.</li>
+                </ul>
             </div>
-            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
-                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">Do I need to sign up or create an account?</h3>
-                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">No account is needed. NextShare is designed as a frictionless anonymous utility. There are no tracking scripts, third-party analytics pixels, or paywalls.</p>
+
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:12px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;color:var(--t1);line-height:1.4;">Do I need to sign up or create an account?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;margin:0;">
+                    <strong>No account, registration, or email is ever required.</strong> NextShare is designed as a frictionless, anonymous utility for developers and privacy-conscious users:
+                </p>
+                <ul style="font-size:.875rem;color:var(--t2);line-height:1.65;margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+                    <li><strong>Zero Tracking:</strong> No tracking cookies, third-party analytics pixels, or advertising scripts.</li>
+                    <li><strong>Private Delete Tokens:</strong> Manage and delete your uploads instantly without needing login credentials.</li>
+                    <li><strong>No Paywalls:</strong> Unlimited URL shortening and code sharing with no credit cards or premium tiers.</li>
+                </ul>
             </div>
-            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
-                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">How does burn-after-read code paste work?</h3>
-                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">When you enable burn-after-read, the snippet is fetched directly from the database and atomically marked inactive upon first retrieval. It completely bypasses Redis cache so no second read is ever possible.</p>
+
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:12px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;color:var(--t1);line-height:1.4;">How does the "burn-after-read" code pastebin work?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;margin:0;">
+                    <strong>Burn-After-Read atomically destroys your code paste immediately upon first view.</strong> It is designed for securely sharing sensitive data like API keys, tokens, or configuration secrets:
+                </p>
+                <ul style="font-size:.875rem;color:var(--t2);line-height:1.65;margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+                    <li><strong>Cache Bypass:</strong> Burned pastes completely bypass Redis cache so no copies linger in memory.</li>
+                    <li><strong>Tab-Close Destruction:</strong> Uses the browser <code>sendBeacon</code> API to destroy the paste if the viewer closes the tab.</li>
+                    <li><strong>Zero Persistence:</strong> Once viewed, the snippet is erased from the database and cannot be recovered.</li>
+                </ul>
             </div>
-            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
-                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">Can I set passwords on shared files?</h3>
-                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">Yes. You can optionally protect any file upload with a custom password verified via Scrypt hashing, set an expiration window, and limit total download count.</p>
+
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:12px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;color:var(--t1);line-height:1.4;">Can I set passwords and download limits on shared files?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;margin:0;">
+                    <strong>Yes. Files can be protected with custom passwords, download caps, and expiration timers</strong> before generating a clean <code>/f/:code</code> download link:
+                </p>
+                <ul style="font-size:.875rem;color:var(--t2);line-height:1.65;margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+                    <li><strong>Scrypt Cryptographic Hashing:</strong> Passwords are verified using constant-time Scrypt derivation to prevent brute-force attacks.</li>
+                    <li><strong>Download Limits:</strong> Automatically destroy files after 1, 5, or 10 successful downloads.</li>
+                    <li><strong>Integrity & Security Headers:</strong> Includes SHA-256 checksums and strict Content Security Policies (CSP) to block script execution.</li>
+                </ul>
             </div>
-            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
-                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">Does NextShare work without an internet connection?</h3>
-                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">Yes. As an installable Progressive Web App (PWA), items created while offline are queued in IndexedDB and automatically synchronized when connection is restored.</p>
+
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:12px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;color:var(--t1);line-height:1.4;">Does NextShare work offline without an internet connection?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;margin:0;">
+                    <strong>Yes. NextShare is an installable Progressive Web App (PWA)</strong> that functions smoothly even in offline environments:
+                </p>
+                <ul style="font-size:.875rem;color:var(--t2);line-height:1.65;margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+                    <li><strong>Offline Queuing:</strong> Links and code pastes drafted offline are saved into local IndexedDB and automatically synchronized when reconnected.</li>
+                    <li><strong>Cross-Platform Install:</strong> Install as a desktop or mobile application on Windows, macOS, Linux, Android, and iOS.</li>
+                    <li><strong>Precached Fast Loading:</strong> Core assets are cached locally via modern service workers for sub-second page loads.</li>
+                </ul>
             </div>
-            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;">
-                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;margin-bottom:12px;color:var(--t1);">Can I self-host NextShare?</h3>
-                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;">Yes. NextShare is fully open-source under the MIT License and includes ready-to-run Docker Compose configurations for deploying on your own servers.</p>
+
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:12px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;color:var(--t1);line-height:1.4;">Can I self-host NextShare on my own server?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;margin:0;">
+                    <strong>Yes. NextShare is 100% open-source under the MIT License</strong> and includes pre-configured Docker configurations:
+                </p>
+                <ul style="font-size:.875rem;color:var(--t2);line-height:1.65;margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+                    <li><strong>One-Command Docker Setup:</strong> Deploy the React frontend, Express API, MongoDB, and Redis with <code>docker-compose up -d</code>.</li>
+                    <li><strong>Complete Data Sovereignty:</strong> Keep all file uploads, shortened URLs, and logs within your private network or cloud VPS.</li>
+                    <li><strong>Open Codebase:</strong> Fork, inspect, and contribute on <a href="https://github.com/ivengexnce/NextShare" target="_blank" rel="noopener noreferrer" style="color:var(--accent-l);text-decoration:underline;">GitHub</a>.</li>
+                </ul>
+            </div>
+
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:12px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;color:var(--t1);line-height:1.4;">How does NextShare compare to Bitly, Pastebin, and WeTransfer?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;margin:0;">
+                    <strong>NextShare replaces three separate commercial utilities</strong> with one privacy-focused, ad-free developer alternative:
+                </p>
+                <ul style="font-size:.875rem;color:var(--t2);line-height:1.65;margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+                    <li><strong>No Forced Signups:</strong> Avoid the mandatory account creation, email capture, and paywalls of Bitly or WeTransfer.</li>
+                    <li><strong>No Interstitial Ads:</strong> Instant 301 redirects without countdown screens or promotional popups.</li>
+                    <li><strong>Unified URLs:</strong> Compact 5-character URLs on the same domain (<code>/s/</code>, <code>/f/</code>, <code>/p/</code>) instead of random third-party domains.</li>
+                </ul>
+            </div>
+
+            <div class="faq-item" style="background:var(--bg-1);border:1px solid var(--bdr);border-radius:var(--r-lg);padding:28px;display:flex;flex-direction:column;gap:12px;">
+                <h3 style="font-family:'Sora',sans-serif;font-size:1.1rem;font-weight:600;color:var(--t1);line-height:1.4;">What file types and maximum file sizes are supported?</h3>
+                <p style="font-size:.9rem;color:var(--t2);line-height:1.7;margin:0;">
+                    <strong>NextShare supports uploads up to 50MB</strong> across major development, office, media, and data formats:
+                </p>
+                <ul style="font-size:.875rem;color:var(--t2);line-height:1.65;margin:0;padding-left:18px;display:flex;flex-direction:column;gap:6px;">
+                    <li><strong>Supported Categories:</strong> Archives (ZIP, TAR, GZ, 7Z), Documents (PDF, DOCX, XLSX), Images (PNG, JPG, SVG, WebP), and Source Code.</li>
+                    <li><strong>Security Filtering:</strong> Executable extensions (like <code>.exe</code>, <code>.bat</code>, <code>.sh</code>) are blocked to prevent malware distribution.</li>
+                    <li><strong>Automatic Pruning:</strong> Expired files are permanently deleted via automated MongoDB TTL background tasks.</li>
+                </ul>
             </div>
         </div>
     </div>
