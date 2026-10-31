@@ -209,117 +209,46 @@
     }
     </script>
     <style>
-        /* ─── SLEEK FAQ ACCORDION ─── */
-        .faq-wrap {
-            max-width: 780px;
-            margin: 0 auto;
-            width: 100%;
+        /* ─── SLEEK BALANCED FAQ GRID ─── */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
-        .faq-accordion {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+        @media (max-width: 768px) {
+            .faq-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
         }
-        .faq-item {
+        .faq-card {
             background: var(--bg-1);
             border: 1px solid var(--bdr);
-            border-radius: var(--r-md);
-            overflow: hidden;
-            transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
-        }
-        .faq-item:hover {
-            border-color: var(--bdr-md);
-        }
-        .faq-item.open {
-            border-color: var(--accent-bdr);
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .faq-trigger {
-            width: 100%;
-            padding: 16px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 14px;
-            background: none;
-            border: none;
-            text-align: left;
-            cursor: pointer;
-            font-family: inherit;
-            color: var(--t1);
-        }
-        .faq-question-text {
-            font-family: 'Sora', sans-serif;
-            font-size: 0.98rem;
-            font-weight: 600;
-            line-height: 1.4;
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 8px;
-            flex: 1;
-        }
-        .faq-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.68rem;
-            font-weight: 500;
-            color: var(--accent-l);
-            background: var(--accent-bg);
-            padding: 2px 7px;
-            border-radius: 4px;
-            border: 1px solid var(--accent-bdr);
-            white-space: nowrap;
-        }
-        .faq-icon {
-            width: 18px;
-            height: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--t2);
-            flex-shrink: 0;
-            transition: transform 0.25s var(--ease), color 0.2s var(--ease);
-        }
-        .faq-item.open .faq-icon {
-            transform: rotate(180deg);
-            color: var(--accent-l);
-        }
-        .faq-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s var(--ease), opacity 0.25s var(--ease);
-            opacity: 0;
-        }
-        .faq-item.open .faq-content {
-            max-height: 480px;
-            opacity: 1;
-        }
-        .faq-body {
-            padding: 0 20px 18px 20px;
-            border-top: 1px solid rgba(255, 255, 255, 0.04);
-            padding-top: 12px;
-            font-size: 0.88rem;
-            color: var(--t2);
-            line-height: 1.65;
-        }
-        .faq-body strong {
-            color: var(--t1);
-        }
-        .faq-body ul {
-            margin-top: 8px;
-            padding-left: 18px;
+            border-radius: var(--r-lg);
+            padding: 24px 26px;
             display: flex;
             flex-direction: column;
-            gap: 5px;
-            font-size: 0.84rem;
+            justify-content: flex-start;
+            transition: border-color 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
         }
-        .faq-body code {
-            background: rgba(255, 255, 255, 0.06);
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
-            color: var(--accent-l);
+        .faq-card:hover {
+            border-color: var(--bdr-md);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.5);
+        }
+        .faq-card-title {
+            font-family: 'Sora', sans-serif;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--t1);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .faq-card-text {
+            font-size: 0.9rem;
+            color: var(--t2);
+            line-height: 1.7;
+            margin: 0;
         }
 
         /* ─── TOKENS ─── */
@@ -3189,204 +3118,75 @@
     </div>
 
     <!-- ─── FAQ ─── -->
-    <div id="faq" class="section" style="max-width:860px;margin:0 auto;padding:64px 24px;">
-        <div style="text-align:center;margin-bottom:36px;">
+    <div id="faq" class="section" style="max-width:1040px;margin:0 auto;padding:72px 24px;">
+        <div style="margin-bottom:36px;">
             <div class="section-tag reveal" style="display:inline-flex;margin-bottom:12px;">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                     <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
                     <path d="M6 8.5v.5M6 3.5a1.5 1.5 0 011.5 1.5c0 1-1.5 1.5-1.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
                 </svg> FAQ
             </div>
-            <h2 class="section-title reveal d1" style="font-size:clamp(1.6rem,2.5vw,2.2rem);margin-bottom:10px;">Frequently Asked Questions</h2>
-            <p class="section-sub reveal d2" style="max-width:500px;margin:0 auto;color:var(--t2);font-size:0.92rem;line-height:1.6;">
-                Quick answers to common questions about NextShare privacy, security architecture, and developer sharing tools.
+            <h2 class="section-title reveal d1" style="font-size:clamp(1.75rem,3vw,2.4rem);margin-bottom:12px;">Frequently Asked Questions</h2>
+            <p class="section-sub reveal d2" style="max-width:540px;color:var(--t2);font-size:0.92rem;line-height:1.65;">
+                Everything you need to know about NextShare privacy, security architecture, and developer sharing features.
             </p>
         </div>
 
-        <div class="faq-wrap reveal d3">
-            <div class="faq-accordion" role="region" aria-label="Frequently Asked Questions">
-                
-                <!-- Q1 -->
-                <div class="faq-item open" id="faq-overview" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <button class="faq-trigger" aria-expanded="true" onclick="toggleFaq(this)">
-                        <span class="faq-question-text" itemprop="name">
-                            <span>What is NextShare and why use it over commercial tools?</span>
-                            <span class="faq-tag">Platform</span>
-                        </span>
-                        <span class="faq-icon" aria-hidden="true">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                        </span>
-                    </button>
-                    <div class="faq-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <div class="faq-body" itemprop="text">
-                            <p><strong>NextShare is a free, open-source developer sharing suite</strong> that unifies three essential tools into one privacy-first platform:</p>
-                            <ul>
-                                <li><strong>URL Shortener:</strong> Clean 5-character links (<code>/s/:code</code>) with sub-100ms Redis caching and click stats.</li>
-                                <li><strong>Encrypted File Share:</strong> Uploads up to 50MB with Scrypt password protection, download limits, and auto-expiry.</li>
-                                <li><strong>Code Pastebin:</strong> Syntax highlighting for 23+ languages with one-time burn-after-read destruction.</li>
-                                <li><strong>Zero Bloat:</strong> No accounts, paywalls, countdown timers, or advertising tracking scripts.</li>
-                            </ul>
-                        </div>
-                    </div>
+        <div class="faq-grid reveal d3">
+            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 class="faq-card-title" itemprop="name">What is NextShare?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p class="faq-card-text" itemprop="text">
+                        NextShare is a fast, open-source developer sharing suite providing custom URL shortening with click analytics, encrypted file sharing up to 50MB, and a syntax-highlighted code pastebin with burn-after-read security — all unified into a single zero-tracking web app.
+                    </p>
                 </div>
+            </article>
 
-                <!-- Q2 -->
-                <div class="faq-item" id="faq-accounts" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <button class="faq-trigger" aria-expanded="false" onclick="toggleFaq(this)">
-                        <span class="faq-question-text" itemprop="name">
-                            <span>Do I need to sign up or create an account?</span>
-                            <span class="faq-tag">Privacy</span>
-                        </span>
-                        <span class="faq-icon" aria-hidden="true">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                        </span>
-                    </button>
-                    <div class="faq-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <div class="faq-body" itemprop="text">
-                            <p><strong>No. NextShare is 100% anonymous and never requires registration.</strong></p>
-                            <ul>
-                                <li><strong>Zero Tracking:</strong> No tracking cookies, third-party analytics pixels, or marketing telemetry.</li>
-                                <li><strong>Private Delete Tokens:</strong> Every upload receives an authorization token to permanently purge files on demand.</li>
-                                <li><strong>No Paywalls:</strong> Unlimited URL shortening and code sharing without credit cards or premium tiers.</li>
-                            </ul>
-                        </div>
-                    </div>
+            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 class="faq-card-title" itemprop="name">Do I need to sign up or create an account?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p class="faq-card-text" itemprop="text">
+                        No account, email, or registration is required. NextShare is designed as a frictionless anonymous utility. There are zero tracking scripts, third-party analytics pixels, or paywalls, and each upload provides a private delete token to wipe data on demand.
+                    </p>
                 </div>
+            </article>
 
-                <!-- Q3 -->
-                <div class="faq-item" id="faq-url-shortener" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <button class="faq-trigger" aria-expanded="false" onclick="toggleFaq(this)">
-                        <span class="faq-question-text" itemprop="name">
-                            <span>How fast are redirects and how do custom aliases work?</span>
-                            <span class="faq-tag">URL Shortener</span>
-                        </span>
-                        <span class="faq-icon" aria-hidden="true">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                        </span>
-                    </button>
-                    <div class="faq-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <div class="faq-body" itemprop="text">
-                            <p><strong>Redirects resolve with sub-100ms latency powered by Redis in-memory caching.</strong></p>
-                            <ul>
-                                <li><strong>Direct 301 Redirects:</strong> Visitors are sent straight to the destination with zero interstitial ads or wait screens.</li>
-                                <li><strong>Custom Slugs:</strong> Choose any 3–20 character custom slug (e.g., <code>/s/my-app</code>) or get a clean 5-character NanoID.</li>
-                                <li><strong>Privacy Analytics:</strong> Track total clicks and unique visitor estimates without logging personal IP addresses.</li>
-                            </ul>
-                        </div>
-                    </div>
+            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 class="faq-card-title" itemprop="name">How does burn-after-read code paste work?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p class="faq-card-text" itemprop="text">
+                        When you enable burn-after-read, the snippet is fetched directly from the database and atomically marked inactive upon first retrieval. It completely bypasses the Redis cache so no copies persist in memory, and auto-destroys if the tab is closed.
+                    </p>
                 </div>
+            </article>
 
-                <!-- Q4 -->
-                <div class="faq-item" id="faq-file-sharing" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <button class="faq-trigger" aria-expanded="false" onclick="toggleFaq(this)">
-                        <span class="faq-question-text" itemprop="name">
-                            <span>How secure is file sharing and what are the limits?</span>
-                            <span class="faq-tag">File Sharing</span>
-                        </span>
-                        <span class="faq-icon" aria-hidden="true">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                        </span>
-                    </button>
-                    <div class="faq-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <div class="faq-body" itemprop="text">
-                            <p><strong>Files up to 50MB are protected with Scrypt password encryption and download caps:</strong></p>
-                            <ul>
-                                <li><strong>Scrypt Cryptography:</strong> Passwords use salted Scrypt key derivation with constant-time equality checks.</li>
-                                <li><strong>Download Caps &amp; Auto-Expiry:</strong> Limit downloads (e.g. 1 or 5) or auto-delete after 1 hour, 1 day, or 7 days via MongoDB TTL.</li>
-                                <li><strong>Integrity Checksums:</strong> Downloads include SHA-256 integrity headers and strict CSP to block script execution.</li>
-                            </ul>
-                        </div>
-                    </div>
+            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 class="faq-card-title" itemprop="name">Can I set passwords on shared files?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p class="faq-card-text" itemprop="text">
+                        Yes. You can optionally protect any file upload with a custom password verified via salted Scrypt hashing, set an expiration window from 1 hour to 7 days, and limit the total download count before the file is automatically purged.
+                    </p>
                 </div>
+            </article>
 
-                <!-- Q5 -->
-                <div class="faq-item" id="faq-burn-paste" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <button class="faq-trigger" aria-expanded="false" onclick="toggleFaq(this)">
-                        <span class="faq-question-text" itemprop="name">
-                            <span>How does the burn-after-read code pastebin work?</span>
-                            <span class="faq-tag">Code Paste</span>
-                        </span>
-                        <span class="faq-icon" aria-hidden="true">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                        </span>
-                    </button>
-                    <div class="faq-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <div class="faq-body" itemprop="text">
-                            <p><strong>Burn-After-Read permanently destroys the snippet immediately after its first view:</strong></p>
-                            <ul>
-                                <li><strong>Cache Bypass:</strong> Burned pastes bypass Redis in-memory cache so no duplicate copy persists.</li>
-                                <li><strong>Tab-Close Destruction:</strong> Uses the browser <code>sendBeacon</code> API to destroy the paste if the viewer closes the tab.</li>
-                                <li><strong>23+ Languages:</strong> Syntax highlighting for JS, TS, Python, Go, Rust, C++, SQL, Bash, and more.</li>
-                            </ul>
-                        </div>
-                    </div>
+            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 class="faq-card-title" itemprop="name">Does NextShare work without an internet connection?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p class="faq-card-text" itemprop="text">
+                        Yes. As an installable Progressive Web App (PWA), items created while offline are queued locally in browser IndexedDB storage and automatically synchronized with the server as soon as your internet connection is restored.
+                    </p>
                 </div>
+            </article>
 
-                <!-- Q6 -->
-                <div class="faq-item" id="faq-offline-pwa" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <button class="faq-trigger" aria-expanded="false" onclick="toggleFaq(this)">
-                        <span class="faq-question-text" itemprop="name">
-                            <span>Does NextShare work offline without internet?</span>
-                            <span class="faq-tag">PWA &amp; Offline</span>
-                        </span>
-                        <span class="faq-icon" aria-hidden="true">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                        </span>
-                    </button>
-                    <div class="faq-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <div class="faq-body" itemprop="text">
-                            <p><strong>Yes. NextShare is an installable Progressive Web App (PWA) that functions offline:</strong></p>
-                            <ul>
-                                <li><strong>IndexedDB Queuing:</strong> Links and code pastes drafted offline are saved locally and auto-synced when reconnected.</li>
-                                <li><strong>Desktop &amp; Mobile:</strong> Installable on Windows, macOS, Linux, iOS, and Android directly from your browser.</li>
-                            </ul>
-                        </div>
-                    </div>
+            <article class="faq-card" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                <h3 class="faq-card-title" itemprop="name">Can I self-host NextShare?</h3>
+                <div itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                    <p class="faq-card-text" itemprop="text">
+                        Yes. NextShare is fully open-source under the MIT License and includes ready-to-run Docker Compose configurations for deploying the React frontend, Node.js API, MongoDB, and Redis stack on your own server with a single command.
+                    </p>
                 </div>
-
-                <!-- Q7 -->
-                <div class="faq-item" id="faq-self-host" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
-                    <button class="faq-trigger" aria-expanded="false" onclick="toggleFaq(this)">
-                        <span class="faq-question-text" itemprop="name">
-                            <span>Can I self-host NextShare on my own server?</span>
-                            <span class="faq-tag">Self-Hosting</span>
-                        </span>
-                        <span class="faq-icon" aria-hidden="true">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
-                        </span>
-                    </button>
-                    <div class="faq-content" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
-                        <div class="faq-body" itemprop="text">
-                            <p><strong>Yes. NextShare is 100% open-source under the MIT license:</strong></p>
-                            <ul>
-                                <li><strong>One-Command Docker:</strong> Launch the React frontend, Express API, MongoDB, and Redis with <code>docker-compose up -d</code>.</li>
-                                <li><strong>Open Codebase:</strong> Fork and inspect the source code on <a href="https://github.com/ivengexnce/NextShare" target="_blank" rel="noopener noreferrer" style="color:var(--accent-l);text-decoration:underline;">GitHub</a>.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            </article>
         </div>
-
-        <script>
-            function toggleFaq(btn) {
-                var item = btn.closest('.faq-item');
-                var isOpen = item.classList.contains('open');
-                
-                // Optional: Close others for a clean single-open accordion
-                document.querySelectorAll('.faq-item').forEach(function(el) {
-                    el.classList.remove('open');
-                    var b = el.querySelector('.faq-trigger');
-                    if (b) b.setAttribute('aria-expanded', 'false');
-                });
-
-                if (!isOpen) {
-                    item.classList.add('open');
-                    btn.setAttribute('aria-expanded', 'true');
-                }
-            }
-        </script>
     </div>
 
     <!-- ─── FOOTER ─── -->
