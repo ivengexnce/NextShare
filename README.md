@@ -1,7 +1,4 @@
-> ⭐ Star this if you found it useful — it helps others discover it too.
-![License](https://img.shields.io/badge/license-MIT-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)
-![Vercel](https://img.shields.io/badge/Vercel-deployed-black?logo=vercel)
+> ⭐ Star this if you found it useful — it helps others discover it too...
 
 <div align="center">
 
