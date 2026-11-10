@@ -34,6 +34,17 @@ Most link-shortener and file-sharing tools are closed-source SaaS products with 
 
 ---
 
+## 🎬 Demo
+
+<!-- Replace this placeholder with an actual screen recording exported as a GIF.
+     Recommended tool: LICEcap (Windows/macOS) or Peek (Linux).
+     Recommended dimensions: 1280×720, capped at 15 fps to keep file size under 10 MB.
+     Suggested flow to record: shorten a URL → copy the short link → paste it in a new tab and confirm the redirect. -->
+
+> 🎥 Demo GIF coming soon — [watch the live demo](https://nextsharebymeet.vercel.app/app) in the meantime.
+
+---
+
 ## ✨ Features
 
 | Feature | Description |
@@ -95,7 +106,7 @@ Most link-shortener and file-sharing tools are closed-source SaaS products with 
 | | |
 |---|---|
 | 🌐 Landing Page | [nextsharebymeet.vercel.app](https://nextsharebymeet.vercel.app/) |
-| 🧰 App | `nextsharebymeet.vercel.app/app` |
+| 🧰 App | [nextsharebymeet.vercel.app/app](https://nextsharebymeet.vercel.app/app) |
 | ⚙️ API | Hosted on Render |
 
 ---
@@ -124,14 +135,14 @@ Strict layer separation across `url`, `files`, and `text` modules. The `admin` m
 
 ## 🧱 Tech Stack
 
-| Layer      | Technology                                                       |
-|------------|-------------------------------------------------------------------|
-| Frontend   | React 18 · Vite 4 · Zustand · IndexedDB (idb)                    |
-| Backend    | Node.js 20 · Express 4 · Mongoose 7 · Redis 4                    |
-| Database   | MongoDB 7                                                          |
-| Cache      | Redis 7 (cache-aside pattern)                                     |
-| Deployment | Render (API) · Vercel (Frontend)                                  |
-| PWA        | Service Workers · Background Sync · Offline Queue                 |
+| Layer | Technology |
+|---|---|
+| Frontend | React 18 · Vite 4 · Zustand · IndexedDB (idb) |
+| Backend | Node.js 20 · Express 4 · Mongoose 7 · Redis 4 |
+| Database | MongoDB 7 |
+| Cache | Redis 7 (cache-aside pattern) |
+| Deployment | Render (API) · Vercel (Frontend) |
+| PWA | Service Workers · Background Sync · Offline Queue |
 
 **Searchable stack tags:** `react` `nodejs` `expressjs` `mongodb` `redis` `vite` `zustand` `pwa` `javascript` `full-stack` `rest-api` `mern-stack`
 
@@ -263,7 +274,7 @@ NextShare/
 
 ### Can I use this as a Bitly or Pastebin replacement?
 
-**Yes.** NextShare combines URL shortening, secure paste sharing (including burn-after-read), and file sharing in a single self-hosted platform—offering features that neither Bitly nor Pastebin provide together.
+**Yes.** NextShare combines URL shortening, secure paste sharing (including burn-after-read), and file sharing in a single self-hosted platform — offering features that neither Bitly nor Pastebin provide together.
 
 ### Does it work offline?
 
@@ -273,36 +284,31 @@ NextShare/
 
 NextShare is built with production-oriented engineering practices, including:
 
-* Layered architecture (Controller → Service → Repository)
-* Redis caching strategy
-* Visitor analytics
-* Secure authentication and API design
-* A documented scaling plan from a single-node deployment to handling **1M+ requests per day**
+- Layered architecture (Controller → Service → Repository)
+- Redis caching strategy
+- Visitor analytics
+- Secure authentication and API design
+- A documented scaling plan from a single-node deployment to handling **1M+ requests per day**
 
 ### Can I deploy this myself?
 
 **Yes.** You can deploy:
 
-* **Backend:** Render or any Node.js hosting provider
-* **Frontend:** Vercel or any static hosting platform
-* **Local Development:** Docker Compose is included for a consistent development and deployment environment.
-
+- **Backend:** Render or any Node.js hosting provider
+- **Frontend:** Vercel or any static hosting platform
+- **Local Development:** Docker Compose is included for a consistent development and deployment environment
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome!
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a PR.
 
-If you'd like to improve NextShare, feel free to open an issue or submit a pull request.
+The short version:
 
-Before contributing, please follow these project conventions:
-
-* Maintain the layered architecture:
-  `Controller → Service → Repository → Schema`
-* Keep the frontend **ESM-only**.
-* Do **not** use `require()` in frontend code, as it breaks Vercel builds.
-* Follow the existing coding style and project structure.
+- Maintain the layered architecture: `Controller → Service → Repository → Schema`
+- Keep the frontend **ESM-only** — no `require()` in any frontend file
+- Follow the existing coding style and project structure
 
 ---
 
@@ -313,14 +319,14 @@ Before contributing, please follow these project conventions:
 AI & ML Engineer • Full-Stack Developer
 📍 Mumbai, India
 
-* Vice President, CSI VIVA
-* Front-End AI Engineering Intern @ FlyRank
+- President, CSI VIVA
+- Front-End AI Engineering Intern @ FlyRank
 
-**Connect with me:**
+**Connect:**
 
-* 🌐 **Portfolio:** https://ivengexnce.github.io/portfolio/
-* 💼 **LinkedIn:** https://www.linkedin.com/in/meetmaru149/
-* 💻 **GitHub:** https://github.com/ivengexnce
+- 🌐 Portfolio: [meetmaru.dev](https://meetmaru.dev)
+- 💼 LinkedIn: [linkedin.com/in/meet-maru-ai](https://www.linkedin.com/in/meet-maru-ai)
+- 💻 GitHub: [github.com/ivengexnce](https://github.com/ivengexnce)
 
 ---
 
@@ -333,5 +339,3 @@ You are free to use, modify, distribute, and self-host this project in accordanc
 ---
 
 **Thank you for your support! ❤️**
-
-</div>
