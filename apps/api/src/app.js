@@ -56,7 +56,7 @@ app.use(cors({
         const ok = allowedOrigins.has(origin);
         return callback(null, ok);
     },
-    methods: ['GET', 'POST', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'x-admin-secret', 'x-delete-token', 'x-file-password'],
     credentials: false,
 }));
@@ -78,13 +78,13 @@ app.use('/api', generalLimiter);
 
 app.get('/', (req, res) => {
     if (req.accepts('html')) {
-        return res.redirect('/admin');
+        return res.redirect(`${config.app.frontendUrl}/admin`);
     }
     return ResponseFactory.success(res, {
         name: 'NextShare API',
         status: 'online',
         health: '/health',
-        admin: '/admin',
+        admin: `${config.app.frontendUrl}/admin`,
         frontend: config.app.frontendUrl,
     });
 });
@@ -96,6 +96,14 @@ app.get('/health', (_req, res) =>
         uptime: Math.floor(process.uptime()),
     }),
 );
+
+// Redirect standalone browser visits to /admin to the frontend React admin dashboard
+app.get('/admin', (req, res, next) => {
+    if (req.accepts('html') || !req.headers['x-admin-secret']) {
+        return res.redirect(`${config.app.frontendUrl}/admin`);
+    }
+    next();
+});
 
 app.use('/api/urls', urlRoutes);
 app.use('/api/files', filesRoutes);

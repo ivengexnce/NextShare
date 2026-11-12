@@ -3,6 +3,7 @@ import { useOffline } from './shared/hooks/useOffline';
 import UrlShortener from './features/url/UrlShortener';
 import FileShare from './features/files/FileShare';
 import TextShare from './features/text/TextShare';
+import PasteViewer from './features/text/PasteViewer';
 import AdminDashboard from './features/admin/AdminDashboard';
 
 const TABS = [
@@ -20,6 +21,11 @@ export default function App() {
 
   if (window.location.pathname === '/admin') {
     return <AdminDashboard />;
+  }
+
+  const pasteMatch = window.location.pathname.match(/^\/(?:p|paste)\/([a-zA-Z0-9_-]+)/);
+  if (pasteMatch) {
+    return <PasteViewer code={pasteMatch[1]} />;
   }
 
   return (

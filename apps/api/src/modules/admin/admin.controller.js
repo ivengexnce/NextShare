@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { client } = require('../../config/redis');
-const { getAdminPortalHtml } = require('./admin.portal');
 
 async function safeCard(key) {
     try { return await client.sCard(key); } catch { return 0; }
@@ -11,10 +10,6 @@ const getModel = (name) => {
 };
 
 const AdminController = {
-    portal(_req, res) {
-        res.setHeader('Content-Type', 'text/html; charset=utf-8').send(getAdminPortalHtml());
-    },
-
     async stats(_req, res) {
         const globalVisitors = await safeCard('visitors:global');
 

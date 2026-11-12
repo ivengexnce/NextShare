@@ -3973,232 +3973,582 @@
 
 
     <!-- ─── COMMUNITY TESTIMONIALS & ISSUES ─── -->
-    <section id="reviews" style="background:#0C0B0A;border-top:1px solid rgba(255,255,255,0.08);padding:64px 24px;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;color:#F0EDE8;">
+    <section id="reviews" style="background:#0C0B0A;border-top:1px solid rgba(255,255,255,0.08);padding:72px 24px;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;color:#F0EDE8;position:relative;overflow:hidden;">
         <style>
             #reviews * { box-sizing: border-box; }
-            .cf-wrap { max-width: 1120px; margin: 0 auto; }
-            .cf-eyebrow { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #6366f1; margin-bottom: 6px; }
-            .cf-header-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
-            .cf-title { font-size: 24px; font-weight: 700; color: #F0EDE8; margin: 0 0 6px 0; letter-spacing: -0.02em; }
-            .cf-sub { font-size: 13px; color: #9CA3AF; margin: 0; line-height: 1.5; max-width: 640px; }
+            .cf-wrap { max-width: 1160px; margin: 0 auto; position: relative; z-index: 2; }
+            
+            /* Section Header Row (exact screenshot alignment) */
+            .cf-header-bar {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                margin-bottom: 24px;
+                flex-wrap: wrap;
+                gap: 18px;
+            }
+            .cf-title {
+                font-size: clamp(26px, 4vw, 34px);
+                font-weight: 700;
+                color: #F0EDE8;
+                margin: 0 0 6px 0;
+                letter-spacing: -0.03em;
+                line-height: 1.15;
+            }
+            .cf-sub {
+                font-size: 14px;
+                color: #9CA3AF;
+                margin: 0;
+                line-height: 1.55;
+                max-width: 600px;
+            }
+            
+            /* Carousel Header Controls */
+            .cf-header-actions {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                flex-shrink: 0;
+            }
+            .cf-nav-btn {
+                width: 36px;
+                height: 36px;
+                border-radius: 8px;
+                background: #141312;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                color: #F0EDE8;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+                font-size: 13px;
+                user-select: none;
+            }
+            .cf-nav-btn:hover {
+                background: #1E1D1B;
+                border-color: rgba(99, 102, 241, 0.45);
+                color: #FFFFFF;
+                transform: translateY(-1px);
+            }
+            .cf-nav-btn:active { transform: translateY(1px); }
+            
             .cf-app-btn {
                 display: inline-flex;
                 align-items: center;
                 gap: 6px;
-                background: #141312;
-                border: 1px solid rgba(255,255,255,0.12);
-                border-radius: 6px;
-                padding: 7px 14px;
-                color: #F0EDE8;
-                font-size: 12px;
-                font-weight: 500;
+                background: #6366f1;
+                border: 1px solid rgba(99, 102, 241, 0.4);
+                border-radius: 8px;
+                padding: 9px 18px;
+                color: #FFFFFF;
+                font-size: 12.5px;
+                font-weight: 600;
                 text-decoration: none;
-                transition: border-color 0.15s ease;
+                transition: all 0.2s ease;
+                box-shadow: 0 4px 16px rgba(99, 102, 241, 0.35);
+                white-space: nowrap;
             }
-            .cf-app-btn:hover { border-color: #6366f1; color: #FFFFFF; }
+            .cf-app-btn:hover {
+                background: #4F46E5;
+                transform: translateY(-1px);
+                box-shadow: 0 6px 22px rgba(99, 102, 241, 0.45);
+            }
 
-            /* Horizontal Scroll Track */
+            /* Infinite Scrolling Marquee Container with edge fades */
+            .cf-carousel-container {
+                position: relative;
+                margin-bottom: 48px;
+                overflow: hidden;
+                mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 1) 36px, rgba(0, 0, 0, 1) calc(100% - 36px), transparent 100%);
+                -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 1) 36px, rgba(0, 0, 0, 1) calc(100% - 36px), transparent 100%);
+            }
             .cf-scroll-track {
                 display: flex;
-                gap: 16px;
+                gap: 18px;
                 overflow-x: auto;
-                padding: 4px 0 16px;
-                scroll-snap-type: x mandatory;
+                padding: 10px 4px 18px 4px;
                 -webkit-overflow-scrolling: touch;
-                scrollbar-width: thin;
-                scrollbar-color: rgba(255,255,255,0.15) transparent;
+                scrollbar-width: none;
+                -ms-overflow-style: none;
+                cursor: grab;
+                user-select: none;
             }
-            .cf-scroll-track::-webkit-scrollbar { height: 6px; }
-            .cf-scroll-track::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+            .cf-scroll-track:active {
+                cursor: grabbing;
+            }
+            .cf-scroll-track::-webkit-scrollbar { display: none; }
 
+            /* Testimonial Card */
             .cf-card {
-                flex: 0 0 320px;
-                scroll-snap-align: start;
-                background: #141312;
-                border: 1px solid rgba(255,255,255,0.08);
-                border-radius: 8px;
-                padding: 18px 20px;
+                flex: 0 0 360px;
+                background: linear-gradient(180deg, #151413 0%, #100F0E 100%);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 12px;
+                padding: 22px;
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
-                min-height: 160px;
-                transition: border-color 0.15s ease;
+                min-height: 200px;
+                transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease, box-shadow 0.25s ease;
+                position: relative;
+                flex-shrink: 0;
             }
-            .cf-card:hover { border-color: rgba(99,102,241,0.4); }
-            .cf-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-            .cf-card-name { font-size: 13px; font-weight: 600; color: #F0EDE8; }
-            .cf-card-stars { color: #6366f1; font-size: 12px; letter-spacing: 2px; }
-            .cf-card-msg { font-size: 13px; line-height: 1.55; color: #9CA3AF; margin: 0 0 14px 0; flex-grow: 1; word-break: break-word; }
-            .cf-card-foot { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #6B7280; font-family: ui-monospace, SFMono-Regular, monospace; }
-
-            /* Issues Box */
-            .cf-issues-box {
-                margin-top: 40px;
-                background: #141312;
-                border: 1px solid rgba(255,255,255,0.08);
+            .cf-card:hover {
+                border-color: rgba(99, 102, 241, 0.5);
+                transform: translateY(-4px) scale(1.015);
+                box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(99, 102, 241, 0.25);
+                z-index: 5;
+            }
+            .cf-card-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 12px;
+                gap: 10px;
+            }
+            .cf-card-user {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .cf-card-avatar {
+                width: 36px;
+                height: 36px;
                 border-radius: 8px;
+                background: linear-gradient(135deg, rgba(99, 102, 241, 0.3) 0%, rgba(67, 56, 202, 0.5) 100%);
+                border: 1px solid rgba(99, 102, 241, 0.4);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: 700;
+                color: #FFFFFF;
+                font-family: ui-monospace, monospace;
+                flex-shrink: 0;
+            }
+            .cf-card-name {
+                font-size: 13.5px;
+                font-weight: 600;
+                color: #F0EDE8;
+                line-height: 1.2;
+            }
+            .cf-card-role {
+                font-size: 11px;
+                color: #6B7280;
+                margin-top: 2px;
+            }
+            .cf-card-tool-tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                font-size: 10.5px;
+                font-weight: 500;
+                padding: 2px 8px;
+                border-radius: 999px;
+                background: rgba(99, 102, 241, 0.12);
+                color: #A5B4FC;
+                border: 1px solid rgba(99, 102, 241, 0.25);
+                white-space: nowrap;
+            }
+            .cf-stars {
+                color: #F59E0B;
+                font-size: 13px;
+                letter-spacing: 2px;
+                margin-bottom: 8px;
+            }
+            .cf-card-msg {
+                font-size: 13px;
+                line-height: 1.6;
+                color: #9CA3AF;
+                margin: 0 0 16px 0;
+                flex-grow: 1;
+                word-break: break-word;
+            }
+            .cf-card-footer {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding-top: 14px;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+                font-size: 11px;
+            }
+            .cf-verified-tag {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                color: #10B981;
+                font-weight: 500;
+            }
+            .cf-card-time {
+                color: #6B7280;
+                font-family: ui-monospace, SFMono-Regular, monospace;
+            }
+
+            /* Public Issues Tracker Card */
+            .cf-issues-box {
+                background: #141312;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 14px;
                 overflow: hidden;
+                box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
             }
             .cf-issues-head {
-                padding: 16px 20px;
-                border-bottom: 1px solid rgba(255,255,255,0.08);
+                padding: 20px 24px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 flex-wrap: wrap;
+                gap: 16px;
+                background: rgba(255, 255, 255, 0.01);
+            }
+            .cf-issues-title-wrap h3 {
+                font-size: 15px;
+                font-weight: 600;
+                margin: 0 0 4px 0;
+                color: #F0EDE8;
+                display: flex;
+                align-items: center;
                 gap: 8px;
             }
-            .cf-issues-head h3 { font-size: 14px; font-weight: 600; margin: 0 0 3px 0; color: #F0EDE8; }
-            .cf-issues-head p { font-size: 12px; color: #9CA3AF; margin: 0; }
-            .cf-issues-count { font-size: 11px; color: #6B7280; font-family: ui-monospace, SFMono-Regular, monospace; }
+            .cf-issues-title-wrap p {
+                font-size: 12px;
+                color: #9CA3AF;
+                margin: 0;
+            }
 
-            .cf-table-wrap { overflow-x: auto; }
-            .cf-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
-            .cf-table th {
-                padding: 10px 18px;
-                color: #6B7280;
-                font-weight: 500;
-                border-bottom: 1px solid rgba(255,255,255,0.08);
+            /* Filter Tabs */
+            .cf-filter-bar {
+                display: inline-flex;
                 background: #0C0B0A;
+                padding: 3px;
+                border-radius: 8px;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                gap: 2px;
+            }
+            .cf-tab-pill {
+                background: transparent;
+                border: none;
+                color: #9CA3AF;
+                font-size: 11px;
+                font-weight: 500;
+                padding: 5px 12px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: all 0.15s ease;
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .cf-tab-pill:hover { color: #FFFFFF; }
+            .cf-tab-pill.active {
+                background: #1B1A19;
+                color: #FFFFFF;
+                font-weight: 600;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            }
+
+            /* Table Styles */
+            .cf-table-wrap { overflow-x: auto; }
+            .cf-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12.5px; }
+            .cf-table th {
+                padding: 12px 20px;
+                color: #6B7280;
+                font-weight: 600;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                background: #0E0D0C;
                 font-size: 11px;
                 text-transform: uppercase;
-                letter-spacing: 0.05em;
+                letter-spacing: 0.06em;
                 white-space: nowrap;
             }
-            .cf-table td { padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #9CA3AF; }
+            .cf-table td {
+                padding: 14px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+                color: #9CA3AF;
+                transition: background 0.15s ease;
+            }
+            .cf-table tbody tr:hover td {
+                background: rgba(255, 255, 255, 0.02);
+            }
             .cf-table tr:last-child td { border-bottom: none; }
 
-            .cf-badge {
-                display: inline-block;
-                padding: 2px 8px;
-                border-radius: 4px;
+            /* Status Badges */
+            .cf-status-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                padding: 3px 9px;
+                border-radius: 6px;
                 font-size: 11px;
-                font-weight: 500;
+                font-weight: 600;
                 text-transform: uppercase;
                 letter-spacing: 0.04em;
                 white-space: nowrap;
             }
-            .cf-badge-open { color: #EAB308; background: rgba(234, 179, 8, 0.12); }
-            .cf-badge-in_progress { color: #3B82F6; background: rgba(59, 130, 246, 0.12); }
-            .cf-badge-resolved { color: #10B981; background: rgba(16, 185, 129, 0.12); }
-            .cf-empty-cell { padding: 24px 18px; text-align: center; color: #6B7280; font-size: 12px; }
+            .cf-status-open {
+                color: #EAB308;
+                background: rgba(234, 179, 8, 0.1);
+                border: 1px solid rgba(234, 179, 8, 0.25);
+            }
+            .cf-status-in_progress {
+                color: #60A5FA;
+                background: rgba(59, 130, 246, 0.1);
+                border: 1px solid rgba(59, 130, 246, 0.25);
+            }
+            .cf-status-resolved {
+                color: #34D399;
+                background: rgba(52, 211, 153, 0.1);
+                border: 1px solid rgba(52, 211, 153, 0.25);
+            }
+            .cf-status-dot-pulse {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: currentColor;
+                animation: cfPulse 1.8s infinite;
+            }
+            @keyframes cfPulse {
+                0%, 100% { opacity: 1; transform: scale(1); }
+                50% { opacity: 0.4; transform: scale(1.4); }
+            }
+            @keyframes cfFadeIn {
+                from { opacity: 0; transform: translateY(6px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
         </style>
 
         <div class="cf-wrap">
-            <!-- Section Header -->
-            <div class="cf-header-row">
+            <!-- Section Header Bar (Title left, Controls right) -->
+            <div class="cf-header-bar">
                 <div>
-                    <div class="cf-eyebrow">Community Feedback</div>
                     <h2 class="cf-title">Developer Testimonials &amp; Issues</h2>
-                    <p class="cf-sub">Direct feedback, user impressions, and public issue tracking from developers using NextShare.</p>
+                    <p class="cf-sub">Direct production feedback, user impressions, and active public issue tracking for NextShare.</p>
                 </div>
-                <div>
+                
+                <div class="cf-header-actions">
+                    <!-- Carousel Controls -->
+                    <button class="cf-nav-btn" onclick="scrollCarousel(-1)" aria-label="Previous reviews" title="Scroll left">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <button class="cf-nav-btn" onclick="scrollCarousel(1)" aria-label="Next reviews" title="Scroll right">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                    <button class="cf-nav-btn" id="cfToggleAutoScroll" onclick="toggleAutoScroll()" aria-label="Toggle auto-scroll animation" title="Pause / Play auto-scrolling">
+                        <span id="cfPausePlayIcon" style="font-size:11px;">⏸</span>
+                    </button>
                     <a href="/app" class="cf-app-btn">
-                        Submit Feedback in App ↗
+                        Submit Feedback ↗
                     </a>
                 </div>
             </div>
 
-            <!-- Testimonials Horizontal Scroll Track -->
-            <div class="cf-scroll-track" id="cfTestimonialsTrack">
-                <!-- Card 1 -->
-                <div class="cf-card">
-                    <div>
-                        <div class="cf-card-head">
-                            <span class="cf-card-name">Alex Vance</span>
-                            <span class="cf-card-stars">★★★★★</span>
+            <!-- Auto-Scrolling Testimonials Carousel Track -->
+            <div class="cf-carousel-container">
+                <div class="cf-scroll-track" id="cfTestimonialsTrack">
+                    <!-- Card 1 -->
+                    <div class="cf-card">
+                        <div>
+                            <div class="cf-card-header">
+                                <div class="cf-card-user">
+                                    <div class="cf-card-avatar" style="background:linear-gradient(135deg,rgba(99,102,241,0.35) 0%,rgba(67,56,202,0.6) 100%);border-color:rgba(99,102,241,0.5);">AV</div>
+                                    <div>
+                                        <div class="cf-card-name">Alex Vance</div>
+                                        <div class="cf-card-role">Backend Lead @ ScaleStack</div>
+                                    </div>
+                                </div>
+                                <span class="cf-card-tool-tag">🔗 URL Shortener</span>
+                            </div>
+                            <div class="cf-stars">★★★★★</div>
+                            <p class="cf-card-msg">Sub-100ms Redis redirects with zero tracking pixels or account gates. Replaced Bitly completely across our webhook endpoints. Fast, reliable, and clean.</p>
                         </div>
-                        <p class="cf-card-msg">Sub-100ms Redis redirects with zero tracking pixels or account gates. Replaced Bitly completely across our webhook endpoints.</p>
+                        <div class="cf-card-footer">
+                            <span class="cf-verified-tag">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                Verified Developer
+                            </span>
+                            <span class="cf-card-time">2d ago</span>
+                        </div>
                     </div>
-                    <div class="cf-card-foot">
-                        <span>Verified User</span>
-                        <span>2d ago</span>
-                    </div>
-                </div>
 
-                <!-- Card 2 -->
-                <div class="cf-card">
-                    <div>
-                        <div class="cf-card-head">
-                            <span class="cf-card-name">Priya Sharma</span>
-                            <span class="cf-card-stars">★★★★★</span>
+                    <!-- Card 2 -->
+                    <div class="cf-card">
+                        <div>
+                            <div class="cf-card-header">
+                                <div class="cf-card-user">
+                                    <div class="cf-card-avatar" style="background:linear-gradient(135deg,rgba(16,185,129,0.3) 0%,rgba(5,150,105,0.5) 100%);border-color:rgba(16,185,129,0.4);">PS</div>
+                                    <div>
+                                        <div class="cf-card-name">Priya Sharma</div>
+                                        <div class="cf-card-role">DevSecOps Engineer</div>
+                                    </div>
+                                </div>
+                                <span class="cf-card-tool-tag">📋 Code Paste</span>
+                            </div>
+                            <div class="cf-stars">★★★★★</div>
+                            <p class="cf-card-msg">The burn-after-read code pastebin is brilliant for sharing staging environment variables and database connection strings without polluting team history.</p>
                         </div>
-                        <p class="cf-card-msg">The burn-after-read code pastebin is brilliant for sharing staging environment variables and DB connection strings without leaking into Slack history.</p>
+                        <div class="cf-card-footer">
+                            <span class="cf-verified-tag">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                Verified Developer
+                            </span>
+                            <span class="cf-card-time">3d ago</span>
+                        </div>
                     </div>
-                    <div class="cf-card-foot">
-                        <span>Verified User</span>
-                        <span>3d ago</span>
-                    </div>
-                </div>
 
-                <!-- Card 3 -->
-                <div class="cf-card">
-                    <div>
-                        <div class="cf-card-head">
-                            <span class="cf-card-name">Marcus Chen</span>
-                            <span class="cf-card-stars">★★★★★</span>
+                    <!-- Card 3 -->
+                    <div class="cf-card">
+                        <div>
+                            <div class="cf-card-header">
+                                <div class="cf-card-user">
+                                    <div class="cf-card-avatar" style="background:linear-gradient(135deg,rgba(245,158,11,0.3) 0%,rgba(217,119,6,0.5) 100%);border-color:rgba(245,158,11,0.4);">MC</div>
+                                    <div>
+                                        <div class="cf-card-name">Marcus Chen</div>
+                                        <div class="cf-card-role">Full-Stack Founder</div>
+                                    </div>
+                                </div>
+                                <span class="cf-card-tool-tag">📁 File Share</span>
+                            </div>
+                            <div class="cf-stars">★★★★★</div>
+                            <p class="cf-card-msg">Password-protected client-side encrypted files with download limits and auto-expiration TTLs. Exactly what developer tooling should look like.</p>
                         </div>
-                        <p class="cf-card-msg">Password-protected client-side encrypted files with download limits and auto-expiration TTLs. Exactly what developer tooling should be.</p>
+                        <div class="cf-card-footer">
+                            <span class="cf-verified-tag">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                Verified Developer
+                            </span>
+                            <span class="cf-card-time">5d ago</span>
+                        </div>
                     </div>
-                    <div class="cf-card-foot">
-                        <span>Verified User</span>
-                        <span>5d ago</span>
-                    </div>
-                </div>
 
-                <!-- Card 4 -->
-                <div class="cf-card">
-                    <div>
-                        <div class="cf-card-head">
-                            <span class="cf-card-name">Elena Rostova</span>
-                            <span class="cf-card-stars">★★★★★</span>
+                    <!-- Card 4 -->
+                    <div class="cf-card">
+                        <div>
+                            <div class="cf-card-header">
+                                <div class="cf-card-user">
+                                    <div class="cf-card-avatar" style="background:linear-gradient(135deg,rgba(236,72,153,0.3) 0%,rgba(190,24,93,0.5) 100%);border-color:rgba(236,72,153,0.4);">ER</div>
+                                    <div>
+                                        <div class="cf-card-name">Elena Rostova</div>
+                                        <div class="cf-card-role">Open Source Contributor</div>
+                                    </div>
+                                </div>
+                                <span class="cf-card-tool-tag">✨ NextShare</span>
+                            </div>
+                            <div class="cf-stars">★★★★★</div>
+                            <p class="cf-card-msg">Zero third-party trackers, zero ads, zero accounts. Clean aesthetics with dark mode done right. Hands down the smoothest sharing stack.</p>
                         </div>
-                        <p class="cf-card-msg">Clean aesthetics with dark mode done right. Fast, anonymous, and no sign-up barrier.</p>
+                        <div class="cf-card-footer">
+                            <span class="cf-verified-tag">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                Verified Developer
+                            </span>
+                            <span class="cf-card-time">1w ago</span>
+                        </div>
                     </div>
-                    <div class="cf-card-foot">
-                        <span>Verified User</span>
-                        <span>1w ago</span>
+
+                    <!-- Card 5 -->
+                    <div class="cf-card">
+                        <div>
+                            <div class="cf-card-header">
+                                <div class="cf-card-user">
+                                    <div class="cf-card-avatar" style="background:linear-gradient(135deg,rgba(59,130,246,0.3) 0%,rgba(29,78,216,0.5) 100%);border-color:rgba(59,130,246,0.4);">DK</div>
+                                    <div>
+                                        <div class="cf-card-name">David Kim</div>
+                                        <div class="cf-card-role">Lead DevOps @ Veloce</div>
+                                    </div>
+                                </div>
+                                <span class="cf-card-tool-tag">🔗 URL Shortener</span>
+                            </div>
+                            <div class="cf-stars">★★★★★</div>
+                            <p class="cf-card-msg">Private custom aliases, instant QR previews, and rate-limited API keys make NextShare a permanent fixture in our developer toolkit.</p>
+                        </div>
+                        <div class="cf-card-footer">
+                            <span class="cf-verified-tag">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                Verified Developer
+                            </span>
+                            <span class="cf-card-time">1w ago</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Issues Section -->
+            <!-- Public Issues Tracker -->
             <div class="cf-issues-box">
                 <div class="cf-issues-head">
-                    <div>
-                        <h3>Public Issue Tracker</h3>
+                    <div class="cf-issues-title-wrap">
+                        <h3>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                            Public Issue Tracker
+                        </h3>
                         <p>Active bug reports, platform status, and community feature requests</p>
                     </div>
-                    <span class="cf-issues-count" id="cfIssuesCount">Loading backlog...</span>
+
+                    <!-- Filter Bar -->
+                    <div class="cf-filter-bar">
+                        <button class="cf-tab-pill active" onclick="filterIssues('all', this)">All</button>
+                        <button class="cf-tab-pill" onclick="filterIssues('open', this)">
+                            <span style="color:#EAB308;">●</span> Open
+                        </button>
+                        <button class="cf-tab-pill" onclick="filterIssues('in_progress', this)">
+                            <span style="color:#60A5FA;">●</span> In Progress
+                        </button>
+                        <button class="cf-tab-pill" onclick="filterIssues('resolved', this)">
+                            <span style="color:#34D399;">✓</span> Resolved
+                        </button>
+                    </div>
                 </div>
+
                 <div class="cf-table-wrap">
                     <table class="cf-table">
                         <thead>
                             <tr>
-                                <th style="width:55%;">Issue Description</th>
+                                <th style="width:52%;">Issue Description</th>
                                 <th style="width:20%;">Reported By</th>
-                                <th style="width:15%;">Status</th>
-                                <th style="width:10%;">Reported</th>
+                                <th style="width:16%;">Status</th>
+                                <th style="width:12%;">Reported</th>
                             </tr>
                         </thead>
                         <tbody id="cfIssuesTableBody">
-                            <tr>
-                                <td style="color:#F0EDE8;font-weight:500;">Dark mode toggle for landing page header navigation</td>
+                            <tr data-status="resolved">
+                                <td style="color:#F0EDE8;font-weight:500;">
+                                    Dark mode toggle for landing page header navigation
+                                </td>
                                 <td>Meet Maru</td>
-                                <td><span class="cf-badge cf-badge-resolved">Resolved</span></td>
-                                <td>1d ago</td>
+                                <td>
+                                    <span class="cf-status-badge cf-status-resolved">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        Resolved
+                                    </span>
+                                </td>
+                                <td style="font-family:ui-monospace,monospace;font-size:11px;">1d ago</td>
                             </tr>
-                            <tr>
-                                <td style="color:#F0EDE8;font-weight:500;">Browser autocomplete history fallback favicon resolution</td>
+                            <tr data-status="resolved">
+                                <td style="color:#F0EDE8;font-weight:500;">
+                                    Browser autocomplete history fallback favicon resolution
+                                </td>
                                 <td>Core Team</td>
-                                <td><span class="cf-badge cf-badge-resolved">Resolved</span></td>
-                                <td>1d ago</td>
+                                <td>
+                                    <span class="cf-status-badge cf-status-resolved">
+                                        <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                        Resolved
+                                    </span>
+                                </td>
+                                <td style="font-family:ui-monospace,monospace;font-size:11px;">1d ago</td>
                             </tr>
-                            <tr>
-                                <td style="color:#F0EDE8;font-weight:500;">Add optional QR code generator alongside shortened links</td>
+                            <tr data-status="in_progress">
+                                <td style="color:#F0EDE8;font-weight:500;">
+                                    Add optional QR code generator alongside shortened links
+                                </td>
                                 <td>Dev Community</td>
-                                <td><span class="cf-badge cf-badge-in_progress">In Progress</span></td>
-                                <td>3d ago</td>
+                                <td>
+                                    <span class="cf-status-badge cf-status-in_progress">
+                                        <span class="cf-status-dot-pulse"></span>
+                                        In Progress
+                                    </span>
+                                </td>
+                                <td style="font-family:ui-monospace,monospace;font-size:11px;">3d ago</td>
                             </tr>
                         </tbody>
                     </table>
@@ -4206,9 +4556,178 @@
             </div>
         </div>
 
-        <!-- Vanilla JS Hydration Script -->
+        <!-- Vanilla JS Interactive & Auto-Scrolling Script -->
         <script>
+            var cfTrack = document.getElementById('cfTestimonialsTrack');
+            var cfIsPaused = false;
+            var cfAutoScrollEnabled = true;
+            var cfScrollSpeed = 0.65; // ~39px per second at 60fps - smooth, relaxed pace
+            var cfCurrentScroll = 0;
+            var cfLoopWidth = 0;
+            var cfResumeTimer = null;
+            var cfIsDragging = false;
+            var cfStartX = 0;
+            var cfStartScrollLeft = 0;
+
+            function setupInfiniteCarousel() {
+                if (!cfTrack) return;
+                // Remove previous clones if any exist
+                var clones = cfTrack.querySelectorAll('[data-clone="true"]');
+                clones.forEach(function(el) { el.remove(); });
+
+                var originals = Array.from(cfTrack.children);
+                if (!originals.length) return;
+
+                // Clone each card to create seamless infinite loop
+                originals.forEach(function(card) {
+                    var clone = card.cloneNode(true);
+                    clone.setAttribute('data-clone', 'true');
+                    clone.setAttribute('aria-hidden', 'true');
+                    cfTrack.appendChild(clone);
+                });
+
+                // Compute exact half width for seamless modulo wrapping
+                requestAnimationFrame(function() {
+                    cfLoopWidth = cfTrack.scrollWidth / 2;
+                    cfCurrentScroll = cfTrack.scrollLeft;
+                });
+            }
+
+            function cfAutoScrollTick() {
+                if (cfAutoScrollEnabled && !cfIsPaused && cfTrack && cfLoopWidth > 0) {
+                    cfCurrentScroll += cfScrollSpeed;
+                    if (cfCurrentScroll >= cfLoopWidth) {
+                        cfCurrentScroll -= cfLoopWidth;
+                        cfTrack.scrollLeft = cfCurrentScroll;
+                    } else {
+                        cfTrack.scrollLeft = cfCurrentScroll;
+                    }
+                }
+                requestAnimationFrame(cfAutoScrollTick);
+            }
+
+            function scrollCarousel(dir) {
+                if (!cfTrack || cfLoopWidth <= 0) return;
+                cfIsPaused = true;
+                var cardStep = 378; // 360px card + 18px gap
+                cfCurrentScroll = cfTrack.scrollLeft + (dir * cardStep);
+
+                if (cfCurrentScroll < 0) {
+                    cfCurrentScroll += cfLoopWidth;
+                } else if (cfCurrentScroll >= cfLoopWidth) {
+                    cfCurrentScroll -= cfLoopWidth;
+                }
+
+                cfTrack.scrollTo({ left: cfCurrentScroll, behavior: 'smooth' });
+
+                clearTimeout(cfResumeTimer);
+                cfResumeTimer = setTimeout(function() {
+                    cfIsPaused = false;
+                    cfCurrentScroll = cfTrack.scrollLeft;
+                }, 3000);
+            }
+
+            function toggleAutoScroll() {
+                cfAutoScrollEnabled = !cfAutoScrollEnabled;
+                var icon = document.getElementById('cfPausePlayIcon');
+                var btn = document.getElementById('cfToggleAutoScroll');
+                if (icon) {
+                    icon.textContent = cfAutoScrollEnabled ? '⏸' : '▶';
+                }
+                if (btn) {
+                    btn.setAttribute('title', cfAutoScrollEnabled ? 'Pause auto-scroll' : 'Resume auto-scroll');
+                }
+                if (cfAutoScrollEnabled) {
+                    cfIsPaused = false;
+                    cfCurrentScroll = cfTrack.scrollLeft;
+                }
+            }
+
+            function filterIssues(status, btn) {
+                document.querySelectorAll('.cf-tab-pill').forEach(function(b) { b.classList.remove('active'); });
+                if (btn) btn.classList.add('active');
+                var rows = document.querySelectorAll('#cfIssuesTableBody tr[data-status]');
+                rows.forEach(function(r) {
+                    var itemStatus = r.getAttribute('data-status');
+                    if (status === 'all' || itemStatus === status) {
+                        r.style.display = '';
+                        r.style.animation = 'cfFadeIn 0.2s ease forwards';
+                    } else {
+                        r.style.display = 'none';
+                    }
+                });
+            }
+
             (function () {
+                if (!cfTrack) return;
+
+                // 1. Initialize seamless infinite clone track
+                setupInfiniteCarousel();
+
+                // 2. Start continuous auto-scroll requestAnimationFrame
+                requestAnimationFrame(cfAutoScrollTick);
+
+                // 3. Pause on hover
+                cfTrack.addEventListener('mouseenter', function() {
+                    cfIsPaused = true;
+                });
+                cfTrack.addEventListener('mouseleave', function() {
+                    if (!cfIsDragging) {
+                        cfIsPaused = false;
+                        cfCurrentScroll = cfTrack.scrollLeft;
+                    }
+                });
+
+                // 4. Touch swipe support for mobile
+                cfTrack.addEventListener('touchstart', function() {
+                    cfIsPaused = true;
+                }, { passive: true });
+                cfTrack.addEventListener('touchend', function() {
+                    cfCurrentScroll = cfTrack.scrollLeft;
+                    clearTimeout(cfResumeTimer);
+                    cfResumeTimer = setTimeout(function() {
+                        cfIsPaused = false;
+                    }, 2000);
+                }, { passive: true });
+
+                // 5. Desktop drag-to-scroll interaction
+                cfTrack.addEventListener('mousedown', function(e) {
+                    cfIsDragging = true;
+                    cfIsPaused = true;
+                    cfTrack.style.cursor = 'grabbing';
+                    cfStartX = e.pageX - cfTrack.offsetLeft;
+                    cfStartScrollLeft = cfTrack.scrollLeft;
+                });
+
+                window.addEventListener('mouseup', function() {
+                    if (cfIsDragging) {
+                        cfIsDragging = false;
+                        cfTrack.style.cursor = 'grab';
+                        cfCurrentScroll = cfTrack.scrollLeft;
+                        clearTimeout(cfResumeTimer);
+                        cfResumeTimer = setTimeout(function() {
+                            cfIsPaused = false;
+                        }, 2000);
+                    }
+                });
+
+                cfTrack.addEventListener('mousemove', function(e) {
+                    if (!cfIsDragging) return;
+                    e.preventDefault();
+                    var x = e.pageX - cfTrack.offsetLeft;
+                    var walk = (x - cfStartX) * 1.4;
+                    cfTrack.scrollLeft = cfStartScrollLeft - walk;
+                    cfCurrentScroll = cfTrack.scrollLeft;
+                });
+
+                // 6. Keep cfCurrentScroll in sync with user scrolling
+                cfTrack.addEventListener('scroll', function() {
+                    if (cfIsPaused) {
+                        cfCurrentScroll = cfTrack.scrollLeft;
+                    }
+                });
+
+                // 7. Format helpers
                 function timeAgo(date) {
                     if (!date) return 'recently';
                     var seconds = Math.floor((new Date() - new Date(date)) / 1000);
@@ -4232,62 +4751,86 @@
                         .replace(/"/g, '&quot;');
                 }
 
-                // 1. Fetch approved testimonials
+                function getToolBadge(page) {
+                    if (!page) return '✨ NextShare';
+                    if (page === 'file' || page.indexOf('file') !== -1) return '📁 File Share';
+                    if (page === 'url' || page.indexOf('url') !== -1) return '🔗 URL Shortener';
+                    if (page === 'text' || page.indexOf('text') !== -1 || page.indexOf('paste') !== -1) return '📋 Code Paste';
+                    return '✨ NextShare';
+                }
+
+                // 8. Fetch live approved testimonials
                 fetch('/api/feedback/testimonials')
                     .then(function (res) { return res.json(); })
                     .then(function (resData) {
                         var list = resData && resData.data ? resData.data : (Array.isArray(resData) ? resData : []);
                         if (!list.length) return;
-                        var track = document.getElementById('cfTestimonialsTrack');
-                        if (!track) return;
 
-                        // Prepend newly approved community testimonials
                         list.forEach(function (item) {
                             var rating = Number(item.rating) || 5;
                             var stars = '★'.repeat(Math.max(1, Math.min(5, rating)));
+                            var initials = (item.name || 'User').split(' ').map(function(n) { return n[0]; }).join('').toUpperCase().slice(0, 2) || 'AD';
+                            var toolTag = getToolBadge(item.page);
+
                             var card = document.createElement('div');
                             card.className = 'cf-card';
                             card.innerHTML = '<div>' +
-                                '<div class="cf-card-head">' +
-                                    '<span class="cf-card-name">' + escapeText(item.name || 'Anonymous Developer') + '</span>' +
-                                    '<span class="cf-card-stars">' + stars + '</span>' +
+                                '<div class="cf-card-header">' +
+                                    '<div class="cf-card-user">' +
+                                        '<div class="cf-card-avatar">' + initials + '</div>' +
+                                        '<div>' +
+                                            '<div class="cf-card-name">' + escapeText(item.name || 'Anonymous Developer') + '</div>' +
+                                            '<div class="cf-card-role">Verified Developer</div>' +
+                                        '</div>' +
+                                    '</div>' +
+                                    '<span class="cf-card-tool-tag">' + toolTag + '</span>' +
                                 '</div>' +
+                                '<div class="cf-stars">' + stars + '</div>' +
                                 '<p class="cf-card-msg">' + escapeText(item.message) + '</p>' +
                             '</div>' +
-                            '<div class="cf-card-foot">' +
-                                '<span>Community</span>' +
-                                '<span>' + timeAgo(item.createdAt) + '</span>' +
+                            '<div class="cf-card-footer">' +
+                                '<span class="cf-verified-tag">' +
+                                    '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#10B981" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
+                                    'Verified Submission' +
+                                '</span>' +
+                                '<span class="cf-card-time">' + timeAgo(item.createdAt) + '</span>' +
                             '</div>';
-                            track.insertBefore(card, track.firstChild);
+                            cfTrack.insertBefore(card, cfTrack.firstChild);
                         });
-                    })
-                    .catch(function () { /* Fallback to existing static cards */ });
 
-                // 2. Fetch issues
+                        // Re-clone for seamless infinite animation including live reviews
+                        setupInfiniteCarousel();
+                    })
+                    .catch(function () { /* fallback to default cards */ });
+
+                // 9. Fetch live issues for backlog table
                 fetch('/api/feedback/issues')
                     .then(function (res) { return res.json(); })
                     .then(function (resData) {
                         var issues = resData && resData.data ? resData.data : (Array.isArray(resData) ? resData : []);
-                        var countEl = document.getElementById('cfIssuesCount');
+                        if (!issues.length) return;
                         var tbody = document.getElementById('cfIssuesTableBody');
-                        if (countEl) {
-                            var total = issues.length || 3;
-                            countEl.textContent = total + ' tracked item' + (total === 1 ? '' : 's');
-                        }
-                        if (!tbody || !issues.length) return;
+                        if (!tbody) return;
 
-                        tbody.innerHTML = issues.map(function (issue) {
+                        var newRowsHtml = issues.map(function (issue) {
                             var status = issue.status || 'open';
-                            var label = status === 'in_progress' ? 'In Progress' : status === 'resolved' ? 'Resolved' : 'Open';
-                            return '<tr>' +
+                            var badgeClass = 'cf-status-' + status;
+                            var badgeIcon = status === 'resolved' 
+                                ? '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>'
+                                : (status === 'in_progress' ? '<span class="cf-status-dot-pulse"></span>' : '●');
+                            var label = status === 'in_progress' ? 'In Progress' : (status === 'resolved' ? 'Resolved' : 'Open');
+
+                            return '<tr data-status="' + status + '" style="animation:cfFadeIn 0.3s ease forwards;">' +
                                 '<td style="color:#F0EDE8;font-weight:500;">' + escapeText(issue.message) + '</td>' +
                                 '<td>' + escapeText(issue.name || 'Anonymous') + '</td>' +
-                                '<td><span class="cf-badge cf-badge-' + status + '">' + label + '</span></td>' +
-                                '<td>' + timeAgo(issue.createdAt) + '</td>' +
+                                '<td><span class="cf-status-badge ' + badgeClass + '">' + badgeIcon + ' ' + label + '</span></td>' +
+                                '<td style="font-family:ui-monospace,monospace;font-size:11px;">' + timeAgo(issue.createdAt) + '</td>' +
                             '</tr>';
                         }).join('');
+
+                        tbody.innerHTML = newRowsHtml + tbody.innerHTML;
                     })
-                    .catch(function () { /* Keep default table rows */ });
+                    .catch(function () { /* fallback to default table rows */ });
             })();
         </script>
     </section>

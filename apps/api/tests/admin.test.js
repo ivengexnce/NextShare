@@ -5,11 +5,14 @@ const { timingSafeCompare } = require('../src/shared/utils/hash');
 
 describe('Admin Module & Authorization Tests', () => {
   beforeEach(() => {
-    const mockQuery = () => ({
-      lean: () => ({
+    const mockQuery = () => {
+      const q = {
+        sort: () => q,
+        lean: () => q,
         limit: () => Promise.resolve([]),
-      }),
-    });
+      };
+      return q;
+    };
     jest.spyOn(mongoose, 'model').mockReturnValue({
       find: mockQuery,
     });
@@ -19,13 +22,11 @@ describe('Admin Module & Authorization Tests', () => {
     jest.restoreAllMocks();
   });
 
-  describe('GET /admin standalone portal', () => {
-    it('should serve standalone admin HTML portal on GET /admin', async () => {
+  describe('GET /admin browser access', () => {
+    it('should redirect browser visits to React frontend admin dashboard on GET /admin', async () => {
       const res = await request(app).get('/admin').set('Accept', 'text/html');
-      expect(res.status).toBe(200);
-      expect(res.headers['content-type']).toMatch(/text\/html/);
-      expect(res.text).toContain('NextShare Admin');
-      expect(res.text).toContain('Render Backend');
+      expect(res.status).toBe(302);
+      expect(res.headers.location).toMatch(/\/admin$/);
     });
   });
 

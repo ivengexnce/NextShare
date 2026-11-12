@@ -19,6 +19,7 @@ const rewriteMiddleware = (req, _res, next) => {
 };
 
 export default defineConfig({
+    root: resolve(__dirname),
     plugins: [
         {
             name: 'multi-page-rewrites',
@@ -89,10 +90,10 @@ export default defineConfig({
         proxy: {
             '/api': { target: 'http://localhost:3001', changeOrigin: true },
             '/admin/stats': { target: 'http://localhost:3001', changeOrigin: true },
-            '^/s/[^/]+': { target: 'http://localhost:3001', changeOrigin: true },
-            '^/r/[^/]+': { target: 'http://localhost:3001', changeOrigin: true },
-            '^/f/[^/]+': { target: 'http://localhost:3001', changeOrigin: true },
-            '^/d/[^/]+': { target: 'http://localhost:3001', changeOrigin: true },
+            '/s/': { target: 'http://localhost:3001', changeOrigin: true },
+            '/r/': { target: 'http://localhost:3001', changeOrigin: true },
+            '/f/': { target: 'http://localhost:3001', changeOrigin: true },
+            '/d/': { target: 'http://localhost:3001', changeOrigin: true },
         },
     },
 });
