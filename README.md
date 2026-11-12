@@ -339,3 +339,19 @@ It helps others discover the project and motivates future development.
 **Thank you for your support! ❤️**
 
 </div>
+
+
+---
+
+## 🔑 ATS Keywords & Technical Stack Matrix
+
+- **Architecture:** Full-Stack Monorepo (Turborepo), Express.js REST API, React 19 / Vite SPA Frontend.
+- **Database & Security:** MongoDB, Mongoose, JWT Authentication with Refresh Token Rotation, Express-Rate-Limit, Helmet Security Headers.
+- **Cloud & Deployment:** Render (API Service), Vercel (Web Frontend), Turnkey Monorepo Architecture.
+
+---
+
+## 🛡️ Pre-Flight Security Audit (`/security` Verified)
+
+- **Upload Sanitization:** Enforces 50MB file size limits and validates MIME headers to block malicious executable uploads.
+- **JWT & Rate Limiting:** Token expiration enforced; brute-force attacks mitigated via `express-rate-limit`.

@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NextShare — URL Shortener, File Sharing &amp; Pastebin</title>
-    <meta name="description" content="Share links, files, and code instantly with NextShare. Free URL shortener, secure file sharing, and burn-after-read code pastes. No accounts needed." />
-    <meta name="keywords" content="url shortener, file sharing, code paste, pastebin, burn after read, developer sharing tools, temporary file upload, open source share, nextshare, meet maru" />
+    <meta name="description"
+        content="Share links, files, and code instantly with NextShare. Free URL shortener, secure file sharing, and burn-after-read code pastes. No accounts needed." />
+    <meta name="keywords"
+        content="url shortener, file sharing, code paste, pastebin, burn after read, developer sharing tools, temporary file upload, open source share, nextshare, meet maru" />
     <meta name="author" content="Meet Maru" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
     <meta name="google-site-verification" content="google7e9d5e6a885f213a" />
@@ -17,7 +19,8 @@
     <meta property="og:url" content="https://nextsharebymeet.vercel.app/" />
     <meta property="og:site_name" content="NextShare" />
     <meta property="og:title" content="NextShare — URL Shortener, File Sharing &amp; Pastebin" />
-    <meta property="og:description" content="Share links, files, and code in seconds. Open source, zero tracking, sub-100ms Redis caching, and offline-capable PWA." />
+    <meta property="og:description"
+        content="Share links, files, and code in seconds. Open source, zero tracking, sub-100ms Redis caching, and offline-capable PWA." />
     <meta property="og:image" content="https://nextsharebymeet.vercel.app/og-image.jpg" />
     <meta property="og:image:secure_url" content="https://nextsharebymeet.vercel.app/og-image.jpg" />
     <meta property="og:image:type" content="image/jpeg" />
@@ -32,7 +35,8 @@
     <meta name="twitter:creator" content="@meetmaru" />
     <meta name="twitter:url" content="https://nextsharebymeet.vercel.app/" />
     <meta name="twitter:title" content="NextShare — URL Shortener, File Sharing &amp; Pastebin" />
-    <meta name="twitter:description" content="Share links, files, and code in seconds. Open source, zero tracking, sub-100ms Redis caching." />
+    <meta name="twitter:description"
+        content="Share links, files, and code in seconds. Open source, zero tracking, sub-100ms Redis caching." />
     <meta name="twitter:image" content="https://nextsharebymeet.vercel.app/og-image.jpg" />
     <meta name="twitter:image:src" content="https://nextsharebymeet.vercel.app/og-image.jpg" />
     <meta name="twitter:image:alt" content="NextShare Developer Platform Preview" />
@@ -44,7 +48,7 @@
     <link rel="image_src" href="https://nextsharebymeet.vercel.app/og-image.jpg" />
 
     <script>
-        (function() {
+        (function () {
             var pathname = window.location.pathname;
             var redirectMatch = pathname.match(/^\/(?:s|r)\/([^/]+)$/);
             if (redirectMatch) {
@@ -77,7 +81,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
 
     <!-- Structured Data (JSON-LD) -->
     <script type="application/ld+json">
@@ -220,28 +226,32 @@
     }
     </script>
     <style>
-.faq-wrap {
+        .faq-wrap {
             max-width: 1040px;
             margin: 0 auto;
             padding: 72px 24px;
         }
+
         .faq-header {
             text-align: center;
             max-width: 680px;
             margin: 0 auto 44px;
         }
+
         .faq-layout {
             display: grid;
             grid-template-columns: 280px 1fr;
             gap: 28px;
             align-items: start;
         }
+
         @media (max-width: 860px) {
             .faq-layout {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
         }
+
         /* Left Column: Category Tabs */
         .faq-nav {
             display: flex;
@@ -250,6 +260,7 @@
             position: sticky;
             top: calc(var(--nav-h) + 24px);
         }
+
         @media (max-width: 860px) {
             .faq-nav {
                 flex-direction: row;
@@ -259,10 +270,12 @@
                 -webkit-overflow-scrolling: touch;
                 scrollbar-width: none;
             }
+
             .faq-nav::-webkit-scrollbar {
                 display: none;
             }
         }
+
         .faq-tab-btn {
             display: flex;
             align-items: center;
@@ -283,17 +296,20 @@
             white-space: nowrap;
             -webkit-tap-highlight-color: transparent;
         }
+
         .faq-tab-btn:hover {
             background: var(--bg-2);
             border-color: var(--bdr-md);
             color: var(--t1);
         }
+
         .faq-tab-btn.active {
             background: var(--bg-2);
             border-color: rgba(99, 102, 241, 0.5);
             color: #FFFFFF;
             box-shadow: 0 4px 20px rgba(99, 102, 241, 0.14);
         }
+
         .faq-tab-chevron {
             width: 14px;
             height: 14px;
@@ -302,31 +318,37 @@
             transition: transform 0.2s var(--ease), opacity 0.2s var(--ease), color 0.2s var(--ease);
             flex-shrink: 0;
         }
+
         .faq-tab-btn.active .faq-tab-chevron {
             color: #818CF8;
             opacity: 1;
             transform: translateX(3px);
         }
+
         /* Right Column: Accordion Cards */
         .faq-panel {
             display: none;
             flex-direction: column;
             gap: 12px;
         }
+
         .faq-panel.active {
             display: flex;
             animation: faqFade 0.25s var(--ease);
         }
+
         @keyframes faqFade {
             from {
                 opacity: 0;
                 transform: translateY(6px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+
         .faq-card {
             background: var(--bg-1);
             border: 1px solid var(--bdr);
@@ -336,21 +358,25 @@
             cursor: pointer;
             user-select: none;
         }
+
         .faq-card:hover {
             border-color: var(--bdr-md);
             background: var(--bg-2);
         }
+
         .faq-card.open {
             background: var(--bg-2);
             border-color: rgba(99, 102, 241, 0.45);
             box-shadow: 0 8px 24px -10px rgba(0, 0, 0, 0.5);
         }
+
         .faq-card-header {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 16px;
         }
+
         .faq-card-title {
             font-family: 'Sora', sans-serif;
             font-size: 1.02rem;
@@ -360,9 +386,11 @@
             margin: 0;
             transition: color 0.15s ease;
         }
+
         .faq-card.open .faq-card-title {
             color: #FFFFFF;
         }
+
         .faq-card-toggle {
             width: 28px;
             height: 28px;
@@ -378,16 +406,19 @@
             transition: all 0.22s var(--ease);
             line-height: 1;
         }
+
         .faq-card:hover .faq-card-toggle {
             color: var(--t1);
             border-color: var(--bdr-md);
         }
+
         .faq-card.open .faq-card-toggle {
             transform: rotate(45deg);
             background: rgba(99, 102, 241, 0.18);
             border-color: rgba(99, 102, 241, 0.4);
             color: #818CF8;
         }
+
         .faq-card-body {
             display: none;
             margin-top: 14px;
@@ -397,23 +428,28 @@
             font-size: 0.92rem;
             line-height: 1.7;
         }
+
         .faq-card.open .faq-card-body {
             display: block;
             animation: faqFadeBody 0.2s var(--ease);
         }
+
         @keyframes faqFadeBody {
             from {
                 opacity: 0;
                 transform: translateY(-4px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
+
         .faq-card-body p {
             margin: 0;
         }
+
         .faq-card-body code {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.85em;
@@ -423,6 +459,7 @@
             border-radius: 4px;
             border: 1px solid var(--bdr);
         }
+
         :root {
             --bg: #0C0B0A;
             --bg-1: #141312;
@@ -454,6 +491,7 @@
             --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
             --nav-h: 64px;
         }
+
         *,
         *::before,
         *::after {
@@ -461,9 +499,11 @@
             margin: 0;
             padding: 0;
         }
+
         html {
             scroll-behavior: smooth;
         }
+
         body {
             font-family: 'Manrope', sans-serif;
             font-size: 16px;
@@ -474,6 +514,7 @@
             -webkit-font-smoothing: antialiased;
             width: 100%;
         }
+
         body::before {
             content: '';
             position: fixed;
@@ -483,37 +524,44 @@
             opacity: .4;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.03'/%3E%3C/svg%3E");
         }
+
         img,
         svg {
             display: block;
         }
+
         a {
             color: inherit;
             text-decoration: none;
         }
+
         button {
             font-family: inherit;
             cursor: pointer;
             border: none;
             background: none;
         }
+
         .display {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
             letter-spacing: -.03em;
             line-height: 1.05;
         }
+
         h2 {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
             letter-spacing: -.025em;
             line-height: 1.1;
         }
+
         code,
         .mono {
             font-family: 'JetBrains Mono', monospace;
             font-size: .88em;
         }
+
         nav {
             position: fixed;
             top: 0;
@@ -523,11 +571,13 @@
             transition: background .3s, border-color .3s, backdrop-filter .3s;
             border-bottom: 1px solid transparent;
         }
+
         nav.stuck {
             background: rgba(12, 11, 10, .88);
             backdrop-filter: blur(20px) saturate(1.4);
             border-color: var(--bdr);
         }
+
         .nav-inner {
             display: flex;
             align-items: center;
@@ -537,6 +587,7 @@
             max-width: 1120px;
             margin: 0 auto;
         }
+
         .nav-logo {
             font-family: 'Sora', sans-serif;
             font-weight: 700;
@@ -548,6 +599,7 @@
             color: var(--t1);
             flex-shrink: 0;
         }
+
         .nav-logo-mark {
             width: 28px;
             height: 28px;
@@ -558,6 +610,7 @@
             flex-shrink: 0;
             box-shadow: 0 2px 8px rgba(99, 102, 241, .32);
         }
+
         .brand-name {
             font-family: 'Sora', sans-serif;
             font-weight: 800;
@@ -565,14 +618,17 @@
             letter-spacing: -.03em;
             color: #FFFFFF;
         }
+
         .brand-name span {
             color: #818CF8;
         }
+
         .nav-links {
             display: flex;
             align-items: center;
             gap: 28px;
         }
+
         .nav-links a {
             font-size: .875rem;
             font-weight: 500;
@@ -580,9 +636,11 @@
             transition: color .2s;
             white-space: nowrap;
         }
+
         .nav-links a:hover {
             color: var(--t1);
         }
+
         .nav-cta {
             font-size: .875rem;
             font-weight: 600;
@@ -597,10 +655,12 @@
             display: inline-flex;
             align-items: center;
         }
+
         .nav-cta:hover {
             border-color: var(--bdr-str);
             background: var(--bg-3);
         }
+
         /* Hamburger */
         .nav-hamburger {
             display: none;
@@ -617,10 +677,12 @@
             flex-shrink: 0;
             -webkit-tap-highlight-color: transparent;
         }
+
         .nav-hamburger:hover {
             border-color: var(--bdr-md);
             background: var(--bg-3);
         }
+
         .nav-hamburger span {
             display: block;
             width: 18px;
@@ -630,18 +692,22 @@
             transition: all .28s var(--ease);
             transform-origin: center;
         }
+
         .nav-hamburger.open span:nth-child(1) {
             transform: translateY(6.5px) rotate(45deg);
             background: var(--t1);
         }
+
         .nav-hamburger.open span:nth-child(2) {
             opacity: 0;
             transform: scaleX(0);
         }
+
         .nav-hamburger.open span:nth-child(3) {
             transform: translateY(-6.5px) rotate(-45deg);
             background: var(--t1);
         }
+
         /* Mobile drawer */
         .nav-drawer {
             display: none;
@@ -658,11 +724,13 @@
             transition: transform .28s var(--ease), opacity .28s var(--ease);
             pointer-events: none;
         }
+
         .nav-drawer.open {
             transform: translateY(0);
             opacity: 1;
             pointer-events: all;
         }
+
         .nav-drawer-inner {
             max-width: 1120px;
             margin: 0 auto;
@@ -671,6 +739,7 @@
             flex-direction: column;
             gap: 4px;
         }
+
         .nav-drawer a {
             display: flex;
             align-items: center;
@@ -683,12 +752,14 @@
             transition: all .18s var(--ease);
             min-height: 48px;
         }
+
         .nav-drawer a:hover,
         .nav-drawer a:active {
             color: var(--t1);
             background: var(--bg-2);
             border-color: var(--bdr);
         }
+
         .nav-drawer .drawer-cta {
             margin-top: 8px;
             background: var(--accent);
@@ -697,14 +768,17 @@
             font-weight: 600;
             border-color: transparent !important;
         }
+
         .nav-drawer .drawer-cta:hover {
             background: #5558e8;
         }
+
         .hero-wrap {
             position: relative;
             overflow: hidden;
             width: 100%;
         }
+
         .hero {
             min-height: 100svh;
             display: grid;
@@ -716,6 +790,7 @@
             margin: 0 auto;
             width: 100%;
         }
+
         .hero-glow {
             position: absolute;
             top: 0;
@@ -726,11 +801,13 @@
             background: radial-gradient(ellipse 700px 500px at 65% 40%, rgba(99, 102, 241, .07) 0%, transparent 70%), radial-gradient(ellipse 400px 300px at 20% 60%, rgba(99, 102, 241, .04) 0%, transparent 70%);
             z-index: 0;
         }
+
         .hero-left {
             position: relative;
             z-index: 1;
             min-width: 0;
         }
+
         .hero-eyebrow {
             display: inline-flex;
             align-items: center;
@@ -742,6 +819,7 @@
             color: var(--t3);
             margin-bottom: 28px;
         }
+
         .hero-eyebrow-dot {
             width: 6px;
             height: 6px;
@@ -750,24 +828,30 @@
             animation: blink 2s ease-in-out infinite;
             flex-shrink: 0;
         }
+
         @keyframes blink {
+
             0%,
             100% {
                 opacity: 1
             }
+
             50% {
                 opacity: .3
             }
         }
+
         .hero-title {
             font-size: clamp(2.6rem, 5.5vw, 5rem);
             margin-bottom: 24px;
             word-break: break-word;
         }
+
         .hero-title em {
             font-style: normal;
             color: var(--accent-l);
         }
+
         .hero-body {
             font-size: 1.05rem;
             font-weight: 400;
@@ -776,6 +860,7 @@
             max-width: 440px;
             margin-bottom: 40px;
         }
+
         .hero-actions {
             display: flex;
             align-items: center;
@@ -783,6 +868,7 @@
             flex-wrap: wrap;
             margin-bottom: 48px;
         }
+
         .btn-primary {
             position: relative;
             font-size: .9rem;
@@ -798,14 +884,17 @@
             transition: all .25s var(--ease);
             min-height: 46px;
         }
+
         .btn-primary:hover {
             background: #5558e8;
             box-shadow: 0 4px 24px rgba(99, 102, 241, .35);
             transform: translateY(-1px);
         }
+
         .btn-primary:active {
             transform: translateY(0);
         }
+
         .btn-ghost {
             font-size: .9rem;
             font-weight: 500;
@@ -820,17 +909,20 @@
             transition: all .22s var(--ease);
             min-height: 46px;
         }
+
         .btn-ghost:hover {
             color: var(--t1);
             border-color: var(--bdr-md);
             background: var(--bg-2);
         }
+
         .hero-meta {
             display: flex;
             align-items: center;
             gap: 20px;
             flex-wrap: wrap;
         }
+
         .hero-meta-item {
             display: flex;
             align-items: center;
@@ -839,20 +931,24 @@
             color: var(--t3);
             font-weight: 500;
         }
+
         .hero-meta-item svg {
             flex-shrink: 0;
         }
+
         /* Mockup */
         .hero-right {
             position: relative;
             z-index: 1;
             min-width: 0;
         }
+
         .mockup-wrap {
             position: relative;
             perspective: 900px;
             width: 100%;
         }
+
         .mockup {
             background: var(--bg-1);
             border: 1px solid var(--bdr-md);
@@ -864,15 +960,19 @@
             transform-style: preserve-3d;
             width: 100%;
         }
+
         @keyframes float {
+
             0%,
             100% {
                 transform: rotateY(-6deg) rotateX(3deg) translateY(0)
             }
+
             50% {
                 transform: rotateY(-6deg) rotateX(3deg) translateY(-10px)
             }
         }
+
         .mockup-bar {
             display: flex;
             align-items: center;
@@ -881,25 +981,31 @@
             border-bottom: 1px solid var(--bdr);
             background: rgba(0, 0, 0, .25);
         }
+
         .mockup-dots {
             display: flex;
             gap: 6px;
             flex-shrink: 0;
         }
+
         .mockup-dots span {
             width: 10px;
             height: 10px;
             border-radius: 50%;
         }
+
         .mockup-dots span:nth-child(1) {
             background: #FF5F57
         }
+
         .mockup-dots span:nth-child(2) {
             background: #FEBC2E
         }
+
         .mockup-dots span:nth-child(3) {
             background: #28C840
         }
+
         .mockup-urlbar {
             flex: 1;
             background: var(--bg-2);
@@ -914,9 +1020,11 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
         .mockup-body {
             padding: 20px;
         }
+
         .mockup-label {
             font-size: .68rem;
             font-weight: 600;
@@ -926,11 +1034,13 @@
             margin-bottom: 14px;
             font-family: 'JetBrains Mono', monospace;
         }
+
         .mockup-field {
             display: flex;
             gap: 8px;
             margin-bottom: 14px;
         }
+
         .mockup-input-fake {
             flex: 1;
             background: var(--bg-2);
@@ -944,6 +1054,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
         .mockup-btn-fake {
             background: var(--accent);
             color: #fff;
@@ -954,6 +1065,7 @@
             white-space: nowrap;
             flex-shrink: 0;
         }
+
         .mockup-result {
             background: rgba(52, 211, 153, .06);
             border: 1px solid rgba(52, 211, 153, .18);
@@ -965,6 +1077,7 @@
             margin-bottom: 14px;
             gap: 8px;
         }
+
         .mockup-result-url {
             font-family: 'JetBrains Mono', monospace;
             font-size: .82rem;
@@ -974,6 +1087,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
         .mockup-result-copy {
             font-size: .75rem;
             color: var(--t2);
@@ -983,11 +1097,13 @@
             gap: 5px;
             flex-shrink: 0;
         }
+
         .mockup-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 8px;
         }
+
         .mockup-stat {
             background: var(--bg-2);
             border: 1px solid var(--bdr);
@@ -995,6 +1111,7 @@
             padding: 10px 12px;
             min-width: 0;
         }
+
         .mockup-stat-label {
             font-family: 'JetBrains Mono', monospace;
             font-size: .6rem;
@@ -1006,6 +1123,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .mockup-stat-val {
             font-family: 'Sora', sans-serif;
             font-size: .9rem;
@@ -1015,9 +1133,11 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .mockup-stat-val.green {
             color: var(--green);
         }
+
         .mockup-shadow {
             position: absolute;
             bottom: -30px;
@@ -1028,6 +1148,7 @@
             filter: blur(12px);
             pointer-events: none;
         }
+
         .marquee-wrap {
             border-top: 1px solid var(--bdr);
             border-bottom: 1px solid var(--bdr);
@@ -1036,6 +1157,7 @@
             position: relative;
             width: 100%;
         }
+
         .marquee-wrap::before,
         .marquee-wrap::after {
             content: '';
@@ -1045,27 +1167,33 @@
             width: 80px;
             z-index: 1;
         }
+
         .marquee-wrap::before {
             left: 0;
             background: linear-gradient(to right, var(--bg), transparent);
         }
+
         .marquee-wrap::after {
             right: 0;
             background: linear-gradient(to left, var(--bg), transparent);
         }
+
         .marquee-track {
             display: flex;
             animation: marquee 30s linear infinite;
             width: max-content;
         }
+
         @keyframes marquee {
             from {
                 transform: translateX(0)
             }
+
             to {
                 transform: translateX(-50%)
             }
         }
+
         .marquee-item {
             display: flex;
             align-items: center;
@@ -1078,12 +1206,14 @@
             white-space: nowrap;
             border-right: 1px solid var(--bdr);
         }
+
         .section {
             padding: 96px 32px;
             max-width: 1120px;
             margin: 0 auto;
             width: 100%;
         }
+
         .section-tag {
             display: inline-flex;
             align-items: center;
@@ -1095,12 +1225,14 @@
             color: var(--t3);
             margin-bottom: 16px;
         }
+
         .section-title {
             font-size: clamp(1.9rem, 3.5vw, 2.75rem);
             margin-bottom: 16px;
             max-width: 540px;
             word-break: break-word;
         }
+
         .section-sub {
             font-size: 1rem;
             color: var(--t2);
@@ -1108,6 +1240,7 @@
             line-height: 1.75;
             margin-bottom: 64px;
         }
+
         .features-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -1117,6 +1250,7 @@
             border-radius: var(--r-2xl);
             overflow: hidden;
         }
+
         .feat-card {
             background: var(--bg);
             padding: 40px 36px 36px;
@@ -1125,9 +1259,11 @@
             transition: background .3s var(--ease);
             min-width: 0;
         }
+
         .feat-card:hover {
             background: var(--bg-1);
         }
+
         .feat-card::after {
             content: '';
             position: absolute;
@@ -1139,9 +1275,11 @@
             opacity: 0;
             transition: opacity .35s;
         }
+
         .feat-card:hover::after {
             opacity: 1;
         }
+
         .feat-num {
             position: absolute;
             top: 16px;
@@ -1156,9 +1294,11 @@
             user-select: none;
             transition: color .3s;
         }
+
         .feat-card:hover .feat-num {
             color: rgba(99, 102, 241, .08);
         }
+
         .feat-icon-wrap {
             width: 44px;
             height: 44px;
@@ -1172,16 +1312,20 @@
             position: relative;
             z-index: 1;
         }
+
         .feat-card:hover .feat-icon-wrap {
             background: var(--accent-bg);
             border-color: var(--accent-bdr);
         }
+
         .feat-icon-wrap svg {
             transition: transform .25s var(--ease);
         }
+
         .feat-card:hover .feat-icon-wrap svg {
             transform: scale(1.12);
         }
+
         .feat-badge {
             display: inline-flex;
             align-items: center;
@@ -1199,6 +1343,7 @@
             position: relative;
             z-index: 1;
         }
+
         .feat-badge-dot {
             width: 5px;
             height: 5px;
@@ -1206,6 +1351,7 @@
             background: var(--accent-l);
             flex-shrink: 0;
         }
+
         .feat-badge-green {
             display: inline-flex;
             align-items: center;
@@ -1223,6 +1369,7 @@
             position: relative;
             z-index: 1;
         }
+
         .feat-badge-green-dot {
             width: 5px;
             height: 5px;
@@ -1231,6 +1378,7 @@
             animation: blink 2s ease-in-out infinite;
             flex-shrink: 0;
         }
+
         .feat-name {
             font-family: 'Sora', sans-serif;
             font-size: 1.2rem;
@@ -1240,6 +1388,7 @@
             position: relative;
             z-index: 1;
         }
+
         .feat-desc {
             font-size: .875rem;
             color: var(--t2);
@@ -1249,6 +1398,7 @@
             z-index: 1;
             max-width: 380px;
         }
+
         .feat-tags {
             display: flex;
             flex-wrap: wrap;
@@ -1256,6 +1406,7 @@
             position: relative;
             z-index: 1;
         }
+
         .feat-tag {
             font-size: .72rem;
             font-weight: 500;
@@ -1267,10 +1418,12 @@
             font-family: 'JetBrains Mono', monospace;
             transition: all .2s;
         }
+
         .feat-card:hover .feat-tag {
             border-color: var(--bdr-md);
             color: var(--t2);
         }
+
         /* Code preview */
         .feat-code-preview {
             background: #0f0e0d;
@@ -1283,6 +1436,7 @@
             z-index: 1;
             max-width: 100%;
         }
+
         .feat-code-bar {
             display: flex;
             align-items: center;
@@ -1291,31 +1445,38 @@
             border-bottom: 1px solid var(--bdr);
             background: rgba(0, 0, 0, .3);
         }
+
         .feat-code-dots {
             display: flex;
             gap: 5px;
             flex-shrink: 0;
         }
+
         .feat-code-dots span {
             width: 8px;
             height: 8px;
             border-radius: 50%;
         }
+
         .feat-code-dots span:nth-child(1) {
             background: #FF5F57
         }
+
         .feat-code-dots span:nth-child(2) {
             background: #FEBC2E
         }
+
         .feat-code-dots span:nth-child(3) {
             background: #28C840
         }
+
         .feat-code-filename {
             font-family: 'JetBrains Mono', monospace;
             font-size: .68rem;
             color: var(--t3);
             margin-left: 4px;
         }
+
         .feat-code-body {
             padding: 18px 20px;
             font-family: 'JetBrains Mono', monospace;
@@ -1324,27 +1485,35 @@
             overflow-x: auto;
             -webkit-overflow-scrolling: touch;
         }
+
         .feat-code-body .kw {
             color: #818CF8;
         }
+
         .feat-code-body .fn {
             color: #34D399;
         }
+
         .feat-code-body .str {
             color: #FBBF24;
         }
+
         .feat-code-body .cm {
             color: #4E4B47;
         }
+
         .feat-code-body .tp {
             color: #F87171;
         }
+
         .feat-code-body .pl {
             color: #F0EDE8;
         }
+
         .feat-code-body .op {
             color: #6366F1;
         }
+
         /* PWA chips */
         .pwa-grid {
             display: grid;
@@ -1354,6 +1523,7 @@
             position: relative;
             z-index: 1;
         }
+
         .pwa-chip {
             background: var(--bg-2);
             border: 1px solid var(--bdr);
@@ -1365,9 +1535,11 @@
             transition: border-color .2s;
             min-width: 0;
         }
+
         .feat-card:hover .pwa-chip {
             border-color: var(--bdr-md);
         }
+
         .pwa-chip-icon {
             width: 28px;
             height: 28px;
@@ -1378,28 +1550,33 @@
             place-items: center;
             flex-shrink: 0;
         }
+
         .pwa-chip-label {
             font-size: .75rem;
             font-weight: 600;
             color: var(--t2);
             line-height: 1.3;
         }
+
         .pwa-chip-sub {
             font-size: .68rem;
             color: var(--t3);
             font-family: 'JetBrains Mono', monospace;
         }
+
         .process-section {
             background: var(--bg-1);
             border-top: 1px solid var(--bdr);
             border-bottom: 1px solid var(--bdr);
             width: 100%;
         }
+
         .process-inner {
             padding: 80px 32px;
             max-width: 1120px;
             margin: 0 auto;
         }
+
         .process-steps {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -1407,6 +1584,7 @@
             margin-top: 56px;
             position: relative;
         }
+
         .process-steps::before {
             content: '';
             position: absolute;
@@ -1416,11 +1594,13 @@
             height: 1px;
             background: linear-gradient(90deg, var(--accent-bdr), var(--bdr), var(--accent-bdr));
         }
+
         .process-step {
             padding: 0 24px;
             text-align: center;
             min-width: 0;
         }
+
         .process-step-num {
             width: 44px;
             height: 44px;
@@ -1438,10 +1618,12 @@
             z-index: 1;
             transition: all .25s var(--ease);
         }
+
         .process-step:hover .process-step-num {
             background: var(--accent-bg);
             border-color: var(--accent-bdr);
         }
+
         .process-step-name {
             font-family: 'Sora', sans-serif;
             font-size: .9rem;
@@ -1449,16 +1631,19 @@
             letter-spacing: -.01em;
             margin-bottom: 8px;
         }
+
         .process-step-desc {
             font-size: .8rem;
             color: var(--t2);
             line-height: 1.65;
         }
+
         .demo-section {
             background: var(--bg);
             border-top: 1px solid var(--bdr);
             width: 100%;
         }
+
         .demo-inner {
             padding: 96px 32px;
             max-width: 1120px;
@@ -1468,17 +1653,20 @@
             gap: 64px;
             align-items: start;
         }
+
         .demo-left {
             position: sticky;
             top: calc(var(--nav-h) + 24px);
             min-width: 0;
         }
+
         .demo-tabs {
             display: flex;
             flex-direction: column;
             gap: 4px;
             margin-top: 40px;
         }
+
         .demo-tab {
             display: flex;
             align-items: center;
@@ -1495,15 +1683,18 @@
             min-height: 48px;
             -webkit-tap-highlight-color: transparent;
         }
+
         .demo-tab:hover {
             color: var(--t1);
             background: var(--bg-2);
         }
+
         .demo-tab.active {
             color: var(--t1);
             background: var(--bg-2);
             border-color: var(--bdr);
         }
+
         .demo-tab-dot {
             width: 8px;
             height: 8px;
@@ -1512,33 +1703,40 @@
             flex-shrink: 0;
             transition: background .2s;
         }
+
         .demo-tab.active .demo-tab-dot {
             background: var(--accent);
         }
+
         .demo-panel {
             display: none;
             min-width: 0;
         }
+
         .demo-panel.active {
             display: block;
             animation: panel-in .3s var(--ease) both;
         }
+
         @keyframes panel-in {
             from {
                 opacity: 0;
                 transform: translateY(10px)
             }
+
             to {
                 opacity: 1;
                 transform: none
             }
         }
+
         .demo-card {
             background: var(--bg-1);
             border: 1px solid var(--bdr-md);
             border-radius: var(--r-xl);
             overflow: hidden;
         }
+
         .demo-card-bar {
             display: flex;
             align-items: center;
@@ -1547,25 +1745,31 @@
             background: rgba(0, 0, 0, .2);
             border-bottom: 1px solid var(--bdr);
         }
+
         .demo-card-dots {
             display: flex;
             gap: 5px;
             flex-shrink: 0;
         }
+
         .demo-card-dots span {
             width: 9px;
             height: 9px;
             border-radius: 50%;
         }
+
         .demo-card-dots span:nth-child(1) {
             background: #FF5F57
         }
+
         .demo-card-dots span:nth-child(2) {
             background: #FEBC2E
         }
+
         .demo-card-dots span:nth-child(3) {
             background: #28C840
         }
+
         .demo-card-title {
             font-family: 'JetBrains Mono', monospace;
             font-size: .72rem;
@@ -1574,14 +1778,17 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .demo-card-body {
             padding: 20px;
         }
+
         .demo-input-row {
             display: flex;
             gap: 8px;
             margin-bottom: 16px;
         }
+
         .demo-input {
             flex: 1;
             background: var(--bg-2);
@@ -1597,12 +1804,15 @@
             min-width: 0;
             width: 100%;
         }
+
         .demo-input:focus {
             border-color: var(--accent-bdr);
         }
+
         .demo-input::placeholder {
             color: var(--t3);
         }
+
         .demo-action-btn {
             background: var(--accent);
             color: #fff;
@@ -1616,10 +1826,12 @@
             flex-shrink: 0;
             -webkit-tap-highlight-color: transparent;
         }
+
         .demo-action-btn:hover {
             background: #5558e8;
             transform: translateY(-1px);
         }
+
         .demo-result {
             background: rgba(52, 211, 153, .05);
             border: 1px solid rgba(52, 211, 153, .16);
@@ -1631,9 +1843,11 @@
             gap: 10px;
             margin-bottom: 12px;
         }
+
         .demo-result.show {
             display: flex;
         }
+
         .demo-result-url {
             font-family: 'JetBrains Mono', monospace;
             font-size: .82rem;
@@ -1643,6 +1857,7 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
+
         .demo-copy {
             font-size: .78rem;
             font-weight: 600;
@@ -1660,13 +1875,16 @@
             display: inline-flex;
             align-items: center;
         }
+
         .demo-copy:hover {
             background: rgba(52, 211, 153, .18);
         }
+
         .demo-copy.done {
             color: #fff;
             background: rgba(52, 211, 153, .3);
         }
+
         .demo-error {
             font-size: .8rem;
             color: var(--rose);
@@ -1675,6 +1893,7 @@
             font-family: 'JetBrains Mono', monospace;
             word-break: break-word;
         }
+
         .drop-zone {
             border: 1.5px dashed var(--bdr-md);
             border-radius: var(--r-lg);
@@ -1683,30 +1902,36 @@
             cursor: pointer;
             transition: all .25s var(--ease);
         }
+
         .drop-zone:hover,
         .drop-zone.dragging {
             border-color: var(--accent-bdr);
             background: var(--accent-bg);
         }
+
         .drop-icon {
             font-size: 2rem;
             margin-bottom: 12px;
         }
+
         .drop-label {
             font-size: .9rem;
             color: var(--t2);
         }
+
         .drop-label span {
             color: var(--accent-l);
             font-weight: 600;
             cursor: pointer;
         }
+
         .drop-hint {
             font-size: .75rem;
             color: var(--t3);
             margin-top: 6px;
             line-height: 1.5;
         }
+
         .code-textarea {
             width: 100%;
             background: var(--bg-2);
@@ -1722,12 +1947,15 @@
             transition: border-color .2s;
             min-height: 130px;
         }
+
         .code-textarea:focus {
             border-color: var(--accent-bdr);
         }
+
         .code-textarea::placeholder {
             color: var(--t3);
         }
+
         .code-controls {
             display: flex;
             gap: 8px;
@@ -1735,6 +1963,7 @@
             align-items: center;
             flex-wrap: wrap;
         }
+
         .code-select {
             background: var(--bg-2);
             border: 1px solid var(--bdr);
@@ -1747,6 +1976,7 @@
             cursor: pointer;
             min-height: 40px;
         }
+
         .burn-toggle {
             display: flex;
             align-items: center;
@@ -1754,26 +1984,31 @@
             font-size: .78rem;
             color: var(--t3);
         }
+
         .burn-toggle input {
             accent-color: var(--rose);
         }
+
         .burn-toggle label {
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 6px;
         }
+
         .burn-toggle .rose-text {
             color: var(--rose);
             font-weight: 600;
             font-family: 'JetBrains Mono', monospace;
         }
+
         .about-wrap {
             padding: 96px 32px;
             max-width: 1120px;
             margin: 0 auto;
             width: 100%;
         }
+
         .about-card {
             background: var(--bg-1);
             border: 1px solid var(--bdr);
@@ -1786,6 +2021,7 @@
             gap: 56px;
             align-items: start;
         }
+
         .about-card::before {
             content: '';
             position: absolute;
@@ -1797,6 +2033,7 @@
             background: radial-gradient(circle, rgba(99, 102, 241, .05) 0%, transparent 70%);
             pointer-events: none;
         }
+
         .about-card::after {
             content: '';
             position: absolute;
@@ -1808,11 +2045,13 @@
             background: radial-gradient(circle, rgba(52, 211, 153, .04) 0%, transparent 70%);
             pointer-events: none;
         }
+
         .about-left {
             position: relative;
             z-index: 1;
             min-width: 0;
         }
+
         .about-commit {
             display: inline-flex;
             align-items: center;
@@ -1828,6 +2067,7 @@
             max-width: 100%;
             flex-wrap: wrap;
         }
+
         .about-commit-dot {
             width: 6px;
             height: 6px;
@@ -1836,11 +2076,13 @@
             animation: blink 2s ease-in-out infinite;
             flex-shrink: 0;
         }
+
         .about-title {
             font-size: clamp(1.6rem, 3vw, 2.5rem);
             margin-bottom: 16px;
             word-break: break-word;
         }
+
         .about-body {
             font-size: .95rem;
             color: var(--t2);
@@ -1848,6 +2090,7 @@
             max-width: 520px;
             margin-bottom: 36px;
         }
+
         .about-author {
             display: inline-flex;
             align-items: center;
@@ -1859,9 +2102,11 @@
             transition: border-color .2s;
             max-width: 100%;
         }
+
         .about-author:hover {
             border-color: var(--bdr-str);
         }
+
         .about-avatar {
             width: 40px;
             height: 40px;
@@ -1878,9 +2123,11 @@
             letter-spacing: -.01em;
             user-select: none;
         }
+
         .about-author-info {
             min-width: 0;
         }
+
         .about-author-name {
             font-size: .9rem;
             font-weight: 600;
@@ -1888,6 +2135,7 @@
             line-height: 1.2;
             margin-bottom: 2px;
         }
+
         .about-author-role {
             font-size: .75rem;
             color: var(--t2);
@@ -1896,21 +2144,25 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .about-right {
             position: relative;
             z-index: 1;
             min-width: 0;
         }
+
         .quick-links-card {
             background: var(--bg-2);
             border: 1px solid var(--bdr-md);
             border-radius: var(--r-xl);
             overflow: hidden;
         }
+
         .quick-links-header {
             padding: 16px 20px;
             border-bottom: 1px solid var(--bdr);
         }
+
         .quick-links-label {
             font-family: 'JetBrains Mono', monospace;
             font-size: .68rem;
@@ -1919,9 +2171,11 @@
             text-transform: uppercase;
             color: var(--t3);
         }
+
         .quick-links-list {
             padding: 8px;
         }
+
         .quick-link-item {
             display: flex;
             align-items: center;
@@ -1935,10 +2189,12 @@
             color: inherit;
             min-height: 56px;
         }
+
         .quick-link-item:hover {
             background: var(--bg-3);
             border-color: var(--bdr);
         }
+
         .quick-link-icon {
             width: 34px;
             height: 34px;
@@ -1950,17 +2206,21 @@
             flex-shrink: 0;
             transition: all .22s var(--ease);
         }
+
         .quick-link-item:hover .quick-link-icon {
             background: var(--bg-4);
             border-color: var(--bdr-md);
         }
+
         .quick-link-icon svg {
             color: var(--t2);
         }
+
         .quick-link-text {
             flex: 1;
             min-width: 0;
         }
+
         .quick-link-name {
             font-size: .88rem;
             font-weight: 600;
@@ -1970,6 +2230,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .quick-link-sub {
             font-size: .72rem;
             color: var(--t3);
@@ -1978,28 +2239,34 @@
             overflow: hidden;
             text-overflow: ellipsis;
         }
+
         .quick-link-arrow {
             color: var(--t3);
             transition: transform .22s var(--ease), color .22s;
             flex-shrink: 0;
         }
+
         .quick-link-item:hover .quick-link-arrow {
             color: var(--t1);
             transform: translateX(2px) translateY(-2px);
         }
+
         .quick-links-meta {
             display: grid;
             grid-template-columns: 1fr 1fr;
             border-top: 1px solid var(--bdr);
         }
+
         .quick-links-meta-item {
             padding: 18px 20px;
             border-right: 1px solid var(--bdr);
             min-width: 0;
         }
+
         .quick-links-meta-item:last-child {
             border-right: none;
         }
+
         .quick-meta-val {
             font-family: 'Sora', sans-serif;
             font-size: 1.1rem;
@@ -2008,12 +2275,14 @@
             line-height: 1;
             margin-bottom: 4px;
         }
+
         .quick-meta-label {
             font-size: .72rem;
             color: var(--t3);
             font-family: 'JetBrains Mono', monospace;
             letter-spacing: .05em;
         }
+
         footer {
             border-top: 1px solid var(--bdr);
             padding: 28px 32px;
@@ -2026,6 +2295,7 @@
             flex-wrap: wrap;
             gap: 16px;
         }
+
         .footer-brand {
             font-family: 'Sora', sans-serif;
             font-weight: 800;
@@ -2036,56 +2306,70 @@
             align-items: center;
             gap: 8px;
         }
+
         .footer-brand span {
             color: #818CF8;
         }
+
         .footer-credit {
             font-size: .78rem;
             color: var(--t3);
             margin-top: 4px;
         }
+
         .footer-credit a {
             color: var(--t2);
             transition: color .2s;
         }
+
         .footer-credit a:hover {
             color: var(--t1);
         }
+
         .footer-links {
             display: flex;
             gap: 24px;
             flex-wrap: wrap;
             justify-content: flex-end;
         }
+
         .footer-links a {
             font-size: .8rem;
             color: var(--t2);
             transition: color .2s;
         }
+
         .footer-links a:hover {
             color: var(--t1);
         }
+
         .reveal {
             opacity: 0;
             transform: translateY(20px);
             transition: opacity .6s var(--ease), transform .6s var(--ease);
         }
+
         .reveal.in {
             opacity: 1;
             transform: none;
         }
+
         .reveal.d1 {
             transition-delay: .08s
         }
+
         .reveal.d2 {
             transition-delay: .16s
         }
+
         .reveal.d3 {
             transition-delay: .24s
         }
+
         .reveal.d4 {
             transition-delay: .32s
         }
+
         /* ═══════════════════════════════════════
         RESPONSIVE — 6 breakpoints
         ═══════════════════════════════════════ */
@@ -2096,46 +2380,59 @@
                 padding-left: 24px;
                 padding-right: 24px;
             }
+
             .section {
                 padding: 80px 24px;
             }
+
             .process-inner {
                 padding: 72px 24px;
             }
+
             .demo-inner {
                 padding: 80px 24px;
                 gap: 48px;
                 grid-template-columns: 280px 1fr;
             }
+
             .about-wrap {
                 padding: 80px 24px;
             }
+
             .about-card {
                 padding: 44px;
                 gap: 44px;
             }
+
             footer {
                 padding: 24px;
             }
+
             .nav-inner {
                 padding: 0 24px;
             }
         }
+
         /* 900 — single column, hamburger appears */
         @media (max-width:900px) {
+
             /* Nav */
             .nav-links {
                 display: none;
             }
+
             .nav-hamburger {
                 display: flex;
             }
+
             .nav-drawer {
                 display: block;
             }
+
             .nav-inner {
                 padding: 0 16px;
             }
+
             /* Hero */
             .hero {
                 grid-template-columns: 1fr;
@@ -2143,69 +2440,87 @@
                 gap: 40px;
                 min-height: auto;
             }
+
             .hero-right {
                 order: -1;
             }
+
             .hero-body {
                 max-width: 100%;
             }
+
             .mockup {
                 animation: float-m 6s ease-in-out infinite;
                 transform: none;
                 max-width: 420px;
                 margin: 0 auto;
             }
+
             .mockup-shadow {
                 display: none;
             }
+
             @keyframes float-m {
+
                 0%,
                 100% {
                     transform: translateY(0)
                 }
+
                 50% {
                     transform: translateY(-8px)
                 }
             }
+
             /* Features */
             .features-grid {
                 grid-template-columns: 1fr;
             }
+
             .feat-card {
                 padding: 32px 28px 28px;
             }
+
             .feat-num {
                 font-size: 4.5rem;
             }
+
             /* Process */
             .process-inner {
                 padding: 64px 20px;
             }
+
             .process-steps {
                 grid-template-columns: 1fr 1fr;
                 gap: 40px 16px;
                 margin-top: 48px;
             }
+
             .process-steps::before {
                 display: none;
             }
+
             .process-step {
                 padding: 0 12px;
             }
+
             /* Demo */
             .demo-inner {
                 grid-template-columns: 1fr;
                 padding: 64px 20px;
                 gap: 36px;
             }
+
             .demo-left {
                 position: static;
             }
+
             .demo-tabs {
                 flex-direction: row;
                 flex-wrap: wrap;
                 margin-top: 28px;
             }
+
             .demo-tab {
                 flex: 1;
                 min-width: 120px;
@@ -2213,16 +2528,19 @@
                 padding: 11px 12px;
                 font-size: .85rem;
             }
+
             /* About */
             .about-wrap {
                 padding: 64px 20px;
             }
+
             .about-card {
                 grid-template-columns: 1fr;
                 padding: 36px 28px;
                 gap: 36px;
                 border-radius: var(--r-xl);
             }
+
             /* Footer */
             footer {
                 flex-direction: column;
@@ -2230,94 +2548,119 @@
                 text-align: center;
                 padding: 24px 20px;
             }
+
             .footer-links {
                 justify-content: center;
             }
+
             /* Section */
             .section {
                 padding: 64px 20px;
             }
+
             .section-sub {
                 margin-bottom: 48px;
             }
         }
+
         /* 768 — tablet portrait */
         @media (max-width:768px) {
             .hero {
                 padding-top: calc(var(--nav-h) + 32px);
             }
+
             .hero-title {
                 font-size: clamp(2.4rem, 8vw, 3.6rem);
             }
+
             .hero-eyebrow {
                 margin-bottom: 20px;
             }
+
             .hero-body {
                 font-size: 1rem;
                 margin-bottom: 32px;
             }
+
             .hero-actions {
                 margin-bottom: 36px;
             }
+
             .hero-meta {
                 gap: 14px;
             }
+
             /* Features */
             .feat-card {
                 padding: 28px 24px 24px;
             }
+
             .feat-code-body {
                 font-size: .72rem;
             }
+
             /* Process — already 2-col from 900, keep */
             .process-step-desc {
                 font-size: .78rem;
             }
+
             /* Demo */
             .demo-card-body {
                 padding: 16px;
             }
+
             .drop-zone {
                 padding: 32px 16px;
             }
+
             /* About */
             .about-card {
                 padding: 28px 24px;
             }
+
             .about-body {
                 font-size: .9rem;
             }
         }
+
         /* 600 — large mobile */
         @media (max-width:600px) {
             :root {
                 --nav-h: 58px;
             }
+
             .hero-title {
                 font-size: clamp(2.2rem, 9vw, 3rem);
             }
+
             .hero-body {
                 font-size: .95rem;
             }
+
             /* Actions stack via column on small screens */
             .hero-actions {
                 flex-direction: column;
                 align-items: stretch;
             }
+
             .btn-primary,
             .btn-ghost {
                 width: 100%;
             }
+
             /* Feature numbers smaller to not overflow */
             .feat-num {
                 font-size: 3.8rem;
             }
+
             .feat-desc {
                 font-size: .85rem;
             }
+
             .section-sub {
                 font-size: .95rem;
             }
+
             /* Process — 1 col */
             .process-steps {
                 grid-template-columns: 1fr;
@@ -2325,6 +2668,7 @@
                 text-align: left;
                 margin-top: 40px;
             }
+
             .process-step {
                 display: flex;
                 align-items: flex-start;
@@ -2332,178 +2676,223 @@
                 padding: 0;
                 text-align: left;
             }
+
             .process-step-num {
                 margin: 0;
                 flex-shrink: 0;
             }
+
             /* Demo input row stacks */
             .demo-input-row {
                 flex-direction: column;
                 align-items: stretch;
             }
+
             .demo-action-btn {
                 width: 100%;
             }
+
             .demo-tabs {
                 gap: 6px;
             }
+
             .demo-tab {
                 min-width: 0;
                 flex: 1 1 calc(33% - 6px);
             }
+
             /* Code controls stack */
             .code-controls {
                 flex-direction: column;
                 align-items: stretch;
             }
+
             .code-select {
                 width: 100%;
             }
+
             .burn-toggle {
                 justify-content: flex-start;
             }
+
             /* About */
             .about-card {
                 border-radius: var(--r-lg);
                 padding: 24px 20px;
             }
+
             .about-title {
                 font-size: clamp(1.5rem, 6vw, 2rem);
             }
+
             .about-author-role {
                 font-size: .7rem;
             }
+
             .about-author-info {
                 min-width: 0;
                 flex: 1;
             }
+
             /* Footer */
             footer {
                 padding: 20px 16px;
             }
+
             /* Marquee tighter */
             .marquee-item {
                 padding: 0 20px;
             }
         }
+
         /* 480 — small mobile */
         @media (max-width:480px) {
             .hero-eyebrow {
                 font-size: .72rem;
             }
+
             .hero-title {
                 font-size: clamp(2rem, 10vw, 2.6rem);
                 margin-bottom: 18px;
             }
+
             .hero-meta-item {
                 font-size: .75rem;
             }
+
             /* Feature cards */
             .feat-num {
                 font-size: 3.2rem;
                 top: 12px;
                 right: 16px;
             }
+
             .feat-card {
                 padding: 24px 18px 20px;
             }
+
             .pwa-grid {
                 grid-template-columns: 1fr;
             }
+
             /* Quick links */
             .quick-link-sub {
                 display: none;
             }
+
             .about-author {
                 max-width: 100%;
             }
+
             /* Demo */
             .demo-tab {
                 font-size: .8rem;
                 padding: 10px 8px;
             }
+
             .code-textarea {
                 min-height: 110px;
                 font-size: .78rem;
             }
+
             /* Process */
             .process-step-name {
                 font-size: .85rem;
             }
+
             /* Section spacing */
             .section {
                 padding: 52px 16px;
             }
+
             .process-inner {
                 padding: 52px 16px;
             }
+
             .demo-inner {
                 padding: 52px 16px;
             }
+
             .about-wrap {
                 padding: 52px 16px;
             }
         }
+
         /* 375 — smallest phones (iPhone SE etc.) */
         @media (max-width:375px) {
             .hero-title {
                 font-size: clamp(1.9rem, 11vw, 2.4rem);
             }
+
             .btn-primary,
             .btn-ghost {
                 font-size: .85rem;
                 padding: 12px 18px;
             }
+
             .feat-card {
                 padding: 20px 16px 18px;
             }
+
             .feat-name {
                 font-size: 1.1rem;
             }
+
             .mockup-body {
                 padding: 14px;
             }
+
             .mockup-stats {
                 gap: 6px;
             }
+
             .mockup-stat {
                 padding: 8px 10px;
             }
+
             .mockup-result {
                 flex-wrap: wrap;
             }
+
             .about-card {
                 padding: 20px 16px;
             }
+
             .nav-drawer-inner {
                 padding: 12px 16px 20px;
             }
+
             .demo-card-title {
                 max-width: 140px;
             }
         }
+
         @media (prefers-reduced-motion:reduce) {
+
             .mockup,
             .hero-eyebrow-dot,
             .about-commit-dot,
             .feat-badge-green-dot {
                 animation: none;
             }
+
             .reveal {
                 opacity: 1;
                 transform: none;
                 transition: none;
             }
+
             * {
                 transition-duration: .01ms !important;
             }
         }
+
         :focus-visible {
             outline: 2px solid var(--accent-l);
             outline-offset: 3px;
             border-radius: var(--r-sm);
         }
-</style>
+    </style>
 </head>
 
 <body>
@@ -2514,7 +2903,8 @@
             <a href="#" class="nav-logo">
                 <div class="nav-logo-mark">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
-                        <path d="M5 12h14M12.5 5.5L19 12l-6.5 6.5" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M5 12h14M12.5 5.5L19 12l-6.5 6.5" stroke="#fff" stroke-width="2.8"
+                            stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
                 </div>
                 <div class="brand-name">Next<span>Share</span></div>
@@ -2530,8 +2920,8 @@
             </div>
             <!-- Hamburger (mobile only) -->
             <button class="nav-hamburger" id="hamburger" aria-label="Toggle menu" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </nav>
 
@@ -2542,7 +2932,8 @@
             <a href="#how-it-works" class="drawer-link" onclick="closeDrawer()">How it works</a>
             <a href="#demo" class="drawer-link" onclick="closeDrawer()">Demo</a>
             <a href="#faq" class="drawer-link" onclick="closeDrawer()">FAQ</a>
-            <a href="https://github.com/ivengexnce" target="_blank" rel="noopener noreferrer" class="drawer-link">GitHub ↗</a>
+            <a href="https://github.com/ivengexnce" target="_blank" rel="noopener noreferrer" class="drawer-link">GitHub
+                ↗</a>
             <a href="/app" class="drawer-cta" onclick="closeDrawer()">Open App ↗</a>
         </div>
     </div>
@@ -2559,37 +2950,44 @@
                     Share links,<br>files &amp; code.<br><em>Instantly.</em>
                 </h1>
                 <p class="hero-body reveal d2">
-                    NextShare is a URL shortener, file share, and code paste — three dev tools in one app. No accounts. No tracking. Backed by Redis for sub-100ms redirects and MongoDB for durability. Works offline too.
+                    NextShare is a URL shortener, file share, and code paste — three dev tools in one app. No accounts.
+                    No tracking. Backed by Redis for sub-100ms redirects and MongoDB for durability. Works offline too.
                 </p>
                 <div class="hero-actions reveal d3">
                     <a href="/app" class="btn-primary">
                         <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg> Open the app
+                            <path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg> Open the app
                     </a>
                     <a href="https://github.com/ivengexnce" class="btn-ghost" target="_blank">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
-          </svg> Star on GitHub
+                            <path
+                                d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+                        </svg> Star on GitHub
                     </a>
                 </div>
                 <div class="hero-meta reveal d4">
                     <div class="hero-meta-item">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <rect x="1" y="1" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
-            <path d="M4 7h6M4 5h6M4 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".5"/>
-          </svg> MIT License
+                            <rect x="1" y="1" width="12" height="12" rx="3" stroke="currentColor" stroke-width="1.2"
+                                opacity=".5" />
+                            <path d="M4 7h6M4 5h6M4 9h4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                                opacity=".5" />
+                        </svg> MIT License
                     </div>
                     <div class="hero-meta-item">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2" opacity=".5"/>
-            <path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".5"/>
-          </svg> Redirects in &lt;100ms
+                            <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2" opacity=".5" />
+                            <path d="M7 4v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"
+                                opacity=".5" />
+                        </svg> Redirects in &lt;100ms
                     </div>
                     <div class="hero-meta-item">
                         <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M7 1l.5 4H11L8 7.5 9 12 7 10.5 5 12l1-4.5L3 5h3.5z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round" opacity=".5"/>
-          </svg> Built by Meet Maru
+                            <path d="M7 1l.5 4H11L8 7.5 9 12 7 10.5 5 12l1-4.5L3 5h3.5z" stroke="currentColor"
+                                stroke-width="1.2" stroke-linejoin="round" opacity=".5" />
+                        </svg> Built by Meet Maru
                     </div>
                 </div>
             </div>
@@ -2611,9 +3009,11 @@
                                 <div class="mockup-result-url">nextsharebymeet.vercel.app/s/k9mPx</div>
                                 <div class="mockup-result-copy">
                                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                  <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.2"/>
-                  <path d="M2 9V2h7" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-                </svg> Copy
+                                        <rect x="3" y="3" width="7" height="7" rx="1.5" stroke="currentColor"
+                                            stroke-width="1.2" />
+                                        <path d="M2 9V2h7" stroke="currentColor" stroke-width="1.2"
+                                            stroke-linecap="round" />
+                                    </svg> Copy
                                 </div>
                             </div>
                             <div class="mockup-stats">
@@ -2673,11 +3073,13 @@
         <div class="section">
             <div class="section-tag reveal">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <path d="M6 1l1.2 3.6H11l-3 2.1 1.2 3.6L6 8.4 2.8 10.3 4 6.7 1 4.6h3.8z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>
-      </svg> What's inside
+                    <path d="M6 1l1.2 3.6H11l-3 2.1 1.2 3.6L6 8.4 2.8 10.3 4 6.7 1 4.6h3.8z" stroke="currentColor"
+                        stroke-width="1.2" stroke-linejoin="round" />
+                </svg> What's inside
             </div>
             <h2 class="section-title reveal d1">Four tools.<br>One clean URL.</h2>
-            <p class="section-sub reveal d2">URL shortening, file sharing, code paste, and offline sync — built with a proper backend and no paywalls.</p>
+            <p class="section-sub reveal d2">URL shortening, file sharing, code paste, and offline sync — built with a
+                proper backend and no paywalls.</p>
 
             <div class="features-grid reveal d3">
 
@@ -2686,14 +3088,20 @@
                     <span class="feat-num">01</span>
                     <div class="feat-icon-wrap">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M7 10a3 3 0 014.243-4.243l1.414-1.414A5 5 0 006 10a5 5 0 007.657 4.243l-1.414-1.414A3 3 0 017 10z" fill="currentColor" opacity=".4"/>
-            <path d="M13 10a3 3 0 01-4.243 4.243l-1.414 1.414A5 5 0 0014 10a5 5 0 00-7.657-4.243l1.414 1.414A3 3 0 0113 10z" fill="currentColor"/>
-            <path d="M8 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+                            <path
+                                d="M7 10a3 3 0 014.243-4.243l1.414-1.414A5 5 0 006 10a5 5 0 007.657 4.243l-1.414-1.414A3 3 0 017 10z"
+                                fill="currentColor" opacity=".4" />
+                            <path
+                                d="M13 10a3 3 0 01-4.243 4.243l-1.414 1.414A5 5 0 0014 10a5 5 0 00-7.657-4.243l1.414 1.414A3 3 0 0113 10z"
+                                fill="currentColor" />
+                            <path d="M8 10h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
                     </div>
                     <div class="feat-badge"><span class="feat-badge-dot"></span> Most used</div>
                     <h3 class="feat-name">URL Shortener</h3>
-                    <p class="feat-desc">Paste any URL and get a short link with a custom alias. Redis caches every redirect, so links resolve in under 100ms. Click analytics, unique visitor counts, and optional expiry baked in.</p>
+                    <p class="feat-desc">Paste any URL and get a short link with a custom alias. Redis caches every
+                        redirect, so links resolve in under 100ms. Click analytics, unique visitor counts, and optional
+                        expiry baked in.</p>
                     <div class="feat-tags">
                         <span class="feat-tag">custom-alias</span>
                         <span class="feat-tag">click-analytics</span>
@@ -2708,13 +3116,18 @@
                     <span class="feat-num">02</span>
                     <div class="feat-icon-wrap">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <rect x="3" y="2" width="10" height="13" rx="2" stroke="currentColor" stroke-width="1.5" opacity=".4"/>
-            <path d="M7 2v5l2-1.5L11 7V2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M13 10h2a2 2 0 012 2v4a2 2 0 01-2 2H9a2 2 0 01-2-2v-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+                            <rect x="3" y="2" width="10" height="13" rx="2" stroke="currentColor" stroke-width="1.5"
+                                opacity=".4" />
+                            <path d="M7 2v5l2-1.5L11 7V2" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M13 10h2a2 2 0 012 2v4a2 2 0 01-2 2H9a2 2 0 01-2-2v-2" stroke="currentColor"
+                                stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
                     </div>
                     <h3 class="feat-name">File Sharing</h3>
-                    <p class="feat-desc">Drop a file, get a direct download link. Set a password, cap the max download count, or let it auto-expire. Supports image and text previews. Files stream directly from the server — no S3 fees.</p>
+                    <p class="feat-desc">Drop a file, get a direct download link. Set a password, cap the max download
+                        count, or let it auto-expire. Supports image and text previews. Files stream directly from the
+                        server — no S3 fees.</p>
                     <div class="feat-tags">
                         <span class="feat-tag">drag-drop</span>
                         <span class="feat-tag">password-protect</span>
@@ -2729,13 +3142,17 @@
                     <span class="feat-num">03</span>
                     <div class="feat-icon-wrap">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <rect x="2" y="3" width="16" height="14" rx="2.5" stroke="currentColor" stroke-width="1.5" opacity=".4"/>
-            <path d="M7 8l-3 2 3 2M13 8l3 2-3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M11 7l-2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
+                            <rect x="2" y="3" width="16" height="14" rx="2.5" stroke="currentColor" stroke-width="1.5"
+                                opacity=".4" />
+                            <path d="M7 8l-3 2 3 2M13 8l3 2-3 2" stroke="currentColor" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <path d="M11 7l-2 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
                     </div>
                     <h3 class="feat-name">Code Paste</h3>
-                    <p class="feat-desc">Share syntax-highlighted snippets across 23 languages. Burn-after-read mode destroys the paste on first view. Redis caches normal pastes; burn pastes always hit the DB directly — no second read possible.</p>
+                    <p class="feat-desc">Share syntax-highlighted snippets across 23 languages. Burn-after-read mode
+                        destroys the paste on first view. Redis caches normal pastes; burn pastes always hit the DB
+                        directly — no second read possible.</p>
                     <div class="feat-code-preview">
                         <div class="feat-code-bar">
                             <div class="feat-code-dots"><span></span><span></span><span></span></div>
@@ -2743,12 +3160,20 @@
                         </div>
                         <div class="feat-code-body">
                             <span class="cm">// TextService.create — simplified</span><br>
-                            <span class="kw">const</span> <span class="fn">create</span> <span class="op">=</span> <span class="kw">async</span> (<span class="pl">payload</span><span class="op">:</span> <span class="tp">PasteInput</span>) <span class="op">=></span>                            {<br> &nbsp;&nbsp;
-                            <span class="kw">const</span> <span class="pl">code</span> <span class="op">=</span> <span class="fn">generateShortCode</span>();<br> &nbsp;&nbsp;
-                            <span class="kw">const</span> <span class="pl">paste</span> <span class="op">=</span> <span class="kw">await</span> <span class="pl">TextRepository</span>.<span class="fn">create</span>({...<span class="pl">payload</span>,
+                            <span class="kw">const</span> <span class="fn">create</span> <span class="op">=</span> <span
+                                class="kw">async</span> (<span class="pl">payload</span><span class="op">:</span> <span
+                                class="tp">PasteInput</span>) <span class="op">=></span> {<br> &nbsp;&nbsp;
+                            <span class="kw">const</span> <span class="pl">code</span> <span class="op">=</span> <span
+                                class="fn">generateShortCode</span>();<br> &nbsp;&nbsp;
+                            <span class="kw">const</span> <span class="pl">paste</span> <span class="op">=</span> <span
+                                class="kw">await</span> <span class="pl">TextRepository</span>.<span
+                                class="fn">create</span>({...<span class="pl">payload</span>,
                             <span class="pl">code</span>});<br> &nbsp;&nbsp;
-                            <span class="kw">if</span> (!<span class="pl">payload</span>.<span class="pl">burnAfterRead</span>) {<br> &nbsp;&nbsp;&nbsp;&nbsp;
-                            <span class="kw">await</span> <span class="pl">redis</span>.<span class="fn">set</span>(<span class="str">`paste:${code}`</span>, <span class="pl">paste</span>, <span class="pl">TTL</span>);<br> &nbsp;&nbsp;}
+                            <span class="kw">if</span> (!<span class="pl">payload</span>.<span
+                                class="pl">burnAfterRead</span>) {<br> &nbsp;&nbsp;&nbsp;&nbsp;
+                            <span class="kw">await</span> <span class="pl">redis</span>.<span
+                                class="fn">set</span>(<span class="str">`paste:${code}`</span>, <span
+                                class="pl">paste</span>, <span class="pl">TTL</span>);<br> &nbsp;&nbsp;}
                             <br> &nbsp;&nbsp;
                             <span class="kw">return</span> <span class="pl">paste</span>;<br> };
                         </div>
@@ -2766,38 +3191,60 @@
                     <span class="feat-num">04</span>
                     <div class="feat-icon-wrap">
                         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M10 2a8 8 0 100 16A8 8 0 0010 2z" stroke="currentColor" stroke-width="1.5" opacity=".4"/>
-            <path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M4 10H2M18 10h-2M10 4V2M10 18v-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".4"/>
-          </svg>
+                            <path d="M10 2a8 8 0 100 16A8 8 0 0010 2z" stroke="currentColor" stroke-width="1.5"
+                                opacity=".4" />
+                            <path d="M10 6v4l3 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                            <path d="M4 10H2M18 10h-2M10 4V2M10 18v-2" stroke="currentColor" stroke-width="1.2"
+                                stroke-linecap="round" opacity=".4" />
+                        </svg>
                     </div>
                     <div class="feat-badge-green"><span class="feat-badge-green-dot"></span> PWA</div>
                     <h3 class="feat-name">Works Offline</h3>
-                    <p class="feat-desc">The whole app installs as a PWA. Go offline and actions queue in IndexedDB. The moment you reconnect, background sync flushes the queue automatically — nothing is lost mid-session.</p>
+                    <p class="feat-desc">The whole app installs as a PWA. Go offline and actions queue in IndexedDB. The
+                        moment you reconnect, background sync flushes the queue automatically — nothing is lost
+                        mid-session.</p>
                     <div class="pwa-grid">
                         <div class="pwa-chip">
-                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1 4h4l-3 2 1 4-3-2-3 2 1-4-3-2h4z" fill="currentColor" opacity=".6"/></svg></div>
+                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                    <path d="M7 1l1 4h4l-3 2 1 4-3-2-3 2 1-4-3-2h4z" fill="currentColor" opacity=".6" />
+                                </svg></div>
                             <div>
                                 <div class="pwa-chip-label">Service Worker</div>
                                 <div class="pwa-chip-sub">offline cache</div>
                             </div>
                         </div>
                         <div class="pwa-chip">
-                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="3" width="12" height="8" rx="2" stroke="currentColor" stroke-width="1.2" opacity=".6"/><path d="M4 7h6M7 5v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".6"/></svg></div>
+                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                    <rect x="1" y="3" width="12" height="8" rx="2" stroke="currentColor"
+                                        stroke-width="1.2" opacity=".6" />
+                                    <path d="M4 7h6M7 5v4" stroke="currentColor" stroke-width="1.2"
+                                        stroke-linecap="round" opacity=".6" />
+                                </svg></div>
                             <div>
                                 <div class="pwa-chip-label">IndexedDB queue</div>
                                 <div class="pwa-chip-sub">actions persist</div>
                             </div>
                         </div>
                         <div class="pwa-chip">
-                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity=".6"/><path d="M9 9.5l2 2.5 1.5-2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".6"/></svg></div>
+                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                    <path d="M2 7c0-2.76 2.24-5 5-5s5 2.24 5 5-2.24 5-5 5" stroke="currentColor"
+                                        stroke-width="1.2" stroke-linecap="round" opacity=".6" />
+                                    <path d="M9 9.5l2 2.5 1.5-2" stroke="currentColor" stroke-width="1.2"
+                                        stroke-linecap="round" stroke-linejoin="round" opacity=".6" />
+                                </svg></div>
                             <div>
                                 <div class="pwa-chip-label">Background sync</div>
                                 <div class="pwa-chip-sub">auto-flush</div>
                             </div>
                         </div>
                         <div class="pwa-chip">
-                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2" opacity=".6"/><path d="M5 7l2 2 3-3" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" opacity=".6"/></svg></div>
+                            <div class="pwa-chip-icon"><svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                    <rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor"
+                                        stroke-width="1.2" opacity=".6" />
+                                    <path d="M5 7l2 2 3-3" stroke="currentColor" stroke-width="1.2"
+                                        stroke-linecap="round" stroke-linejoin="round" opacity=".6" />
+                                </svg></div>
                             <div>
                                 <div class="pwa-chip-label">Installable</div>
                                 <div class="pwa-chip-sub">add to home screen</div>
@@ -2815,39 +3262,47 @@
         <div class="process-inner">
             <div class="section-tag reveal">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-        <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
-        <path d="M6 3v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
-      </svg> How it works
+                    <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2" />
+                    <path d="M6 3v3l2 2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" />
+                </svg> How it works
             </div>
-            <h2 class="reveal d1" style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:12px;">From paste to link<br>in four steps.</h2>
-            <p class="reveal d2" style="font-size:.95rem;color:var(--t2);line-height:1.75;max-width:480px;margin-top:8px;">Under the hood, every share is a full round-trip through Vite on the frontend, Express on the API, Redis for speed, and MongoDB for permanence.</p>
+            <h2 class="reveal d1" style="font-size:clamp(1.75rem,3vw,2.5rem);margin-bottom:12px;">From paste to
+                link<br>in four steps.</h2>
+            <p class="reveal d2"
+                style="font-size:.95rem;color:var(--t2);line-height:1.75;max-width:480px;margin-top:8px;">Under the
+                hood, every share is a full round-trip through Vite on the frontend, Express on the API, Redis for
+                speed, and MongoDB for permanence.</p>
             <div class="process-steps reveal d3">
                 <div class="process-step">
                     <div class="process-step-num">1</div>
                     <div>
                         <h3 class="process-step-name">Paste or drop</h3>
-                        <p class="process-step-desc">Enter a URL, drop a file, or paste code into the React app. Zustand manages local state while you type.</p>
+                        <p class="process-step-desc">Enter a URL, drop a file, or paste code into the React app. Zustand
+                            manages local state while you type.</p>
                     </div>
                 </div>
                 <div class="process-step">
                     <div class="process-step-num">2</div>
                     <div>
                         <h3 class="process-step-name">API creates it</h3>
-                        <p class="process-step-desc">Vite proxies the request to Express. The service validates it, generates a short code, and writes to MongoDB first.</p>
+                        <p class="process-step-desc">Vite proxies the request to Express. The service validates it,
+                            generates a short code, and writes to MongoDB first.</p>
                     </div>
                 </div>
                 <div class="process-step">
                     <div class="process-step-num">3</div>
                     <div>
                         <h3 class="process-step-name">Redis caches it</h3>
-                        <p class="process-step-desc">The result is written to Redis with a TTL. Every subsequent redirect or fetch hits the cache, not Mongo.</p>
+                        <p class="process-step-desc">The result is written to Redis with a TTL. Every subsequent
+                            redirect or fetch hits the cache, not Mongo.</p>
                     </div>
                 </div>
                 <div class="process-step">
                     <div class="process-step-num">4</div>
                     <div>
                         <h3 class="process-step-name">Share the link</h3>
-                        <p class="process-step-desc">You get a short URL back. Analytics, visitor deduplication via Redis Sets, and expiry all run automatically.</p>
+                        <p class="process-step-desc">You get a short URL back. Analytics, visitor deduplication via
+                            Redis Sets, and expiry all run automatically.</p>
                     </div>
                 </div>
             </div>
@@ -2865,14 +3320,14 @@
                 </p>
                 <div class="demo-tabs reveal d3">
                     <button class="demo-tab active" onclick="switchTab('url',this)">
-          <span class="demo-tab-dot"></span> URL Shortener
-        </button>
+                        <span class="demo-tab-dot"></span> URL Shortener
+                    </button>
                     <button class="demo-tab" onclick="switchTab('file',this)">
-          <span class="demo-tab-dot"></span> File Share
-        </button>
+                        <span class="demo-tab-dot"></span> File Share
+                    </button>
                     <button class="demo-tab" onclick="switchTab('code',this)">
-          <span class="demo-tab-dot"></span> Code Paste
-        </button>
+                        <span class="demo-tab-dot"></span> Code Paste
+                    </button>
                 </div>
             </div>
 
@@ -2886,15 +3341,19 @@
                         </div>
                         <div class="demo-card-body">
                             <div class="demo-input-row">
-                                <input class="demo-input" id="urlInput" type="url" placeholder="https://paste-your-long-url-here.com/…" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" />
+                                <input class="demo-input" id="urlInput" type="url"
+                                    placeholder="https://paste-your-long-url-here.com/…" autocomplete="off"
+                                    autocorrect="off" autocapitalize="off" spellcheck="false" />
                                 <button class="demo-action-btn" onclick="runShorten()">Shorten</button>
                             </div>
                             <div class="demo-result" id="urlResult">
                                 <span class="demo-result-url" id="resultUrl"></span>
                                 <button class="demo-copy" id="copyBtn" onclick="copyUrl()">Copy</button>
                             </div>
-                            <div class="demo-error" id="urlError">// Error: enter a valid URL starting with https://</div>
-                            <p style="font-size:.75rem;color:var(--t3);margin-top:14px;font-family:'JetBrains Mono',monospace;line-height:1.5;">
+                            <div class="demo-error" id="urlError">// Error: enter a valid URL starting with https://
+                            </div>
+                            <p
+                                style="font-size:.75rem;color:var(--t3);margin-top:14px;font-family:'JetBrains Mono',monospace;line-height:1.5;">
                                 // UI preview only — real links generate at nextsharebymeet.vercel.app
                             </p>
                         </div>
@@ -2909,10 +3368,14 @@
                             <div class="demo-card-title">nextshare — file share</div>
                         </div>
                         <div class="demo-card-body">
-                            <div class="drop-zone" id="dropZone" ondragover="event.preventDefault();this.classList.add('dragging')" ondragleave="this.classList.remove('dragging')" ondrop="handleDrop(event)" onclick="document.getElementById('fileIn').click()">
+                            <div class="drop-zone" id="dropZone"
+                                ondragover="event.preventDefault();this.classList.add('dragging')"
+                                ondragleave="this.classList.remove('dragging')" ondrop="handleDrop(event)"
+                                onclick="document.getElementById('fileIn').click()">
                                 <div class="drop-icon">📎</div>
                                 <div class="drop-label">Drop a file or <span>browse</span></div>
-                                <div class="drop-hint">Password protection · max-download cap · auto-expiry · no account</div>
+                                <div class="drop-hint">Password protection · max-download cap · auto-expiry · no account
+                                </div>
                                 <input type="file" id="fileIn" style="display:none" onchange="handleFile(this)">
                             </div>
                             <div class="demo-result" id="fileResult" style="margin-top:14px;">
@@ -2931,16 +3394,26 @@
                             <div class="demo-card-title">nextshare — code paste</div>
                         </div>
                         <div class="demo-card-body">
-                            <textarea class="code-textarea" id="codeInput" placeholder="// paste your code here…&#10;const greet = (name) => `Hello, ${name}!`;"></textarea>
+                            <textarea class="code-textarea" id="codeInput"
+                                placeholder="// paste your code here…&#10;const greet = (name) => `Hello, ${name}!`;"></textarea>
                             <div class="code-controls">
                                 <select class="code-select" id="langSel">
-                <option>JavaScript</option><option>TypeScript</option><option>Python</option>
-                <option>Rust</option><option>Go</option><option>CSS</option>
-                <option>HTML</option><option>SQL</option><option>Bash</option>
-                <option>JSON</option><option>YAML</option><option>Markdown</option>
-              </select>
+                                    <option>JavaScript</option>
+                                    <option>TypeScript</option>
+                                    <option>Python</option>
+                                    <option>Rust</option>
+                                    <option>Go</option>
+                                    <option>CSS</option>
+                                    <option>HTML</option>
+                                    <option>SQL</option>
+                                    <option>Bash</option>
+                                    <option>JSON</option>
+                                    <option>YAML</option>
+                                    <option>Markdown</option>
+                                </select>
                                 <div class="burn-toggle">
-                                    <label><input type="checkbox" id="burnCheck"> <span class="rose-text">burn-after-read</span></label>
+                                    <label><input type="checkbox" id="burnCheck"> <span
+                                            class="rose-text">burn-after-read</span></label>
                                 </div>
                                 <button class="demo-action-btn" onclick="runPaste()">Create paste</button>
                             </div>
@@ -2964,7 +3437,9 @@
                 </div>
                 <h2 class="about-title">Made by Meet Maru.<br>Free for everyone.</h2>
                 <p class="about-body">
-                    NextShare started as a full-stack side project to push my skills end-to-end — proper layered architecture, Redis caching, offline PWA, analytics, the works. I kept reaching for tools that were either bloated or paywalled, so I built the one I actually
+                    NextShare started as a full-stack side project to push my skills end-to-end — proper layered
+                    architecture, Redis caching, offline PWA, analytics, the works. I kept reaching for tools that were
+                    either bloated or paywalled, so I built the one I actually
                     wanted. MIT licensed — fork it, self-host it, break it, improve it.
                 </p>
                 <a href="https://github.com/ivengexnce" target="_blank" class="about-author">
@@ -2983,33 +3458,51 @@
                     <div class="quick-links-list">
                         <a href="https://github.com/ivengexnce" target="_blank" class="quick-link-item">
                             <div class="quick-link-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z"/></svg>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.166 6.839 9.489.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.342-3.369-1.342-.454-1.155-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.029-2.683-.103-.253-.446-1.27.098-2.647 0 0 .84-.269 2.75 1.025A9.578 9.578 0 0112 6.836a9.59 9.59 0 012.504.337c1.909-1.294 2.747-1.025 2.747-1.025.546 1.377.202 2.394.1 2.647.64.699 1.028 1.592 1.028 2.683 0 3.842-2.339 4.687-4.566 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.741 0 .267.18.578.688.48C19.138 20.163 22 16.418 22 12c0-5.523-4.477-10-10-10z" />
+                                </svg>
                             </div>
                             <div class="quick-link-text">
                                 <div class="quick-link-name">View on GitHub</div>
                                 <div class="quick-link-sub">Star the repo · MIT License</div>
                             </div>
-                            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
                         </a>
                         <a href="https://linkedin.com/in/meetmaru149" target="_blank" class="quick-link-item">
                             <div class="quick-link-icon">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                                </svg>
                             </div>
                             <div class="quick-link-text">
                                 <div class="quick-link-name">Connect on LinkedIn</div>
                                 <div class="quick-link-sub">Let's connect and chat</div>
                             </div>
-                            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
                         </a>
                         <a href="/app" class="quick-link-item">
                             <div class="quick-link-icon">
-                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                    <path d="M3 8h10M8 3l5 5-5 5" stroke="currentColor" stroke-width="1.4"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
                             </div>
                             <div class="quick-link-text">
                                 <div class="quick-link-name">Open the App</div>
                                 <div class="quick-link-sub">nextshare</div>
                             </div>
-                            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <svg class="quick-link-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none">
+                                <path d="M3 11L11 3M11 3H5M11 3v6" stroke="currentColor" stroke-width="1.4"
+                                    stroke-linecap="round" stroke-linejoin="round" />
+                            </svg>
                         </a>
                     </div>
                     <div class="quick-links-meta">
@@ -3027,46 +3520,57 @@
         </div>
     </div>
 
-        <!-- ─── FAQ (SLEEK TABBED ACCORDION) ─── -->
+    <!-- ─── FAQ (SLEEK TABBED ACCORDION) ─── -->
     <div id="faq" class="section faq-wrap" itemscope itemtype="https://schema.org/FAQPage">
         <div class="faq-header">
             <div class="section-tag reveal" style="display:inline-flex;margin-bottom:12px;">
                 <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                    <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/>
-                    <path d="M6 8.5v.5M6 3.5a1.5 1.5 0 011.5 1.5c0 1-1.5 1.5-1.5 2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+                    <circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2" />
+                    <path d="M6 8.5v.5M6 3.5a1.5 1.5 0 011.5 1.5c0 1-1.5 1.5-1.5 2.5" stroke="currentColor"
+                        stroke-width="1.2" stroke-linecap="round" />
                 </svg> FAQ
             </div>
-            <h2 class="section-title reveal d1" style="font-size:clamp(1.75rem,3vw,2.4rem);margin-bottom:12px;">Frequently Asked Questions</h2>
+            <h2 class="section-title reveal d1" style="font-size:clamp(1.75rem,3vw,2.4rem);margin-bottom:12px;">
+                Frequently Asked Questions</h2>
             <p class="section-sub reveal d2" style="color:var(--t2);font-size:0.92rem;line-height:1.65;margin:0 auto;">
-                Direct answers to technical questions about NextShare architecture, privacy guarantees, encryption, and developer utilities.
+                Direct answers to technical questions about NextShare architecture, privacy guarantees, encryption, and
+                developer utilities.
             </p>
         </div>
 
         <div class="faq-layout reveal d3">
             <!-- Left: Category Navigation Tabs -->
             <nav class="faq-nav" role="tablist" aria-label="FAQ categories">
-                <button class="faq-tab-btn active" role="tab" aria-selected="true" aria-controls="panel-general" id="tab-general" onclick="switchFaqCategory('general')">
+                <button class="faq-tab-btn active" role="tab" aria-selected="true" aria-controls="panel-general"
+                    id="tab-general" onclick="switchFaqCategory('general')">
                     <span>General Questions</span>
                     <svg class="faq-tab-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                 </button>
-                <button class="faq-tab-btn" role="tab" aria-selected="false" aria-controls="panel-url" id="tab-url" onclick="switchFaqCategory('url')">
+                <button class="faq-tab-btn" role="tab" aria-selected="false" aria-controls="panel-url" id="tab-url"
+                    onclick="switchFaqCategory('url')">
                     <span>URL Shortener</span>
                     <svg class="faq-tab-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                 </button>
-                <button class="faq-tab-btn" role="tab" aria-selected="false" aria-controls="panel-files" id="tab-files" onclick="switchFaqCategory('files')">
+                <button class="faq-tab-btn" role="tab" aria-selected="false" aria-controls="panel-files" id="tab-files"
+                    onclick="switchFaqCategory('files')">
                     <span>File Sharing</span>
                     <svg class="faq-tab-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                 </button>
-                <button class="faq-tab-btn" role="tab" aria-selected="false" aria-controls="panel-paste" id="tab-paste" onclick="switchFaqCategory('paste')">
+                <button class="faq-tab-btn" role="tab" aria-selected="false" aria-controls="panel-paste" id="tab-paste"
+                    onclick="switchFaqCategory('paste')">
                     <span>Pastebin &amp; Self-Host</span>
                     <svg class="faq-tab-chevron" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M6 3.5L10.5 8L6 12.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                            stroke-linejoin="round" />
                     </svg>
                 </button>
             </nav>
@@ -3075,38 +3579,58 @@
             <div class="faq-content-area">
                 <!-- PANEL 1: General Questions -->
                 <div class="faq-panel active" id="panel-general" role="tabpanel" aria-labelledby="tab-general">
-                    <article class="faq-card open" id="faq-what-is-nextshare" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <article class="faq-card open" id="faq-what-is-nextshare" itemscope itemprop="mainEntity"
+                        itemtype="https://schema.org/Question">
                         <div class="faq-card-header" onclick="toggleFaqCard(this)">
-                            <h3 class="faq-card-title" itemprop="name">What is NextShare and why should I use it over commercial sharing tools?</h3>
+                            <h3 class="faq-card-title" itemprop="name">What is NextShare and why should I use it over
+                                commercial sharing tools?</h3>
                             <div class="faq-card-toggle" aria-hidden="true">+</div>
                         </div>
-                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer"
+                            itemtype="https://schema.org/Answer">
                             <p itemprop="text">
-                                NextShare is an open-source, privacy-first developer sharing suite combining custom URL shortening with sub-100ms Redis caching, client-side encrypted file sharing up to 50MB, and a syntax-highlighted code pastebin. Unlike commercial utilities like Bitly or WeTransfer, NextShare requires no registration, displays zero ads, collects no tracking cookies, and never places limits behind paywalls.
+                                NextShare is an open-source, privacy-first developer sharing suite combining custom URL
+                                shortening with sub-100ms Redis caching, client-side encrypted file sharing up to 50MB,
+                                and a syntax-highlighted code pastebin. Unlike commercial utilities like Bitly or
+                                WeTransfer, NextShare requires no registration, displays zero ads, collects no tracking
+                                cookies, and never places limits behind paywalls.
                             </p>
                         </div>
                     </article>
 
-                    <article class="faq-card" id="faq-account-requirements" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <article class="faq-card" id="faq-account-requirements" itemscope itemprop="mainEntity"
+                        itemtype="https://schema.org/Question">
                         <div class="faq-card-header" onclick="toggleFaqCard(this)">
-                            <h3 class="faq-card-title" itemprop="name">Do I need to sign up, provide an email, or create an account?</h3>
+                            <h3 class="faq-card-title" itemprop="name">Do I need to sign up, provide an email, or create
+                                an account?</h3>
                             <div class="faq-card-toggle" aria-hidden="true">+</div>
                         </div>
-                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer"
+                            itemtype="https://schema.org/Answer">
                             <p itemprop="text">
-                                No account, email, or personal identity is required. NextShare is designed as a frictionless anonymous developer tool. There are zero tracking scripts, third-party analytics pixels, or login gates. When you upload a file or create a paste, a cryptographically secure private delete token is returned to you so you can permanently wipe your data at any time.
+                                No account, email, or personal identity is required. NextShare is designed as a
+                                frictionless anonymous developer tool. There are zero tracking scripts, third-party
+                                analytics pixels, or login gates. When you upload a file or create a paste, a
+                                cryptographically secure private delete token is returned to you so you can permanently
+                                wipe your data at any time.
                             </p>
                         </div>
                     </article>
 
-                    <article class="faq-card" id="faq-offline-pwa" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <article class="faq-card" id="faq-offline-pwa" itemscope itemprop="mainEntity"
+                        itemtype="https://schema.org/Question">
                         <div class="faq-card-header" onclick="toggleFaqCard(this)">
-                            <h3 class="faq-card-title" itemprop="name">Does NextShare work offline without an active internet connection?</h3>
+                            <h3 class="faq-card-title" itemprop="name">Does NextShare work offline without an active
+                                internet connection?</h3>
                             <div class="faq-card-toggle" aria-hidden="true">+</div>
                         </div>
-                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer"
+                            itemtype="https://schema.org/Answer">
                             <p itemprop="text">
-                                Yes. NextShare is a certified Progressive Web App (PWA) with Service Worker precaching. Shortened links and code pastes drafted while offline are queued locally in browser IndexedDB storage and automatically synchronized with the server as soon as network connectivity is restored.
+                                Yes. NextShare is a certified Progressive Web App (PWA) with Service Worker precaching.
+                                Shortened links and code pastes drafted while offline are queued locally in browser
+                                IndexedDB storage and automatically synchronized with the server as soon as network
+                                connectivity is restored.
                             </p>
                         </div>
                     </article>
@@ -3114,26 +3638,39 @@
 
                 <!-- PANEL 2: URL Shortener -->
                 <div class="faq-panel" id="panel-url" role="tabpanel" aria-labelledby="tab-url">
-                    <article class="faq-card open" id="faq-redirect-speed" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <article class="faq-card open" id="faq-redirect-speed" itemscope itemprop="mainEntity"
+                        itemtype="https://schema.org/Question">
                         <div class="faq-card-header" onclick="toggleFaqCard(this)">
-                            <h3 class="faq-card-title" itemprop="name">How fast are short link redirects and how do custom aliases work?</h3>
+                            <h3 class="faq-card-title" itemprop="name">How fast are short link redirects and how do
+                                custom aliases work?</h3>
                             <div class="faq-card-toggle" aria-hidden="true">+</div>
                         </div>
-                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer"
+                            itemtype="https://schema.org/Answer">
                             <p itemprop="text">
-                                Redirects resolve in under 100ms. NextShare leverages an in-memory Redis cache to serve HTTP 301 redirects instantly without querying the primary database. You can specify a custom alphanumeric alias (3 to 20 characters) or receive an ultra-short 5-character NanoID link (e.g. <code>nextsharebymeet.vercel.app/s/KXKFN</code>) with real-time, privacy-friendly click analytics.
+                                Redirects resolve in under 100ms. NextShare leverages an in-memory Redis cache to serve
+                                HTTP 301 redirects instantly without querying the primary database. You can specify a
+                                custom alphanumeric alias (3 to 20 characters) or receive an ultra-short 5-character
+                                NanoID link (e.g. <code>nextsharebymeet.vercel.app/s/KXKFN</code>) with real-time,
+                                privacy-friendly click analytics.
                             </p>
                         </div>
                     </article>
 
-                    <article class="faq-card" id="faq-url-tracking" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <article class="faq-card" id="faq-url-tracking" itemscope itemprop="mainEntity"
+                        itemtype="https://schema.org/Question">
                         <div class="faq-card-header" onclick="toggleFaqCard(this)">
-                            <h3 class="faq-card-title" itemprop="name">Does NextShare track visitors or inject ads into shortened URLs?</h3>
+                            <h3 class="faq-card-title" itemprop="name">Does NextShare track visitors or inject ads into
+                                shortened URLs?</h3>
                             <div class="faq-card-toggle" aria-hidden="true">+</div>
                         </div>
-                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer"
+                            itemtype="https://schema.org/Answer">
                             <p itemprop="text">
-                                No. NextShare never injects interstitial ads, countdown landing screens, or tracking pixels into shortened URLs. Every link performs a direct HTTP 301 redirect to the destination URL while tracking only aggregated, anonymized metrics (total clicks and approximate unique visitors) without storing personal IP addresses.
+                                No. NextShare never injects interstitial ads, countdown landing screens, or tracking
+                                pixels into shortened URLs. Every link performs a direct HTTP 301 redirect to the
+                                destination URL while tracking only aggregated, anonymized metrics (total clicks and
+                                approximate unique visitors) without storing personal IP addresses.
                             </p>
                         </div>
                     </article>
@@ -3141,26 +3678,38 @@
 
                 <!-- PANEL 3: File Sharing -->
                 <div class="faq-panel" id="panel-files" role="tabpanel" aria-labelledby="tab-files">
-                    <article class="faq-card open" id="faq-file-limits" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <article class="faq-card open" id="faq-file-limits" itemscope itemprop="mainEntity"
+                        itemtype="https://schema.org/Question">
                         <div class="faq-card-header" onclick="toggleFaqCard(this)">
-                            <h3 class="faq-card-title" itemprop="name">What file types and maximum upload sizes does NextShare support?</h3>
+                            <h3 class="faq-card-title" itemprop="name">What file types and maximum upload sizes does
+                                NextShare support?</h3>
                             <div class="faq-card-toggle" aria-hidden="true">+</div>
                         </div>
-                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer"
+                            itemtype="https://schema.org/Answer">
                             <p itemprop="text">
-                                NextShare supports file uploads up to 50MB across document, archive, media, and developer formats, including ZIP, TAR, 7Z, PDF, DOCX, XLSX, JSON, CSV, images, audio, and source code. Executable file extensions (.exe, .bat, .sh) are blocked by upload middleware to prevent malicious distribution.
+                                NextShare supports file uploads up to 50MB across document, archive, media, and
+                                developer formats, including ZIP, TAR, 7Z, PDF, DOCX, XLSX, JSON, CSV, images, audio,
+                                and source code. Executable file extensions (.exe, .bat, .sh) are blocked by upload
+                                middleware to prevent malicious distribution.
                             </p>
                         </div>
                     </article>
 
-                    <article class="faq-card" id="faq-file-passwords" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <article class="faq-card" id="faq-file-passwords" itemscope itemprop="mainEntity"
+                        itemtype="https://schema.org/Question">
                         <div class="faq-card-header" onclick="toggleFaqCard(this)">
-                            <h3 class="faq-card-title" itemprop="name">Can I set passwords, expiration windows, and download limits on files?</h3>
+                            <h3 class="faq-card-title" itemprop="name">Can I set passwords, expiration windows, and
+                                download limits on files?</h3>
                             <div class="faq-card-toggle" aria-hidden="true">+</div>
                         </div>
-                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer"
+                            itemtype="https://schema.org/Answer">
                             <p itemprop="text">
-                                Yes. You can optionally protect any file upload with a custom password verified via salted Scrypt key derivation, choose an expiration window (1 hour, 1 day, or 7 days), and enforce a strict download cap (1, 5, or 10 downloads). Once the download cap or TTL expiration is reached, the file and its metadata are permanently expunged.
+                                Yes. You can optionally protect any file upload with a custom password verified via
+                                salted Scrypt key derivation, choose an expiration window (1 hour, 1 day, or 7 days),
+                                and enforce a strict download cap (1, 5, or 10 downloads). Once the download cap or TTL
+                                expiration is reached, the file and its metadata are permanently expunged.
                             </p>
                         </div>
                     </article>
@@ -3168,38 +3717,57 @@
 
                 <!-- PANEL 4: Pastebin & Self-Host -->
                 <div class="faq-panel" id="panel-paste" role="tabpanel" aria-labelledby="tab-paste">
-                    <article class="faq-card open" id="faq-burn-after-read" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <article class="faq-card open" id="faq-burn-after-read" itemscope itemprop="mainEntity"
+                        itemtype="https://schema.org/Question">
                         <div class="faq-card-header" onclick="toggleFaqCard(this)">
-                            <h3 class="faq-card-title" itemprop="name">How does the burn-after-read code pastebin protect sensitive data?</h3>
+                            <h3 class="faq-card-title" itemprop="name">How does the burn-after-read code pastebin
+                                protect sensitive data?</h3>
                             <div class="faq-card-toggle" aria-hidden="true">+</div>
                         </div>
-                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer"
+                            itemtype="https://schema.org/Answer">
                             <p itemprop="text">
-                                When Burn-After-Read is enabled, the code snippet is fetched directly from MongoDB and atomically destroyed upon first retrieval. It completely bypasses the Redis cache so no copies persist in memory, and integrates with the browser sendBeacon API to trigger immediate deletion if the tab is closed, ensuring API tokens, keys, and secrets are never read twice.
+                                When Burn-After-Read is enabled, the code snippet is fetched directly from MongoDB and
+                                atomically destroyed upon first retrieval. It completely bypasses the Redis cache so no
+                                copies persist in memory, and integrates with the browser sendBeacon API to trigger
+                                immediate deletion if the tab is closed, ensuring API tokens, keys, and secrets are
+                                never read twice.
                             </p>
                         </div>
                     </article>
 
-                    <article class="faq-card" id="faq-syntax-highlighting" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <article class="faq-card" id="faq-syntax-highlighting" itemscope itemprop="mainEntity"
+                        itemtype="https://schema.org/Question">
                         <div class="faq-card-header" onclick="toggleFaqCard(this)">
-                            <h3 class="faq-card-title" itemprop="name">Which programming languages and syntax highlighting modes are supported?</h3>
+                            <h3 class="faq-card-title" itemprop="name">Which programming languages and syntax
+                                highlighting modes are supported?</h3>
                             <div class="faq-card-toggle" aria-hidden="true">+</div>
                         </div>
-                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer"
+                            itemtype="https://schema.org/Answer">
                             <p itemprop="text">
-                                NextShare supports full syntax highlighting across 23+ major languages, including JavaScript, TypeScript, Python, Go, Rust, Java, C, C++, C#, PHP, Ruby, Swift, Kotlin, SQL, HTML, CSS, JSON, YAML, Markdown, Bash/Shell, Dockerfile, and GraphQL, complete with line numbering and one-click clipboard copying.
+                                NextShare supports full syntax highlighting across 23+ major languages, including
+                                JavaScript, TypeScript, Python, Go, Rust, Java, C, C++, C#, PHP, Ruby, Swift, Kotlin,
+                                SQL, HTML, CSS, JSON, YAML, Markdown, Bash/Shell, Dockerfile, and GraphQL, complete with
+                                line numbering and one-click clipboard copying.
                             </p>
                         </div>
                     </article>
 
-                    <article class="faq-card" id="faq-self-host" itemscope itemprop="mainEntity" itemtype="https://schema.org/Question">
+                    <article class="faq-card" id="faq-self-host" itemscope itemprop="mainEntity"
+                        itemtype="https://schema.org/Question">
                         <div class="faq-card-header" onclick="toggleFaqCard(this)">
-                            <h3 class="faq-card-title" itemprop="name">Can I self-host NextShare using Docker on my own server?</h3>
+                            <h3 class="faq-card-title" itemprop="name">Can I self-host NextShare using Docker on my own
+                                server?</h3>
                             <div class="faq-card-toggle" aria-hidden="true">+</div>
                         </div>
-                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer" itemtype="https://schema.org/Answer">
+                        <div class="faq-card-body" itemscope itemprop="acceptedAnswer"
+                            itemtype="https://schema.org/Answer">
                             <p itemprop="text">
-                                Yes. NextShare is 100% open-source under the MIT license. You can self-host the entire production stack (React frontend, Express API, MongoDB, and Redis) on any VPS or private server with a single command: <code>docker compose up -d</code>. Custom domains, storage paths, and rate limits are fully configurable via environment variables.
+                                Yes. NextShare is 100% open-source under the MIT license. You can self-host the entire
+                                production stack (React frontend, Express API, MongoDB, and Redis) on any VPS or private
+                                server with a single command: <code>docker compose up -d</code>. Custom domains, storage
+                                paths, and rate limits are fully configurable via environment variables.
                             </p>
                         </div>
                     </article>
@@ -3215,12 +3783,14 @@
                 <div class="footer-brand">
                     <div class="nav-logo-mark" style="width:22px;height:22px;border-radius:6px;box-shadow:none;">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                            <path d="M5 12h14M12.5 5.5L19 12l-6.5 6.5" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M5 12h14M12.5 5.5L19 12l-6.5 6.5" stroke="#fff" stroke-width="2.8"
+                                stroke-linecap="round" stroke-linejoin="round" />
                         </svg>
                     </div>
                     Next<span>Share</span>
                 </div>
-                <div class="footer-credit">Built with care by <a href="https://github.com/ivengexnce" target="_blank" rel="noopener noreferrer">Meet Maru</a> · MIT License</div>
+                <div class="footer-credit">Built with care by <a href="https://github.com/ivengexnce" target="_blank"
+                        rel="noopener noreferrer">Meet Maru</a> · MIT License</div>
             </div>
             <div class="footer-links">
                 <a href="https://github.com/ivengexnce" target="_blank" rel="noopener noreferrer">GitHub</a>
@@ -3234,204 +3804,204 @@
     </div>
 
     <script>
-                /* ── Nav stuck ── */
-                const nav = document.getElementById('nav');
-                window.addEventListener('scroll', () => {
-                    nav.classList.toggle('stuck', window.scrollY > 24);
-                }, {
-                    passive: true
-                });
-                /* ── Hamburger / drawer ── */
-                const hamburger = document.getElementById('hamburger');
-                const drawer = document.getElementById('navDrawer');
-                let drawerOpen = false;
-                function openDrawer() {
-                    drawerOpen = true;
-                    hamburger.classList.add('open');
-                    hamburger.setAttribute('aria-expanded', 'true');
-                    drawer.classList.add('open');
-                    drawer.setAttribute('aria-hidden', 'false');
-                    document.body.style.overflow = 'hidden';
+        /* ── Nav stuck ── */
+        const nav = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            nav.classList.toggle('stuck', window.scrollY > 24);
+        }, {
+            passive: true
+        });
+        /* ── Hamburger / drawer ── */
+        const hamburger = document.getElementById('hamburger');
+        const drawer = document.getElementById('navDrawer');
+        let drawerOpen = false;
+        function openDrawer() {
+            drawerOpen = true;
+            hamburger.classList.add('open');
+            hamburger.setAttribute('aria-expanded', 'true');
+            drawer.classList.add('open');
+            drawer.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeDrawer() {
+            drawerOpen = false;
+            hamburger.classList.remove('open');
+            hamburger.setAttribute('aria-expanded', 'false');
+            drawer.classList.remove('open');
+            drawer.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+        }
+        hamburger.addEventListener('click', () => {
+            drawerOpen ? closeDrawer() : openDrawer();
+        });
+        // Close on scroll or outside tap
+        window.addEventListener('scroll', closeDrawer, {
+            passive: true
+        });
+        document.addEventListener('click', (e) => {
+            if (drawerOpen && !nav.contains(e.target) && !drawer.contains(e.target)) closeDrawer();
+        });
+        // Close on Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && drawerOpen) closeDrawer();
+        });
+        // Close when a hash link is followed (smooth-scroll)
+        drawer.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', closeDrawer));
+        /* ── Scroll reveal ── */
+        const io = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('in');
+                    io.unobserve(e.target);
                 }
-                function closeDrawer() {
-                    drawerOpen = false;
-                    hamburger.classList.remove('open');
-                    hamburger.setAttribute('aria-expanded', 'false');
-                    drawer.classList.remove('open');
-                    drawer.setAttribute('aria-hidden', 'true');
-                    document.body.style.overflow = '';
-                }
-                hamburger.addEventListener('click', () => {
-                    drawerOpen ? closeDrawer() : openDrawer();
-                });
-                // Close on scroll or outside tap
-                window.addEventListener('scroll', closeDrawer, {
-                    passive: true
-                });
-                document.addEventListener('click', (e) => {
-                    if (drawerOpen && !nav.contains(e.target) && !drawer.contains(e.target)) closeDrawer();
-                });
-                // Close on Escape
-                document.addEventListener('keydown', (e) => {
-                    if (e.key === 'Escape' && drawerOpen) closeDrawer();
-                });
-                // Close when a hash link is followed (smooth-scroll)
-                drawer.querySelectorAll('a[href^="#"]').forEach(a => a.addEventListener('click', closeDrawer));
-                /* ── Scroll reveal ── */
-                const io = new IntersectionObserver(entries => {
-                    entries.forEach(e => {
-                        if (e.isIntersecting) {
-                            e.target.classList.add('in');
-                            io.unobserve(e.target);
-                        }
-                    });
-                }, {
-                    threshold: 0.08,
-                    rootMargin: '0px 0px -24px 0px'
-                });
-                document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-                setTimeout(() => {
-                    document.querySelectorAll('.hero .reveal').forEach((el, i) => {
-                        setTimeout(() => el.classList.add('in'), i * 80);
-                    });
-                }, 80);
-                /* ── Tab switch ── */
-                function switchTab(id, btn) {
-                    document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
-                    document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
-                    btn.classList.add('active');
-                    document.getElementById('panel-' + id).classList.add('active');
-                }
-                /* ── URL Shortener (UI demo) ── */
-                const slugs = ['k9mPx', 'f7nRq', 't3wLy', 'qA5vB', 'h2cZm', 'p8xJd', 'mN4rK', 's6bWe'];
-                function runShorten() {
-                    const val = document.getElementById('urlInput').value.trim();
-                    const err = document.getElementById('urlError');
-                    const res = document.getElementById('urlResult');
-                    err.style.display = 'none';
-                    res.classList.remove('show');
-                    try {
-                        new URL(val);
-                    } catch {
-                        err.style.display = 'block';
-                        return;
-                    }
-                    if (!val.startsWith('http')) {
-                        err.style.display = 'block';
-                        return;
-                    }
-                    const slug = slugs[Math.floor(Math.random() * slugs.length)];
-                    document.getElementById('resultUrl').textContent = 'nextsharebymeet.vercel.app/s/' + slug;
-                    const btn = document.getElementById('copyBtn');
-                    btn.textContent = 'Copy';
-                    btn.classList.remove('done');
-                    res.classList.add('show');
-                }
-                document.getElementById('urlInput').addEventListener('keydown', e => {
-                    if (e.key === 'Enter') runShorten();
-                });
-                function copyUrl() {
-                    const url = 'https://' + document.getElementById('resultUrl').textContent;
-                    navigator.clipboard.writeText(url).catch(() => {});
-                    const btn = document.getElementById('copyBtn');
-                    btn.textContent = 'Copied ✓';
-                    btn.classList.add('done');
-                    setTimeout(() => {
-                        btn.textContent = 'Copy';
-                        btn.classList.remove('done');
-                    }, 2000);
-                }
-                /* ── File (UI demo) ── */
-                function handleDrop(e) {
-                    e.preventDefault();
-                    document.getElementById('dropZone').classList.remove('dragging');
-                    showFile(e.dataTransfer.files[0]);
-                }
-                function handleFile(inp) {
-                    if (inp.files[0]) showFile(inp.files[0]);
-                }
-                function showFile(f) {
-                    if (!f) return;
-                    const slug = slugs[Math.floor(Math.random() * slugs.length)];
-                    document.getElementById('fileUrl').textContent = 'nextsharebymeet.vercel.app/f/' + slug;
-                    document.getElementById('fileResult').classList.add('show');
-                }
-                function copyFile() {
-                    navigator.clipboard.writeText('https://' + document.getElementById('fileUrl').textContent).catch(() => {});
-                }
-                /* ── Code paste (UI demo) ── */
-                function runPaste() {
-                    if (!document.getElementById('codeInput').value.trim()) return;
-                    const slug = slugs[Math.floor(Math.random() * slugs.length)];
-                    const burn = document.getElementById('burnCheck').checked;
-                    document.getElementById('pasteUrl').textContent =
-                        'nextsharebymeet.vercel.app/p/' + slug + (burn ? ' ⚡ burn' : '');
-                    document.getElementById('pasteResult').classList.add('show');
-                }
-                function copyPaste() {
-                    const raw = document.getElementById('pasteUrl').textContent.replace(' ⚡ burn', '');
-                    navigator.clipboard.writeText('https://' + raw).catch(() => {});
-                }
-                // Fix: Ensure App links work seamlessly in file:// protocol, local file previews, direct static servers, and dev
-                (function() {
-                    function updateAppLinks() {
-                        var isFileProto = window.location.protocol === 'file:';
-                        var isHtmlDirect = window.location.pathname.endsWith('.html');
-                        if (isFileProto || isHtmlDirect) {
-                            document.querySelectorAll('a[href="/app"]').forEach(function(link) {
-                                link.setAttribute('href', 'app.html');
-                            });
-                        }
-                    }
-                    if (document.readyState === 'loading') {
-                        document.addEventListener('DOMContentLoaded', updateAppLinks);
-                    } else {
-                        updateAppLinks();
-                    }
-                })();
-                /* ─── FAQ Category & Accordion Interactions (SEO / AEO / GEO Deep-linking) ─── */
-                function switchFaqCategory(category) {
-                    document.querySelectorAll('.faq-tab-btn').forEach(function(btn) {
-                        var isActive = btn.id === 'tab-' + category;
-                        btn.classList.toggle('active', isActive);
-                        btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
-                    });
-                    document.querySelectorAll('.faq-panel').forEach(function(panel) {
-                        var isActive = panel.id === 'panel-' + category;
-                        panel.classList.toggle('active', isActive);
+            });
+        }, {
+            threshold: 0.08,
+            rootMargin: '0px 0px -24px 0px'
+        });
+        document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+        setTimeout(() => {
+            document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+                setTimeout(() => el.classList.add('in'), i * 80);
+            });
+        }, 80);
+        /* ── Tab switch ── */
+        function switchTab(id, btn) {
+            document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.demo-panel').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            document.getElementById('panel-' + id).classList.add('active');
+        }
+        /* ── URL Shortener (UI demo) ── */
+        const slugs = ['k9mPx', 'f7nRq', 't3wLy', 'qA5vB', 'h2cZm', 'p8xJd', 'mN4rK', 's6bWe'];
+        function runShorten() {
+            const val = document.getElementById('urlInput').value.trim();
+            const err = document.getElementById('urlError');
+            const res = document.getElementById('urlResult');
+            err.style.display = 'none';
+            res.classList.remove('show');
+            try {
+                new URL(val);
+            } catch {
+                err.style.display = 'block';
+                return;
+            }
+            if (!val.startsWith('http')) {
+                err.style.display = 'block';
+                return;
+            }
+            const slug = slugs[Math.floor(Math.random() * slugs.length)];
+            document.getElementById('resultUrl').textContent = 'nextsharebymeet.vercel.app/s/' + slug;
+            const btn = document.getElementById('copyBtn');
+            btn.textContent = 'Copy';
+            btn.classList.remove('done');
+            res.classList.add('show');
+        }
+        document.getElementById('urlInput').addEventListener('keydown', e => {
+            if (e.key === 'Enter') runShorten();
+        });
+        function copyUrl() {
+            const url = 'https://' + document.getElementById('resultUrl').textContent;
+            navigator.clipboard.writeText(url).catch(() => { });
+            const btn = document.getElementById('copyBtn');
+            btn.textContent = 'Copied ✓';
+            btn.classList.add('done');
+            setTimeout(() => {
+                btn.textContent = 'Copy';
+                btn.classList.remove('done');
+            }, 2000);
+        }
+        /* ── File (UI demo) ── */
+        function handleDrop(e) {
+            e.preventDefault();
+            document.getElementById('dropZone').classList.remove('dragging');
+            showFile(e.dataTransfer.files[0]);
+        }
+        function handleFile(inp) {
+            if (inp.files[0]) showFile(inp.files[0]);
+        }
+        function showFile(f) {
+            if (!f) return;
+            const slug = slugs[Math.floor(Math.random() * slugs.length)];
+            document.getElementById('fileUrl').textContent = 'nextsharebymeet.vercel.app/f/' + slug;
+            document.getElementById('fileResult').classList.add('show');
+        }
+        function copyFile() {
+            navigator.clipboard.writeText('https://' + document.getElementById('fileUrl').textContent).catch(() => { });
+        }
+        /* ── Code paste (UI demo) ── */
+        function runPaste() {
+            if (!document.getElementById('codeInput').value.trim()) return;
+            const slug = slugs[Math.floor(Math.random() * slugs.length)];
+            const burn = document.getElementById('burnCheck').checked;
+            document.getElementById('pasteUrl').textContent =
+                'nextsharebymeet.vercel.app/p/' + slug + (burn ? ' ⚡ burn' : '');
+            document.getElementById('pasteResult').classList.add('show');
+        }
+        function copyPaste() {
+            const raw = document.getElementById('pasteUrl').textContent.replace(' ⚡ burn', '');
+            navigator.clipboard.writeText('https://' + raw).catch(() => { });
+        }
+        // Fix: Ensure App links work seamlessly in file:// protocol, local file previews, direct static servers, and dev
+        (function () {
+            function updateAppLinks() {
+                var isFileProto = window.location.protocol === 'file:';
+                var isHtmlDirect = window.location.pathname.endsWith('.html');
+                if (isFileProto || isHtmlDirect) {
+                    document.querySelectorAll('a[href="/app"]').forEach(function (link) {
+                        link.setAttribute('href', 'app.html');
                     });
                 }
-                function toggleFaqCard(headerEl) {
-                    var card = headerEl.closest('.faq-card');
-                    if (card) {
-                        card.classList.toggle('open');
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', updateAppLinks);
+            } else {
+                updateAppLinks();
+            }
+        })();
+        /* ─── FAQ Category & Accordion Interactions (SEO / AEO / GEO Deep-linking) ─── */
+        function switchFaqCategory(category) {
+            document.querySelectorAll('.faq-tab-btn').forEach(function (btn) {
+                var isActive = btn.id === 'tab-' + category;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+            document.querySelectorAll('.faq-panel').forEach(function (panel) {
+                var isActive = panel.id === 'panel-' + category;
+                panel.classList.toggle('active', isActive);
+            });
+        }
+        function toggleFaqCard(headerEl) {
+            var card = headerEl.closest('.faq-card');
+            if (card) {
+                card.classList.toggle('open');
+            }
+        }
+        // Support direct AEO / GEO deep-links (e.g. #faq-burn-after-read)
+        (function () {
+            function handleFaqDeepLink() {
+                var hash = window.location.hash;
+                if (!hash) return;
+                var targetEl = document.querySelector(hash);
+                if (targetEl && targetEl.classList.contains('faq-card')) {
+                    var panel = targetEl.closest('.faq-panel');
+                    if (panel) {
+                        var cat = panel.id.replace('panel-', '');
+                        switchFaqCategory(cat);
+                        targetEl.classList.add('open');
+                        setTimeout(function () {
+                            targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        }, 100);
                     }
                 }
-                // Support direct AEO / GEO deep-links (e.g. #faq-burn-after-read)
-                (function() {
-                    function handleFaqDeepLink() {
-                        var hash = window.location.hash;
-                        if (!hash) return;
-                        var targetEl = document.querySelector(hash);
-                        if (targetEl && targetEl.classList.contains('faq-card')) {
-                            var panel = targetEl.closest('.faq-panel');
-                            if (panel) {
-                                var cat = panel.id.replace('panel-', '');
-                                switchFaqCategory(cat);
-                                targetEl.classList.add('open');
-                                setTimeout(function() {
-                                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                }, 100);
-                            }
-                        }
-                    }
-                    if (document.readyState === 'loading') {
-                        document.addEventListener('DOMContentLoaded', handleFaqDeepLink);
-                    } else {
-                        handleFaqDeepLink();
-                    }
-                    window.addEventListener('hashchange', handleFaqDeepLink);
-                })();
+            }
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', handleFaqDeepLink);
+            } else {
+                handleFaqDeepLink();
+            }
+            window.addEventListener('hashchange', handleFaqDeepLink);
+        })();
     </script>
 </body>
 
