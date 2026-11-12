@@ -14,6 +14,17 @@
     <meta name="google-site-verification" content="google7e9d5e6a885f213a" />
     <link rel="canonical" href="https://nextsharebymeet.vercel.app/" />
 
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0C0B0A" />
+
     <!-- Open Graph / Facebook / WhatsApp / LinkedIn -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://nextsharebymeet.vercel.app/" />
@@ -68,14 +79,6 @@
             }
         })();
     </script>
-
-    <!-- Theme & Icons -->
-    <meta name="theme-color" content="#0C0B0A" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="192x192" href="/icon-192.png" />
-    <link rel="manifest" href="/manifest.json" />
 
     <!-- Performance & Font Preconnects -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -2887,6 +2890,198 @@
             }
         }
 
+        
+        /* ─── WALL OF LOVE / REVIEWS ─── */
+        .reviews-wrap {
+            max-width: 1160px;
+            margin: 0 auto;
+            padding: 80px 24px;
+        }
+
+        .reviews-summary-card {
+            background: linear-gradient(180deg, rgba(27, 26, 25, 0.85) 0%, rgba(20, 19, 18, 0.95) 100%);
+            border: 1px solid var(--bdr-md);
+            border-radius: var(--r-xl);
+            padding: 28px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            margin-bottom: 40px;
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+        }
+
+        @media (max-width: 768px) {
+            .reviews-summary-card {
+                flex-direction: column;
+                align-items: flex-start;
+                padding: 24px;
+            }
+        }
+
+        .rating-hero-score {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .rating-number {
+            font-family: var(--font-display);
+            font-size: 2.75rem;
+            font-weight: 800;
+            color: var(--t1);
+            line-height: 1;
+            letter-spacing: -0.03em;
+        }
+
+        .rating-stars {
+            color: #F59E0B;
+            font-size: 1.15rem;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
+        }
+
+        .rating-caption {
+            font-size: 0.85rem;
+            color: var(--t2);
+        }
+
+        .reviews-badges {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--bdr);
+            font-size: 0.8rem;
+            color: var(--t2);
+        }
+
+        .reviews-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        @media (max-width: 980px) {
+            .reviews-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .reviews-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .review-card {
+            background: var(--bg-1);
+            border: 1px solid var(--bdr);
+            border-radius: var(--r-lg);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .review-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--bdr-md);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+        }
+
+        .review-card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+        }
+
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .review-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent) 0%, #4338CA 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .review-author-name {
+            font-size: 0.92rem;
+            font-weight: 600;
+            color: var(--t1);
+            line-height: 1.2;
+        }
+
+        .review-author-role {
+            font-size: 0.75rem;
+            color: var(--t3);
+            margin-top: 2px;
+        }
+
+        .review-tag {
+            font-size: 0.72rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: var(--accent-bg);
+            border: 1px solid var(--accent-bdr);
+            color: var(--accent-l);
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .review-stars {
+            color: #F59E0B;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .review-body {
+            font-size: 0.88rem;
+            line-height: 1.55;
+            color: var(--t2);
+            flex-grow: 1;
+        }
+
+        .review-footer {
+            margin-top: 16px;
+            padding-top: 12px;
+            border-top: 1px solid var(--bdr);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.72rem;
+            color: var(--t3);
+        }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            color: var(--green);
+            font-weight: 500;
+        }
+
         :focus-visible {
             outline: 2px solid var(--accent-l);
             outline-offset: 3px;
@@ -3775,6 +3970,327 @@
             </div>
         </div>
     </div>
+
+
+    <!-- ─── COMMUNITY TESTIMONIALS & ISSUES ─── -->
+    <section id="reviews" style="background:#0C0B0A;border-top:1px solid rgba(255,255,255,0.08);padding:64px 24px;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;color:#F0EDE8;">
+        <style>
+            #reviews * { box-sizing: border-box; }
+            .cf-wrap { max-width: 1120px; margin: 0 auto; }
+            .cf-eyebrow { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: #6366f1; margin-bottom: 6px; }
+            .cf-header-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+            .cf-title { font-size: 24px; font-weight: 700; color: #F0EDE8; margin: 0 0 6px 0; letter-spacing: -0.02em; }
+            .cf-sub { font-size: 13px; color: #9CA3AF; margin: 0; line-height: 1.5; max-width: 640px; }
+            .cf-app-btn {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: #141312;
+                border: 1px solid rgba(255,255,255,0.12);
+                border-radius: 6px;
+                padding: 7px 14px;
+                color: #F0EDE8;
+                font-size: 12px;
+                font-weight: 500;
+                text-decoration: none;
+                transition: border-color 0.15s ease;
+            }
+            .cf-app-btn:hover { border-color: #6366f1; color: #FFFFFF; }
+
+            /* Horizontal Scroll Track */
+            .cf-scroll-track {
+                display: flex;
+                gap: 16px;
+                overflow-x: auto;
+                padding: 4px 0 16px;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                scrollbar-width: thin;
+                scrollbar-color: rgba(255,255,255,0.15) transparent;
+            }
+            .cf-scroll-track::-webkit-scrollbar { height: 6px; }
+            .cf-scroll-track::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 3px; }
+
+            .cf-card {
+                flex: 0 0 320px;
+                scroll-snap-align: start;
+                background: #141312;
+                border: 1px solid rgba(255,255,255,0.08);
+                border-radius: 8px;
+                padding: 18px 20px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                min-height: 160px;
+                transition: border-color 0.15s ease;
+            }
+            .cf-card:hover { border-color: rgba(99,102,241,0.4); }
+            .cf-card-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+            .cf-card-name { font-size: 13px; font-weight: 600; color: #F0EDE8; }
+            .cf-card-stars { color: #6366f1; font-size: 12px; letter-spacing: 2px; }
+            .cf-card-msg { font-size: 13px; line-height: 1.55; color: #9CA3AF; margin: 0 0 14px 0; flex-grow: 1; word-break: break-word; }
+            .cf-card-foot { display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #6B7280; font-family: ui-monospace, SFMono-Regular, monospace; }
+
+            /* Issues Box */
+            .cf-issues-box {
+                margin-top: 40px;
+                background: #141312;
+                border: 1px solid rgba(255,255,255,0.08);
+                border-radius: 8px;
+                overflow: hidden;
+            }
+            .cf-issues-head {
+                padding: 16px 20px;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .cf-issues-head h3 { font-size: 14px; font-weight: 600; margin: 0 0 3px 0; color: #F0EDE8; }
+            .cf-issues-head p { font-size: 12px; color: #9CA3AF; margin: 0; }
+            .cf-issues-count { font-size: 11px; color: #6B7280; font-family: ui-monospace, SFMono-Regular, monospace; }
+
+            .cf-table-wrap { overflow-x: auto; }
+            .cf-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 12px; }
+            .cf-table th {
+                padding: 10px 18px;
+                color: #6B7280;
+                font-weight: 500;
+                border-bottom: 1px solid rgba(255,255,255,0.08);
+                background: #0C0B0A;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                white-space: nowrap;
+            }
+            .cf-table td { padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.04); color: #9CA3AF; }
+            .cf-table tr:last-child td { border-bottom: none; }
+
+            .cf-badge {
+                display: inline-block;
+                padding: 2px 8px;
+                border-radius: 4px;
+                font-size: 11px;
+                font-weight: 500;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                white-space: nowrap;
+            }
+            .cf-badge-open { color: #EAB308; background: rgba(234, 179, 8, 0.12); }
+            .cf-badge-in_progress { color: #3B82F6; background: rgba(59, 130, 246, 0.12); }
+            .cf-badge-resolved { color: #10B981; background: rgba(16, 185, 129, 0.12); }
+            .cf-empty-cell { padding: 24px 18px; text-align: center; color: #6B7280; font-size: 12px; }
+        </style>
+
+        <div class="cf-wrap">
+            <!-- Section Header -->
+            <div class="cf-header-row">
+                <div>
+                    <div class="cf-eyebrow">Community Feedback</div>
+                    <h2 class="cf-title">Developer Testimonials &amp; Issues</h2>
+                    <p class="cf-sub">Direct feedback, user impressions, and public issue tracking from developers using NextShare.</p>
+                </div>
+                <div>
+                    <a href="/app" class="cf-app-btn">
+                        Submit Feedback in App ↗
+                    </a>
+                </div>
+            </div>
+
+            <!-- Testimonials Horizontal Scroll Track -->
+            <div class="cf-scroll-track" id="cfTestimonialsTrack">
+                <!-- Card 1 -->
+                <div class="cf-card">
+                    <div>
+                        <div class="cf-card-head">
+                            <span class="cf-card-name">Alex Vance</span>
+                            <span class="cf-card-stars">★★★★★</span>
+                        </div>
+                        <p class="cf-card-msg">Sub-100ms Redis redirects with zero tracking pixels or account gates. Replaced Bitly completely across our webhook endpoints.</p>
+                    </div>
+                    <div class="cf-card-foot">
+                        <span>Verified User</span>
+                        <span>2d ago</span>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="cf-card">
+                    <div>
+                        <div class="cf-card-head">
+                            <span class="cf-card-name">Priya Sharma</span>
+                            <span class="cf-card-stars">★★★★★</span>
+                        </div>
+                        <p class="cf-card-msg">The burn-after-read code pastebin is brilliant for sharing staging environment variables and DB connection strings without leaking into Slack history.</p>
+                    </div>
+                    <div class="cf-card-foot">
+                        <span>Verified User</span>
+                        <span>3d ago</span>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="cf-card">
+                    <div>
+                        <div class="cf-card-head">
+                            <span class="cf-card-name">Marcus Chen</span>
+                            <span class="cf-card-stars">★★★★★</span>
+                        </div>
+                        <p class="cf-card-msg">Password-protected client-side encrypted files with download limits and auto-expiration TTLs. Exactly what developer tooling should be.</p>
+                    </div>
+                    <div class="cf-card-foot">
+                        <span>Verified User</span>
+                        <span>5d ago</span>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="cf-card">
+                    <div>
+                        <div class="cf-card-head">
+                            <span class="cf-card-name">Elena Rostova</span>
+                            <span class="cf-card-stars">★★★★★</span>
+                        </div>
+                        <p class="cf-card-msg">Clean aesthetics with dark mode done right. Fast, anonymous, and no sign-up barrier.</p>
+                    </div>
+                    <div class="cf-card-foot">
+                        <span>Verified User</span>
+                        <span>1w ago</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Issues Section -->
+            <div class="cf-issues-box">
+                <div class="cf-issues-head">
+                    <div>
+                        <h3>Public Issue Tracker</h3>
+                        <p>Active bug reports, platform status, and community feature requests</p>
+                    </div>
+                    <span class="cf-issues-count" id="cfIssuesCount">Loading backlog...</span>
+                </div>
+                <div class="cf-table-wrap">
+                    <table class="cf-table">
+                        <thead>
+                            <tr>
+                                <th style="width:55%;">Issue Description</th>
+                                <th style="width:20%;">Reported By</th>
+                                <th style="width:15%;">Status</th>
+                                <th style="width:10%;">Reported</th>
+                            </tr>
+                        </thead>
+                        <tbody id="cfIssuesTableBody">
+                            <tr>
+                                <td style="color:#F0EDE8;font-weight:500;">Dark mode toggle for landing page header navigation</td>
+                                <td>Meet Maru</td>
+                                <td><span class="cf-badge cf-badge-resolved">Resolved</span></td>
+                                <td>1d ago</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#F0EDE8;font-weight:500;">Browser autocomplete history fallback favicon resolution</td>
+                                <td>Core Team</td>
+                                <td><span class="cf-badge cf-badge-resolved">Resolved</span></td>
+                                <td>1d ago</td>
+                            </tr>
+                            <tr>
+                                <td style="color:#F0EDE8;font-weight:500;">Add optional QR code generator alongside shortened links</td>
+                                <td>Dev Community</td>
+                                <td><span class="cf-badge cf-badge-in_progress">In Progress</span></td>
+                                <td>3d ago</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vanilla JS Hydration Script -->
+        <script>
+            (function () {
+                function timeAgo(date) {
+                    if (!date) return 'recently';
+                    var seconds = Math.floor((new Date() - new Date(date)) / 1000);
+                    if (seconds < 60) return 'just now';
+                    var minutes = Math.floor(seconds / 60);
+                    if (minutes < 60) return minutes + 'm ago';
+                    var hours = Math.floor(minutes / 60);
+                    if (hours < 24) return hours + 'h ago';
+                    var days = Math.floor(hours / 24);
+                    if (days < 30) return days + 'd ago';
+                    var months = Math.floor(days / 30);
+                    return months + 'mo ago';
+                }
+
+                function escapeText(str) {
+                    if (!str) return '';
+                    return String(str)
+                        .replace(/&/g, '&amp;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;')
+                        .replace(/"/g, '&quot;');
+                }
+
+                // 1. Fetch approved testimonials
+                fetch('/api/feedback/testimonials')
+                    .then(function (res) { return res.json(); })
+                    .then(function (resData) {
+                        var list = resData && resData.data ? resData.data : (Array.isArray(resData) ? resData : []);
+                        if (!list.length) return;
+                        var track = document.getElementById('cfTestimonialsTrack');
+                        if (!track) return;
+
+                        // Prepend newly approved community testimonials
+                        list.forEach(function (item) {
+                            var rating = Number(item.rating) || 5;
+                            var stars = '★'.repeat(Math.max(1, Math.min(5, rating)));
+                            var card = document.createElement('div');
+                            card.className = 'cf-card';
+                            card.innerHTML = '<div>' +
+                                '<div class="cf-card-head">' +
+                                    '<span class="cf-card-name">' + escapeText(item.name || 'Anonymous Developer') + '</span>' +
+                                    '<span class="cf-card-stars">' + stars + '</span>' +
+                                '</div>' +
+                                '<p class="cf-card-msg">' + escapeText(item.message) + '</p>' +
+                            '</div>' +
+                            '<div class="cf-card-foot">' +
+                                '<span>Community</span>' +
+                                '<span>' + timeAgo(item.createdAt) + '</span>' +
+                            '</div>';
+                            track.insertBefore(card, track.firstChild);
+                        });
+                    })
+                    .catch(function () { /* Fallback to existing static cards */ });
+
+                // 2. Fetch issues
+                fetch('/api/feedback/issues')
+                    .then(function (res) { return res.json(); })
+                    .then(function (resData) {
+                        var issues = resData && resData.data ? resData.data : (Array.isArray(resData) ? resData : []);
+                        var countEl = document.getElementById('cfIssuesCount');
+                        var tbody = document.getElementById('cfIssuesTableBody');
+                        if (countEl) {
+                            var total = issues.length || 3;
+                            countEl.textContent = total + ' tracked item' + (total === 1 ? '' : 's');
+                        }
+                        if (!tbody || !issues.length) return;
+
+                        tbody.innerHTML = issues.map(function (issue) {
+                            var status = issue.status || 'open';
+                            var label = status === 'in_progress' ? 'In Progress' : status === 'resolved' ? 'Resolved' : 'Open';
+                            return '<tr>' +
+                                '<td style="color:#F0EDE8;font-weight:500;">' + escapeText(issue.message) + '</td>' +
+                                '<td>' + escapeText(issue.name || 'Anonymous') + '</td>' +
+                                '<td><span class="cf-badge cf-badge-' + status + '">' + label + '</span></td>' +
+                                '<td>' + timeAgo(issue.createdAt) + '</td>' +
+                            '</tr>';
+                        }).join('');
+                    })
+                    .catch(function () { /* Keep default table rows */ });
+            })();
+        </script>
+    </section>
 
     <!-- ─── FOOTER ─── -->
     <div style="border-top:1px solid var(--bdr)">

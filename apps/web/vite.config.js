@@ -10,6 +10,10 @@ const rewriteMiddleware = (req, _res, next) => {
     const [path, query] = (req.url || '').split('?');
     if (/^\/(app|admin|paste|p)(\/.*)?$/.test(path)) {
         req.url = '/app.html' + (query ? '?' + query : '');
+    } else if (/^\/privacy\/?$/.test(path)) {
+        req.url = '/privacy.html';
+    } else if (/^\/terms\/?$/.test(path)) {
+        req.url = '/terms.html';
     }
     next();
 };
@@ -18,8 +22,12 @@ export default defineConfig({
     plugins: [
         {
             name: 'multi-page-rewrites',
-            configureServer: (s) => s.middlewares.use(rewriteMiddleware),
-            configurePreviewServer: (s) => s.middlewares.use(rewriteMiddleware),
+            configureServer(server) {
+                server.middlewares.use(rewriteMiddleware);
+            },
+            configurePreviewServer(server) {
+                server.middlewares.use(rewriteMiddleware);
+            },
         },
         react(),
         VitePWA({
@@ -49,6 +57,8 @@ export default defineConfig({
                     /^\/admin\/.*/,
                     /^\/p\/.*/,
                     /^\/paste\/.*/,
+                    /^\/privacy\/.*/,
+                    /^\/terms\/.*/,
                 ],
                 skipWaiting: true,
                 clientsClaim: true,
@@ -69,6 +79,8 @@ export default defineConfig({
             input: {
                 app: resolve(__dirname, 'app.html'),
                 landing: resolve(__dirname, 'index.html'),
+                privacy: resolve(__dirname, 'privacy.html'),
+                terms: resolve(__dirname, 'terms.html'),
             },
         },
     },
@@ -77,10 +89,10 @@ export default defineConfig({
         proxy: {
             '/api': { target: 'http://localhost:3001', changeOrigin: true },
             '/admin/stats': { target: 'http://localhost:3001', changeOrigin: true },
-            '/s': { target: 'http://localhost:3001', changeOrigin: true },
-            '/r': { target: 'http://localhost:3001', changeOrigin: true },
-            '/f': { target: 'http://localhost:3001', changeOrigin: true },
-            '/d': { target: 'http://localhost:3001', changeOrigin: true },
+            '^/s/[^/]+': { target: 'http://localhost:3001', changeOrigin: true },
+            '^/r/[^/]+': { target: 'http://localhost:3001', changeOrigin: true },
+            '^/f/[^/]+': { target: 'http://localhost:3001', changeOrigin: true },
+            '^/d/[^/]+': { target: 'http://localhost:3001', changeOrigin: true },
         },
     },
 });

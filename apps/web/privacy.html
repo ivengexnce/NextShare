@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Privacy Policy — NextShare</title>
+    <meta name="description" content="NextShare Privacy Policy. We do not require accounts, do not track you, do not use analytics cookies, and automatically purge temporary files and code pastes." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://nextsharebymeet.vercel.app/privacy" />
+
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0C0B0A" />
+
+    <style>
+        :root {
+            --bg: #0C0B0A;
+            --surface: #141312;
+            --surface-2: #1A1918;
+            --bdr: rgba(255, 255, 255, 0.08);
+            --bdr-strong: rgba(255, 255, 255, 0.16);
+            --t1: #F9FAFB;
+            --t2: #9CA3AF;
+            --t3: #6B7280;
+            --accent: #6366F1;
+            --accent-hover: #4F46E5;
+            --green: #10B981;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--t1);
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(16px);
+            background: rgba(12, 11, 10, 0.85);
+            border-bottom: 1px solid var(--bdr);
+        }
+
+        .nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--t1);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .brand-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-app {
+            background: var(--accent);
+            color: #fff;
+            padding: 7px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background .15s;
+        }
+
+        .btn-app:hover {
+            background: var(--accent-hover);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--green);
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            padding: 4px 10px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .meta-date {
+            color: var(--t3);
+            font-size: 0.88rem;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--bdr);
+        }
+
+        .summary-card {
+            background: var(--surface);
+            border: 1px solid var(--bdr);
+            border-left: 3px solid var(--accent);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 40px;
+        }
+
+        .summary-card h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: var(--t1);
+        }
+
+        .summary-card p {
+            color: var(--t2);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: var(--t1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2 span.num {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent);
+            background: rgba(99, 102, 241, 0.12);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        p {
+            color: var(--t2);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 16px;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 24px;
+            color: var(--t2);
+            font-size: 0.93rem;
+            margin-bottom: 10px;
+        }
+
+        ul li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--green);
+            font-weight: bold;
+        }
+
+        .code-box {
+            font-family: var(--font-mono);
+            background: var(--surface-2);
+            border: 1px solid var(--bdr);
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-size: 0.82rem;
+            color: #E5E7EB;
+            margin: 14px 0 20px;
+            overflow-x: auto;
+        }
+
+        footer {
+            border-top: 1px solid var(--bdr);
+            padding: 32px 24px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--t3);
+        }
+
+        footer a {
+            color: var(--t2);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-inner">
+            <a href="/" class="brand">
+                <div class="brand-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12h14M12.5 5.5L19 12l-6.5 6.5" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                NextShare
+            </a>
+            <div style="display:flex;gap:16px;align-items:center;">
+                <a href="/terms" style="color:var(--t2);text-decoration:none;font-size:0.85rem;">Terms</a>
+                <a href="/app" class="btn-app">Open App →</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="badge">● STRICT PRIVACY COMMITMENT</div>
+        <h1>Privacy Policy</h1>
+        <div class="meta-date">Last Updated: November 12, 2026 · Effective Immediately</div>
+
+        <div class="summary-card">
+            <h3>TL;DR: The Developer Privacy Promise</h3>
+            <p>NextShare is engineered as a zero-account, zero-tracking, privacy-first developer utility. We do not require signups, we do not track your browsing habits, we do not use marketing trackers or analytics cookies, and all temporary shares are automatically permanently purged upon expiration.</p>
+        </div>
+
+        <section>
+            <h2><span class="num">01</span> Zero Account &amp; No Registration</h2>
+            <p>NextShare operates entirely without user accounts. You will never be asked to provide your name, email address, password, phone number, or payment details. Because we do not have accounts, we have no personal profiles to sell, monetize, leak, or share with data brokers.</p>
+        </section>
+
+        <section>
+            <h2><span class="num">02</span> Data We Collect &amp; Store</h2>
+            <p>We only store data strictly required to deliver the core sharing utilities you invoke:</p>
+            <ul>
+                <li><strong>Shortened URLs:</strong> Original destination URL, custom or generated short code, click count, and optional expiration timestamp.</li>
+                <li><strong>Shared Files:</strong> Encrypted file payload, original file name, MIME type, file size, optional password hash (Scrypt), download counter, and expiration date.</li>
+                <li><strong>Code Pastes:</strong> Code snippet, language syntax tag, optional title, view count, expiration window, and burn-after-read status.</li>
+                <li><strong>User Feedback (Optional):</strong> If you submit feedback, we record your star rating, optional review comment, optional display name, and tool tag to improve the service.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2><span class="num">03</span> Automated Data Deletion &amp; Retention</h2>
+            <p>All shared assets on NextShare are designed to expire and be permanently scrubbed:</p>
+            <div class="code-box">
+• Burn-After-Read Pastes : Destroyed immediately after the 1st view (zero disk/cache retention).
+• Ephemeral Files        : Permanently deleted when max downloads or expiration TTL is hit.
+• Expired Short URLs     : De-indexed from Redis cache and flagged inactive upon expiration.
+            </div>
+            <p>Once a file or paste expires, its raw bytes are unlinked from storage and cannot be restored by anyone, including the NextShare engineering team.</p>
+        </section>
+
+        <section>
+            <h2><span class="num">04</span> Security &amp; Encryption Standards</h2>
+            <p>All data in transit is protected using Industry-Standard TLS 1.3 encryption. Passwords applied to files or code pastes are hashed using computationally hardened Scrypt derivation before persistence—passwords are never stored in plaintext.</p>
+        </section>
+
+        <section>
+            <h2><span class="num">05</span> Cookies &amp; Local Storage (Offline PWA)</h2>
+            <p>NextShare does not use third-party tracking cookies, advertising beacons, or surveillance pixels (no Facebook Pixel, no Google Analytics tracking). We use standard browser client storage strictly for functional execution:</p>
+            <ul>
+                <li><strong>IndexedDB:</strong> Stores your local offline queue so that links or pastes drafted offline can sync automatically when your device reconnects to the network.</li>
+                <li><strong>LocalStorage:</strong> Saves your local copy history on your device only—this history is never synced to our servers without your action.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2><span class="num">06</span> Infrastructure &amp; Sub-processors</h2>
+            <p>NextShare utilizes verified infrastructure providers for secure, high-uptime delivery:</p>
+            <ul>
+                <li><strong>Vercel:</strong> Static Edge network hosting and CDN caching.</li>
+                <li><strong>Render:</strong> API compute layer containerized via Docker.</li>
+                <li><strong>MongoDB Atlas:</strong> Encrypted database cluster with isolated VPC peering.</li>
+                <li><strong>Redis:</strong> Sub-millisecond ephemeral cache with automatic TTL evictions.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2><span class="num">07</span> Contact &amp; Data Rights</h2>
+            <p>Under GDPR, CCPA, and global privacy standards, you maintain full rights over your data. If you believe a link, file, or paste contains your intellectual property or sensitive information, contact us for immediate scrubbing at:</p>
+            <div class="code-box">
+Project Maintainer : Meet Maru
+GitHub Repository  : https://github.com/ivengexnce/NextShare
+Security &amp; Abuse   : https://github.com/ivengexnce/NextShare/issues
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div>
+            <a href="/">Home</a>
+            <a href="/app">Web App</a>
+            <a href="/terms">Terms &amp; Conditions</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="https://github.com/ivengexnce/NextShare" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <div style="margin-top:12px;">© 2026 NextShare · Built by Meet Maru · MIT License</div>
+    </footer>
+</body>
+
+</html>
+

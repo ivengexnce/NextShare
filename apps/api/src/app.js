@@ -15,6 +15,7 @@ const urlRoutes = require('./modules/url/url.routes');
 const filesRoutes = require('./modules/files/files.routes');
 const textRoutes = require('./modules/text/text.routes');
 const adminRoutes = require('./modules/admin/admin.routes');
+const feedbackRoutes = require('./modules/feedback/feedback.routes');
 const UrlController = require('./modules/url/url.controller');
 const FilesController = require('./modules/files/files.controller');
 
@@ -99,6 +100,7 @@ app.get('/health', (_req, res) =>
 app.use('/api/urls', urlRoutes);
 app.use('/api/files', filesRoutes);
 app.use('/api/pastes', textRoutes);
+app.use('/api/feedback', feedbackRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/admin', adminRoutes);
 

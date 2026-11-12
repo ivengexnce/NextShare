@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terms &amp; Conditions — NextShare</title>
+    <meta name="description" content="NextShare Terms and Conditions of Service. Acceptable use policy, abuse mitigation, copyright DMCA policy, and limitation of liability." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://nextsharebymeet.vercel.app/terms" />
+
+    <!-- Favicon & Brand Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="/favicon-48x48.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#0C0B0A" />
+
+    <style>
+        :root {
+            --bg: #0C0B0A;
+            --surface: #141312;
+            --surface-2: #1A1918;
+            --bdr: rgba(255, 255, 255, 0.08);
+            --bdr-strong: rgba(255, 255, 255, 0.16);
+            --t1: #F9FAFB;
+            --t2: #9CA3AF;
+            --t3: #6B7280;
+            --accent: #6366F1;
+            --accent-hover: #4F46E5;
+            --red: #EF4444;
+            --green: #10B981;
+            --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--t1);
+            font-family: var(--font-sans);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(16px);
+            background: rgba(12, 11, 10, 0.85);
+            border-bottom: 1px solid var(--bdr);
+        }
+
+        .nav-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--t1);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .brand-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 7px;
+            background: var(--accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-app {
+            background: var(--accent);
+            color: #fff;
+            padding: 7px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background .15s;
+        }
+
+        .btn-app:hover {
+            background: var(--accent-hover);
+        }
+
+        main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: #F59E0B;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.25);
+            padding: 4px 10px;
+            border-radius: 100px;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            font-weight: 800;
+            letter-spacing: -0.02em;
+            margin-bottom: 8px;
+        }
+
+        .meta-date {
+            color: var(--t3);
+            font-size: 0.88rem;
+            margin-bottom: 40px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid var(--bdr);
+        }
+
+        .warning-card {
+            background: var(--surface);
+            border: 1px solid var(--bdr);
+            border-left: 3px solid var(--red);
+            border-radius: 10px;
+            padding: 20px 24px;
+            margin-bottom: 40px;
+        }
+
+        .warning-card h3 {
+            font-size: 1rem;
+            margin-bottom: 8px;
+            color: #F87171;
+        }
+
+        .warning-card p {
+            color: var(--t2);
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        section {
+            margin-bottom: 40px;
+        }
+
+        h2 {
+            font-size: 1.35rem;
+            font-weight: 700;
+            margin-bottom: 14px;
+            color: var(--t1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2 span.num {
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--accent);
+            background: rgba(99, 102, 241, 0.12);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+
+        p {
+            color: var(--t2);
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+        }
+
+        ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 16px;
+        }
+
+        ul li {
+            position: relative;
+            padding-left: 24px;
+            color: var(--t2);
+            font-size: 0.93rem;
+            margin-bottom: 10px;
+        }
+
+        ul.prohibitions li::before {
+            content: "✕";
+            position: absolute;
+            left: 0;
+            color: var(--red);
+            font-weight: bold;
+        }
+
+        ul.rules li::before {
+            content: "•";
+            position: absolute;
+            left: 6px;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .code-box {
+            font-family: var(--font-mono);
+            background: var(--surface-2);
+            border: 1px solid var(--bdr);
+            border-radius: 8px;
+            padding: 14px 18px;
+            font-size: 0.82rem;
+            color: #E5E7EB;
+            margin: 14px 0 20px;
+            overflow-x: auto;
+        }
+
+        footer {
+            border-top: 1px solid var(--bdr);
+            padding: 32px 24px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--t3);
+        }
+
+        footer a {
+            color: var(--t2);
+            text-decoration: none;
+            margin: 0 10px;
+        }
+
+        footer a:hover {
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="nav-inner">
+            <a href="/" class="brand">
+                <div class="brand-icon">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 12h14M12.5 5.5L19 12l-6.5 6.5" stroke="#fff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </div>
+                NextShare
+            </a>
+            <div style="display:flex;gap:16px;align-items:center;">
+                <a href="/privacy" style="color:var(--t2);text-decoration:none;font-size:0.85rem;">Privacy</a>
+                <a href="/app" class="btn-app">Open App →</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="badge">LEGAL TERMS OF SERVICE</div>
+        <h1>Terms &amp; Conditions</h1>
+        <div class="meta-date">Last Updated: November 12, 2026 · Effective Immediately</div>
+
+        <div class="warning-card">
+            <h3>Strict Zero-Tolerance Abuse Policy</h3>
+            <p>NextShare is built for developers to share links, files, and code productively and safely. We enforce a zero-tolerance policy against malware, phishing, piracy, and spam. Any link, file, or paste identified as malicious will be terminated instantly without warning and permanently blacklisted.</p>
+        </div>
+
+        <section>
+            <h2><span class="num">01</span> Agreement to Terms</h2>
+            <p>By accessing or using NextShare (accessible via <code>nextsharebymeet.vercel.app</code> or our self-hosted distributions), you agree to be bound by these Terms and Conditions and our Privacy Policy. If you do not agree with any part of these terms, you must discontinue using NextShare immediately.</p>
+        </section>
+
+        <section>
+            <h2><span class="num">02</span> Acceptable Use &amp; Strict Prohibitions</h2>
+            <p>You agree not to use NextShare to shorten, upload, distribute, or link to any content that:</p>
+            <ul class="prohibitions">
+                <li><strong>Phishing &amp; Credential Theft:</strong> Directs users to deceptive login pages, credential harvesters, or banking/impersonation scams.</li>
+                <li><strong>Malware &amp; Exploits:</strong> Contains or links to ransomware, viruses, trojans, keyloggers, worms, or malicious scripts.</li>
+                <li><strong>Copyright Infringement:</strong> Distributes pirated movies, music, copyrighted software, commercial licenses, or proprietary source code without authorization.</li>
+                <li><strong>Child Exploitation:</strong> Promotes, hosts, or links to Child Sexual Abuse Material (CSAM)—all incidents are reported immediately to relevant law enforcement agencies.</li>
+                <li><strong>Spam &amp; Automated Harassment:</strong> Executes automated link generation intended to flood, scrape, or denial-of-service external websites or NextShare infrastructure.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2><span class="num">03</span> Automated Takedowns &amp; Right to Terminate</h2>
+            <p>NextShare reserves the unconditional right to investigate, block, disable, and purge any shortened URL, uploaded file, or code paste at our sole discretion, without prior notice, liability, or refund, if we believe the content violates these terms or threatens platform integrity.</p>
+        </section>
+
+        <section>
+            <h2><span class="num">04</span> Temporary Storage &amp; Expiration Notice</h2>
+            <p>NextShare is an ephemeral transit and sharing utility, not a permanent backup or archival host. You acknowledge and agree that:</p>
+            <ul class="rules">
+                <li>Files and pastes expire automatically based on user-configured TTLs or maximum download/view caps.</li>
+                <li>Burn-after-read pastes are destroyed immediately after being retrieved once.</li>
+                <li>NextShare is not responsible for any data loss resulting from asset expiration or service updates. Always keep local backups of your source files.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2><span class="num">05</span> DMCA &amp; Copyright Infringement Procedure</h2>
+            <p>We respect the intellectual property of others. If you believe your copyrighted work has been shared or linked on NextShare without authorization, send a formal DMCA takedown notice containing:</p>
+            <div class="code-box">
+1. Identification of the copyrighted work claimed to be infringed.
+2. The exact NextShare URL (e.g., /s/code, /f/code, or /paste/code).
+3. Your full legal name, company name, address, and email address.
+4. A statement affirming that you have a good faith belief the use is unauthorized.
+5. Your physical or electronic signature.
+            </div>
+            <p>Submit notices to our GitHub Issues tracker or directly to the project maintainer: <strong>Meet Maru</strong> (<a href="https://github.com/ivengexnce/NextShare" target="_blank" style="color:var(--accent);">https://github.com/ivengexnce/NextShare</a>).</p>
+        </section>
+
+        <section>
+            <h2><span class="num">06</span> Disclaimer of Warranties &amp; "As-Is" Service</h2>
+            <p>NEXTSHARE IS PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS, WITHOUT WARRANTIES OF ANY KIND, WHETHER EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE DO NOT WARRANT THAT THE SERVICE WILL BE UNINTERRUPTED, TIMELY, SECURE, OR ERROR-FREE.</p>
+        </section>
+
+        <section>
+            <h2><span class="num">07</span> Limitation of Liability</h2>
+            <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL NEXTSHARE, ITS CREATOR (MEET MARU), OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES RESULTING FROM YOUR USE OF OR INABILITY TO USE THE SERVICE, UNAUTHORIZED ACCESS TO YOUR DATA, OR CORRUPTION OF TRANSMISSIONS.</p>
+        </section>
+
+        <section>
+            <h2><span class="num">08</span> Open Source Licensing</h2>
+            <p>The NextShare codebase is licensed under the permissive <strong>MIT License</strong>. You are free to inspect, fork, modify, and self-host your own instances of NextShare in compliance with the MIT license guidelines.</p>
+        </section>
+    </main>
+
+    <footer>
+        <div>
+            <a href="/">Home</a>
+            <a href="/app">Web App</a>
+            <a href="/terms">Terms &amp; Conditions</a>
+            <a href="/privacy">Privacy Policy</a>
+            <a href="https://github.com/ivengexnce/NextShare" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <div style="margin-top:12px;">© 2026 NextShare · Built by Meet Maru · MIT License</div>
+    </footer>
+</body>
+
+</html>
+

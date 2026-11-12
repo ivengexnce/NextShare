@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useStore from '../../store/useStore';
 import { textApi } from './text.api';
 import { offlineDB } from '../../store/offlineDB';
+import FeedbackPrompt from '../../shared/components/FeedbackPrompt';
 
 const LANGUAGES = ['plaintext','javascript','typescript','python','java','c','cpp','csharp','go','rust','php','ruby','swift','kotlin','html','css','json','yaml','toml','markdown','sql','bash','dockerfile'];
 const EXPIRY_OPTS = ['10m','1h','24h','7d','30d','never'];
@@ -125,19 +126,22 @@ export default function TextShare() {
         </form>
 
         {result && (
-          <div className="result-card">
-            <div className="result-row">
-              <span className="result-url">{result.shareUrl}</span>
-              <button className={`btn-copy ${copied ? 'btn-copy--done' : ''}`} onClick={copy}>
-                {copied ? 'Copied ✓' : 'Copy'}
-              </button>
+          <>
+            <div className="result-card">
+              <div className="result-row">
+                <span className="result-url">{result.shareUrl}</span>
+                <button className={`btn-copy ${copied ? 'btn-copy--done' : ''}`} onClick={copy}>
+                  {copied ? 'Copied ✓' : 'Copy'}
+                </button>
+              </div>
+              <div className="result-stats">
+                <div className="result-stat"><div className="result-stat-label">Lang</div><div className="result-stat-val">{result.language}</div></div>
+                <div className="result-stat"><div className="result-stat-label">Burn</div><div className="result-stat-val">{result.burnAfterRead ? '🔥 Active' : 'Off'}</div></div>
+                <div className="result-stat"><div className="result-stat-label">Status</div><div className="result-stat-val result-stat-val--green">Active</div></div>
+              </div>
             </div>
-            <div className="result-stats">
-              <div className="result-stat"><div className="result-stat-label">Lang</div><div className="result-stat-val">{result.language}</div></div>
-              <div className="result-stat"><div className="result-stat-label">Burn</div><div className="result-stat-val">{result.burnAfterRead ? '🔥 Active' : 'Off'}</div></div>
-              <div className="result-stat"><div className="result-stat-label">Status</div><div className="result-stat-val result-stat-val--green">Active</div></div>
-            </div>
-          </div>
+            <FeedbackPrompt tool="text" label="code paste" />
+          </>
         )}
       </div>
     </div>

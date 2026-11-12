@@ -2,6 +2,7 @@ import { useState } from 'react';
 import useStore from '../../store/useStore';
 import { urlApi } from './url.api';
 import { offlineDB } from '../../store/offlineDB';
+import FeedbackPrompt from '../../shared/components/FeedbackPrompt';
 
 const DEFAULT = { originalUrl: '', customCode: '', expiresIn: '' };
 const HISTORY_KEY = 'nextshare_url_history';
@@ -162,19 +163,22 @@ export default function UrlShortener() {
         </form>
 
         {result && (
-          <div className="result-card">
-            <div className="result-row">
-              <span className="result-url">{result.shortUrl}</span>
-              <button className={`btn-copy ${copied ? 'btn-copy--done' : ''}`} onClick={() => copy(result.shortUrl, true)}>
-                {copied ? 'Copied ✓' : 'Copy'}
-              </button>
+          <>
+            <div className="result-card">
+              <div className="result-row">
+                <span className="result-url">{result.shortUrl}</span>
+                <button className={`btn-copy ${copied ? 'btn-copy--done' : ''}`} onClick={() => copy(result.shortUrl, true)}>
+                  {copied ? 'Copied ✓' : 'Copy'}
+                </button>
+              </div>
+              <div className="result-stats">
+                <div className="result-stat"><div className="result-stat-label">Clicks</div><div className="result-stat-val">0</div></div>
+                <div className="result-stat"><div className="result-stat-label">Expires</div><div className="result-stat-val">{formatExpiry(result.expiresAt)}</div></div>
+                <div className="result-stat"><div className="result-stat-label">Status</div><div className="result-stat-val result-stat-val--green">Active</div></div>
+              </div>
             </div>
-            <div className="result-stats">
-              <div className="result-stat"><div className="result-stat-label">Clicks</div><div className="result-stat-val">0</div></div>
-              <div className="result-stat"><div className="result-stat-label">Expires</div><div className="result-stat-val">{formatExpiry(result.expiresAt)}</div></div>
-              <div className="result-stat"><div className="result-stat-label">Status</div><div className="result-stat-val result-stat-val--green">Active</div></div>
-            </div>
-          </div>
+            <FeedbackPrompt tool="url" label="short URL" />
+          </>
         )}
       </div>
     </div>

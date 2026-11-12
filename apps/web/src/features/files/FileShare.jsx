@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import useStore from '../../store/useStore';
 import { filesApi } from './files.api';
+import FeedbackPrompt from '../../shared/components/FeedbackPrompt';
 
 const MAX_SIZE = 50 * 1024 * 1024;
 const formatBytes = (b) => (b < 1024 ? `${b} B` : b < 1024 ** 2 ? `${(b / 1024).toFixed(1)} KB` : `${(b / 1024 ** 2).toFixed(1)} MB`);
@@ -118,19 +119,22 @@ export default function FileShare() {
         )}
 
         {result && (
-          <div className="result-card">
-            <div className="result-row">
-              <span className="result-url">{result.shareUrl}</span>
-              <button className={`btn-copy ${copied ? 'btn-copy--done' : ''}`} onClick={copy}>
-                {copied ? 'Copied ✓' : 'Copy'}
-              </button>
+          <>
+            <div className="result-card">
+              <div className="result-row">
+                <span className="result-url">{result.shareUrl}</span>
+                <button className={`btn-copy ${copied ? 'btn-copy--done' : ''}`} onClick={copy}>
+                  {copied ? 'Copied ✓' : 'Copy'}
+                </button>
+              </div>
+              <div className="result-stats">
+                <div className="result-stat"><div className="result-stat-label">File</div><div className="result-stat-val">{result.filename || 'Uploaded file'}</div></div>
+                <div className="result-stat"><div className="result-stat-label">Size</div><div className="result-stat-val">{formatBytes(result.size)}</div></div>
+                <div className="result-stat"><div className="result-stat-label">Status</div><div className="result-stat-val result-stat-val--green">Active</div></div>
+              </div>
             </div>
-            <div className="result-stats">
-              <div className="result-stat"><div className="result-stat-label">File</div><div className="result-stat-val">{result.filename || 'Uploaded file'}</div></div>
-              <div className="result-stat"><div className="result-stat-label">Size</div><div className="result-stat-val">{formatBytes(result.size)}</div></div>
-              <div className="result-stat"><div className="result-stat-label">Status</div><div className="result-stat-val result-stat-val--green">Active</div></div>
-            </div>
-          </div>
+            <FeedbackPrompt tool="file" label="file share link" />
+          </>
         )}
       </div>
     </div>

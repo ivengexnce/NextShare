@@ -1,5 +1,6 @@
 const { Router } = require('express');
 const AdminController = require('./admin.controller');
+const FeedbackController = require('../feedback/feedback.controller');
 const config = require('../../config');
 const { timingSafeCompare } = require('../../shared/utils/hash');
 const { adminLimiter } = require('../../shared/middleware/rateLimit.middleware');
@@ -27,5 +28,10 @@ router.use((req, res, next) => {
 });
 
 router.get('/stats', AdminController.stats);
+router.get('/feedback', FeedbackController.listAdmin);
+router.patch('/feedback/:id/approve', FeedbackController.setApproval);
+router.patch('/feedback/:id/toggle', FeedbackController.setApproval);
+router.patch('/feedback/:id/status', FeedbackController.setStatus);
+router.delete('/feedback/:id', FeedbackController.deleteFeedback);
 
 module.exports = router;
